@@ -8,6 +8,10 @@ Das Projekt orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/
 - Phase-0-Entwicklungsgrundlage mit gepinnten Worker-Abhängigkeiten, `just`-Workflows und einem
   lokalen Mikrofon/VAD/Faster-Whisper-Spike ohne Anki- oder Cloud-Abhängigkeit.
 - Dokumentierte Laufzeit- und Hardware-Bestandsaufnahme sowie fokussierte Sicherheitsprüfung.
+- Add-on-Grundgerüst mit konfiguriertem Feldmapping, namespaced Review-Widget, nicht blockierendem
+  QProcess-Worker und JSONL-Protokoll; keine Scheduler- oder Collection-Änderungen.
+- Deterministischer italienischer Textvergleich und automatisierte Tests für Protokoll, Race- und
+  UI-Sicherheitsfälle.
 
 ### Not implemented yet
 - Das eigentliche Anki-Add-on, die Audioaufnahme, der Worker und die Tests.

@@ -31,3 +31,16 @@ The JSONL worker transport must validate message size and schema, keep stdout pr
 launch `QProcess` with an argument list rather than a shell, escape all transcript display as
 text, and discard messages from stale review sessions. These controls are reviewed again in
 Phase 1 and Phase 2.
+
+## Phase 1: reviewer and IPC foundation (2026-10-28)
+
+| Area | Status | Evidence / control |
+| --- | --- | --- |
+| A05 injection | Verified in code | JSONL has exact schema and 16 KiB bounds; `QProcess.start()` receives an executable plus argument list, never a shell; transcript rendering uses `textContent`. |
+| A06 insecure design | Verified in code | Only configured fields are read, Cloze is excluded, session IDs reject stale answers, and no path reaches Anki scheduler or collection mutation APIs. |
+| A08 integrity | Verified in code | Protocol version/type/request/session/payload fields are validated before dispatch; stdout remains protocol-only. |
+| A10 exceptional conditions | Partially verified | Invalid configuration, unavailable worker, malformed worker responses, cancellation, worker exit, and stale sessions take a recoverable UI path. A real Qt/Anki test-profile run remains pending. |
+
+The widget does not supply an authorization or trust boundary: all note text and worker output are
+treated as untrusted display data. There are no remote endpoints, accounts, secrets, or
+collection writes in this slice.

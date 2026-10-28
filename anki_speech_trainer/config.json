@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "language": "it",
+  "worker_python": "",
+  "model": "base",
+  "device": "cpu",
+  "compute_type": "int8",
+  "microphone_device_id": null,
+  "auto_stop_silence_ms": 800,
+  "max_record_seconds": 12,
+  "notetype_mappings": [],
+  "debug_metrics": false
+}
