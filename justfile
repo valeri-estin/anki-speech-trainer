@@ -56,6 +56,14 @@ verify-italian-practice-integration:
 verify-italian-practice-csv-reimport:
     PYTHONPATH="/usr/local/share/anki/app_packages:{{justfile_directory()}}" /usr/local/share/anki/python/bin/python3.13 scripts/verify_italian_practice_csv_reimport.py 'templates/italian-practice/Italian Practice.apkg' 'templates/italian-practice/Italian Practice.csv'
 
+# Build the Russian Practice foundation package for direct deck generation.
+build-russian-practice:
+    PYTHONPATH="/usr/local/share/anki/app_packages:{{justfile_directory()}}" /usr/local/share/anki/python/bin/python3.13 scripts/build_russian_practice_package.py --output 'templates/russian-practice/Russian Practice.apkg'
+
+# Verify the Russian Practice foundation package in an isolated temporary collection.
+verify-russian-practice:
+    PYTHONPATH="/usr/local/share/anki/app_packages:{{justfile_directory()}}" /usr/local/share/anki/python/bin/python3.13 scripts/verify_russian_practice_package.py 'templates/russian-practice/Russian Practice.apkg'
+
 # Verify language setup against the installed Anki collection API in a temporary collection.
 verify-language-setup:
     PYTHONPATH="/usr/local/share/anki/app_packages:{{justfile_directory()}}" /usr/local/share/anki/python/bin/python3.13 scripts/verify_language_setup.py 'templates/italian-practice/Italian Practice.apkg'

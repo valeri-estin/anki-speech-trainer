@@ -87,6 +87,11 @@ language. The clone changes the visible Italian-specific question wording to the
 “Zielsprache”. For a custom language, use the valid two- or three-letter code accepted by the
 local Whisper worker. Do not change the Italian mapping to `ru`: keep one mapping per language.
 
+For direct Russian deck generation without a desktop setup step, use the
+pre-cloned `templates/russian-practice/Russian Practice.apkg` package instead.
+Its agent and learner contract is documented in
+[17-RUSSIAN-PRACTICE.md](17-RUSSIAN-PRACTICE.md).
+
 ## CSV source data
 
 `templates/italian-practice/Italian Practice.csv` is a semicolon-separated source example. Its

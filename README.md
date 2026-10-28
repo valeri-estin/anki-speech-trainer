@@ -53,6 +53,12 @@ For `Italian Practice`, import the optional `.apkg`, configure the mapping for
 the exact `Speaking` template, `Target` answer field, and `SpokenAlternatives`
 field. The normal review flow and all non-mapped cards remain unchanged.
 
+For a direct generator creating a Russian deck, use the companion
+`templates/russian-practice/Russian Practice.apkg` foundation package. It
+already contains the `Russian Practice` note type; the learner must still add
+its separate `Speaking` mapping with language code `ru`. See
+[`docs/17-RUSSIAN-PRACTICE.md`](docs/17-RUSSIAN-PRACTICE.md).
+
 Always test first with a backed-up disposable collection. The add-on and its
 configuration are global to Anki, not isolated per collection profile.
 
