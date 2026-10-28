@@ -15,6 +15,10 @@ Das Projekt orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/
   worker-isolated design, so it can be reconsidered without changing V1.
 
 ### Added
+- A user-confirmed **Tools → Anki Speech Trainer → Sprach-Deck einrichten…** assistant for
+  additional language practice. It previews and safely creates a language-specific `Italian
+  Practice` clone, four empty skill decks, fresh deck overrides, and one template-scoped Whisper
+  mapping without changing existing cards, decks, scheduler settings, media, or notes.
 - Optional `Italian Practice` import package with native Recognition, Speaking, Writing, and
   Listening templates, an ID-stable CSV source example, a non-mutating source validator, and
   isolated package build/import verification.

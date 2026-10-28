@@ -14,10 +14,14 @@ class AnkiSpeechTrainer:
         from aqt import gui_hooks, mw
 
         from .controller import ReviewController
+        from .language_setup_dialog import install_language_setup_menu
         from .review_ui import ReviewUi
 
         self.controller = ReviewController(mw)
         self.ui = ReviewUi(self.controller)
+        self.language_setup_action = None
+        if getattr(getattr(mw, "form", None), "menuTools", None) is not None:
+            self.language_setup_action = install_language_setup_menu(mw, __package__)
         gui_hooks.card_will_show.append(self.ui.card_will_show)
         gui_hooks.reviewer_did_show_question.append(self.controller.did_show_question)
         gui_hooks.reviewer_did_show_answer.append(self.controller.did_show_answer)

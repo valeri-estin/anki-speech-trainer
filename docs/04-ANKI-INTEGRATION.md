@@ -26,9 +26,26 @@ Desktop-Anki auf Debian 13, zunächst **die auf dem Zielsystem installierte Anki
 
 ## Scheduler / Antworten
 
-- Lernende bleiben in Ankis normalem Ablauf. **Keine** direkten `mw.col`-Änderungen, keine Abkürzung zu Ease-Buttons, keine direkten SQL-Zugriffe.
+- Lernende bleiben in Ankis normalem Ablauf. Der Review-/Workerpfad führt **keine** direkten
+  `mw.col`-Änderungen, keine Abkürzung zu Ease-Buttons und keine direkten SQL-Zugriffe aus.
 - Transkriptvergleich ist ein **Hinweis**, kein Scheduler-Ereignis.
 - Die native Kartenrückseite wird vom Nutzer durch den normalen „Antwort anzeigen“-Mechanismus geöffnet; `Again/Hard/Good/Easy` bleiben sichtbar und funktionieren wie vorher.
+
+## Explicit language setup
+
+`Tools → Anki Speech Trainer → Sprach-Deck einrichten…` is a collection-writing exception to the
+read-only review path. It is unavailable until a profile is open and changes nothing before the
+user reviews the exact note type, language code, and four deck names and confirms the dialog.
+It requires the unmodified manually imported `Italian Practice` source note type. The action:
+
+- creates a `<Language> Practice` note-type clone and leaves the source untouched;
+- creates only `<Language>::Recognition`, `Speaking`, `Writing`, and `Listening` when none exists;
+- assigns only the cloned templates' deck overrides, neutralizes Italian-specific prompt wording,
+  and appends its exact `Speaking` mapping with the chosen Whisper language code;
+- creates no notes, cards, media, presets, scheduler state, or audio, and does not move existing cards.
+
+Existing target note types, skill decks, mappings, altered source schemas, invalid names/codes, and
+failed writes stop safely. A failed execution removes only objects created by that invocation.
 
 ## UI-Integrität
 

@@ -78,3 +78,19 @@ misleading worker-start error. Runtime diagnostics remain on worker stderr and a
 Anki package imports do not reliably remap static template deck-override IDs to a receiving
 collection. The package intentionally contains no override IDs; the user assigns them once through
 Anki after import. This avoids stale deck IDs and preserves the no-collection-mutation guarantee.
+
+## Explicit language setup assistant (2026-10-28)
+
+The normal review and worker paths remain collection-read-only. The new boundary is the visible,
+user-clicked **Tools → Anki Speech Trainer → Sprach-Deck einrichten…** dialog. It has no network,
+audio, subprocess, secret, or untrusted HTML input path.
+
+| Area | Status | Evidence / control |
+| --- | --- | --- |
+| A05 injection | Verified in code | Display names reject control characters and `::`; language codes are bounded to lowercase two/three-letter values. Values are passed to Anki collection APIs, never a shell or HTML/JS. |
+| A06 insecure design | Verified in code | No action occurs before a detailed preview plus confirmation. It creates only a clone and four new empty skill decks, never cards, notes, media, presets, scheduler state, or an existing object. The review path cannot invoke it. |
+| A08 integrity | Verified in code | The source schema/template order is checked before cloning, exact target collisions are rejected, and the added mapping is scoped to the cloned `Speaking` template. |
+| A10 exceptional conditions | Verified by unit and temporary-collection tests | Invalid inputs/source/collisions fail before writes. If model creation or config persistence fails after deck creation, best-effort cleanup targets only the IDs created by that invocation. A real Anki 26.09.3 temporary-collection verifier confirms source preservation and duplicate rejection. |
+
+Manual desktop UI verification remains pending: confirm the preview/cancel path and successful menu
+action in a disposable profile. This is a verification gap, not a known security finding.

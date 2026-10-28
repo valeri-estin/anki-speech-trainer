@@ -46,3 +46,11 @@ verify-italian-practice-integration:
 # Verify that a repeated CSV import updates stable Italian Practice IDs without duplicates.
 verify-italian-practice-csv-reimport:
     PYTHONPATH="/usr/local/share/anki/app_packages:{{justfile_directory()}}" /usr/local/share/anki/python/bin/python3.13 scripts/verify_italian_practice_csv_reimport.py 'templates/italian-practice/Italian Practice.apkg' 'templates/italian-practice/Italian Practice.csv'
+
+# Verify language setup against the installed Anki collection API in a temporary collection.
+verify-language-setup:
+    PYTHONPATH="/usr/local/share/anki/app_packages:{{justfile_directory()}}" /usr/local/share/anki/python/bin/python3.13 scripts/verify_language_setup.py 'templates/italian-practice/Italian Practice.apkg'
+
+# Smoke-test the user-visible language setup menu with Anki's Qt runtime.
+verify-language-setup-menu:
+    QT_QPA_PLATFORM=offscreen PYTHONPATH="/usr/local/share/anki/app_packages:{{justfile_directory()}}" /usr/local/share/anki/python/bin/python3.13 scripts/verify_language_setup_menu.py

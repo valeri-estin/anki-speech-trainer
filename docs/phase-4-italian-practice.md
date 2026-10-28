@@ -13,6 +13,9 @@
   language values safely disable the affected mapping.
 - A CSV validator checks immutable first-field IDs, duplicate IDs, enabled-card requirements, and
   listening sound tags without opening an Anki collection or printing learning content.
+- An explicitly confirmed Tools-menu assistant can clone the imported source type for an additional
+  language, create four empty skill decks, assign only cloned-template overrides, and append one
+  scoped Speaking mapping. It preflights conflicts and rolls back only objects it just created.
 
 ## Verified
 
@@ -27,13 +30,17 @@
 - `just verify-italian-practice-csv-reimport`: the source CSV was imported twice into an isolated
   collection after package installation. Its unchanged first-field IDs updated the existing note
   rather than duplicating it.
+- `just verify-language-setup`: Anki 26.09.3 imported the source package into a temporary
+  collection, created and checked `Russisch Practice` plus four deck overrides and an `ru` mapping,
+  preserved the source note type/example note, and rejected a duplicate setup.
 
 ## Explicit limitation
 
 Current Anki package import does not reliably remap static template deck-override IDs to a
 receiving collection. The package therefore contains no overrides. The user assigns the four
-documented overrides once after import. This is intentional and avoids stale IDs or hidden
-collection writes by the add-on.
+documented Italian overrides once after import. For subsequent language clones, the separately
+confirmed setup assistant assigns fresh IDs in the active collection. This avoids stale IDs while
+keeping all collection writes visible and limited to the assistant.
 
 The package is not a native Cloze implementation, does not create audio, and does not provide
 pronunciation scoring. It remains compatible with the existing external worker, local-only data

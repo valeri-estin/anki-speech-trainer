@@ -68,6 +68,25 @@ Deck overrides are deliberately not embedded in the `.apkg`: current Anki packag
 reliably remap their IDs into the receiving collection. The one-time assignment above is safe and
 visible, and keeps the add-on read-only with respect to the collection.
 
+## Additional languages
+
+After importing and preserving the unmodified Italian source note type, choose **Tools → Anki
+Speech Trainer → Sprach-Deck einrichten…**. Select a common language or enter a display name and
+the Faster-Whisper language code, for example `Russisch` and `ru`. The preview names the exact
+objects before confirmation:
+
+- `Russisch Practice` as a clone of the source note type;
+- `Russisch::Recognition`, `Russisch::Speaking`, `Russisch::Writing`, and
+  `Russisch::Listening` as new empty decks;
+- one `Russisch Practice` / `Speaking` mapping using `ru`.
+
+The assistant sets deck overrides only on its new clone. It does not create notes or audio, move
+existing cards, alter deck options, or overwrite an existing target. The inherited field name
+`ItalianText` remains for schema compatibility but stores the complete text in the new target
+language. The clone changes the visible Italian-specific question wording to the neutral phrase
+“Zielsprache”. For a custom language, use the valid two- or three-letter code accepted by the
+local Whisper worker. Do not change the Italian mapping to `ru`: keep one mapping per language.
+
 ## CSV source data
 
 `templates/italian-practice/Italian Practice.csv` is a semicolon-separated source example. Its

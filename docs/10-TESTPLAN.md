@@ -36,6 +36,17 @@
 - Empty an Enable field in a disposable profile, then use Anki's **Tools → Empty Cards** flow and
   confirm that only the deliberately disabled card is offered for removal.
 
+## Explicit language setup
+
+- Import the source package into a disposable profile, then use **Tools → Anki Speech Trainer →
+  Sprach-Deck einrichten…** for `Russisch` / `ru`.
+- Confirm the preview lists exactly one `Russisch Practice` clone, the four `Russisch::*` decks,
+  and no cards or scheduler changes. Cancel once and verify no object was created.
+- Confirm that all four cloned templates have their own expected deck override, only `Speaking`
+  receives the `ru` mapping, and the original Italian note type and example note remain unchanged.
+- Repeat the same setup and try an existing deck/name, an invalid code, and a modified source note
+  type; each must fail without overwriting or creating additional objects.
+
 ## Audio-Tests
 
 Je 5 Beispiele aus vier Kategorien: Einzelwörter (z. B. `casa`), ähnliche Wörter (`casa`/`cosa`), kurze Sätze (`io sono a casa`), nicht-ideale Bedingungen (Stille/Umgebungsgeräusche). Jeweils dokumentieren: soll, erkannt, Aufnahmeende, Verarbeitungsdauer, Fehlerart. Audio nicht ohne ausdrückliche Entscheidung persistieren; im Testprotokoll nur benötigte Textbeispiele.

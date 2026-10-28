@@ -2,7 +2,9 @@
 
 **Status:** Implementierter Entwicklerstand. Automatisierte Tests sowie der lokale Worker- und
 Anki-Runtime-Import sind geprüft. Der optionale `Italian Practice`-Notiztyp wird als bewusst
-importierbares Paket bereitgestellt; das Add-on selbst verändert keine Anki-Collection.
+importierbares Paket bereitgestellt. Ein ausdrücklich bestätigter Tools-Menü-Assistent kann daraus
+zusätzliche Sprach-Notiztypen und Decks anlegen; die normale Review-/Spracherkennung bleibt
+vollständig lesend.
 **Zielplattform für V1:** Anki Desktop auf Debian 13. **Startsprache:** Italienisch (`it`).
 **Modus:** Lokal/offline nach einmaligem Download des Whisper-Modells.
 

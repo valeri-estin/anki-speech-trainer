@@ -47,3 +47,7 @@ no speech widget is displayed and no card, note, or scheduler state is modified.
 Use Anki's **Tools → Add-ons → Anki Speech Trainer → Config** editor to change this JSON. Close
 and reopen the reviewer after editing it. The add-on stores neither audio nor transcripts in the
 collection, notes, or its `user_files` directory.
+
+For a new language based on the imported Italian Practice template, prefer **Tools → Anki Speech
+Trainer → Sprach-Deck einrichten…**. It shows a confirmation preview and then appends the scoped
+`Speaking` mapping automatically; it never overwrites an existing mapping.

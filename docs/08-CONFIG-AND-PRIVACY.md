@@ -42,6 +42,12 @@ values are treated as an inactive mapping.
 
 `mw.addonManager.getConfig(__name__)` / `writeConfig(__name__, config)` und eine `config.md` verwenden. Zur ersten funktionsfähigen Version ist die JSON-Konfiguration ausreichend; ein kompakter Einstellungsdialog folgt als P1.
 
+For an additional language, use **Tools → Anki Speech Trainer → Sprach-Deck einrichten…** after
+importing `Italian Practice`. The dialog previews a `<Language> Practice` clone, four empty skill
+decks, and the exact added mapping before a separate confirmation. It accepts a display name and a
+two- or three-letter Whisper language code (for example `ru`, normalized to lowercase), refuses
+collisions, and does not edit an existing mapping. It stores no audio, transcripts, or credentials.
+
 ## Datenverarbeitung
 
 - **Lokale Mikrofonaufnahme:** nur nach Klick, nur im RAM, danach sofort freigeben.

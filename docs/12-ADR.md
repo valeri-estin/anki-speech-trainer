@@ -36,3 +36,13 @@ einmalig und ausdrücklich nach dem Import in Anki gesetzt. Das Add-on schreibt 
 Decks, Notiztypen noch Karten.
 
 Änderungen an akzeptierten ADRs dürfen nur mit dokumentiertem Grund erfolgen.
+
+## ADR-010: Expliziter Assistent für weitere Sprach-Decks (accepted)
+**Entscheidung:** Ein Tools-Menü-Assistent darf nach einer sichtbaren Vorschau und expliziten
+Bestätigung einen neuen sprachspezifischen Klon des manuell importierten `Italian Practice`
+Notiztyps, vier neue leere Skill-Decks, deren Vorlagen-Overrides und eine Speaking-Zuordnung
+anlegen. **Warum:** Die manuelle Wiederholung dieser Schritte ist fehleranfällig und macht weitere
+Sprachen unnötig aufwendig. **Konsequenz:** Dies ist die eng begrenzte Ausnahme zu ADR-009s
+read-only Add-on-Regel. Sie betrifft nie den Reviewer/Workerpfad, existierende Karten, Notizen,
+Decks, Vorlagen, Audio oder den Scheduler. Der Assistent prüft den unveränderten Ausgangstyp,
+verweigert Kollisionen und räumt bei einem fehlgeschlagenen Ablauf nur eigene neue Objekte auf.

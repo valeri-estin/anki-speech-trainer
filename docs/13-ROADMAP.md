@@ -28,6 +28,7 @@ Scheduler noch die Collection verändern und blockiert V1 nicht.
   hinaus; das mitgelieferte Importpaket bleibt zunächst italienisch.
 - Mobile Strategie für AnkiDroid (Desktop-Python-Add-ons laufen dort nicht direkt).
 - Integriertes Gamification-Design, separate Fortschrittsleiste, Sounds und Erfolgseffekte.
-- Einrichtungsassistent, Installer und signierte Distribution.
+- Installer und signierte Distribution. Der begrenzte Einrichtungsassistent für weitere
+  Sprach-Decks wurde bereits umgesetzt; ein Worker-Installer bleibt getrennt davon.
 
 **Wichtig:** Keines dieser Features darf die Implementierung oder Abnahme von V1 blockieren.
