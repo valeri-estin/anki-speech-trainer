@@ -39,10 +39,11 @@ status model_ready (307 ms model load)
 cancelled (shutdown)
 ```
 
-This validates the local model process, JSONL framing, and warm-model initialization. It does not
-validate audio capture or real Italian transcription: the current session has no accessible
-microphone. A real test profile and microphone remain the concrete blocker for the V1 end-to-end
-acceptance scenario.
+This validates the local model process, JSONL framing, and warm-model initialization. The current
+headless session does not validate capture or transcription itself, but the developer separately
+reported a successful physical-microphone spike and mapped-card add-on interaction on 2026-10-28.
+No timings or transcript were supplied, so this document makes no performance claim. Remaining
+end-to-end edge-case coverage is listed in Phase 3.
 
 The same command with `HF_HUB_OFFLINE=1` returned `model_ready` in **329 ms**, demonstrating that
 the cached model loads without a network request. This confirms the offline behavior only for the

@@ -3,6 +3,12 @@
 Das Projekt orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
+### Changed
+- The documented physical-desktop verification is now complete for the microphone spike, local
+  test-profile add-on link, exact `Basic`/`Back` mapping, and mapped-card widget interaction.
+  Local Anki-generated `meta.json` configuration is deliberately ignored because it contains
+  machine-specific settings. Remaining release checks cover only explicit edge cases.
+
 ### Added
 - Repository-Starter, Architektur- und Implementierungsdokumentation für die erste lokale Version.
 - Phase-0-Entwicklungsgrundlage mit gepinnten Worker-Abhängigkeiten, `just`-Workflows und einem

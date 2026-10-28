@@ -19,13 +19,19 @@ The cached `base` model initialized in **340 ms** with CPU `int8` during this ch
 a warm local model-load measurement; it excludes recording and transcription, and is not an
 end-to-end latency claim.
 
-## Audio hardware blocker
+## Audio hardware availability and manual validation
 
 The current execution session has no accessible `/dev/snd`; `arecord -l` reports no sound
 cards, PulseAudio/PipeWire cannot be reached, and `sounddevice.query_devices()` returns no
 input device (default input ID `-1`). Therefore the required real microphone-to-text run cannot
-be honestly performed here. This is an environment blocker, not a claim that the implementation
-works on a physical microphone.
+be honestly performed in this execution session. This remains an environment limitation of this
+session, not a claim that the implementation can access its microphone.
+
+On 2026-10-28, the developer completed the documented physical-desktop steps separately and
+reported that they all worked: the device listing and explicit `--record` spike, the local add-on
+symlink, the exact `Basic`/`Back` mapping, and a mapped-card widget interaction. This is manual
+acceptance evidence, not a reproducible measurement from this headless execution session. No
+audio or transcript was retained in the repository.
 
 ## Runnable spike
 
@@ -43,12 +49,13 @@ just spike --record --device DEVICE_ID
 ```
 
 The script prints measured model-load, recording, and transcription durations only after a real
-run. No latency values are claimed until that succeeds. In the current session, `just spike
---list-devices` exits with code 2 to report the blocker.
+run. No latency values are claimed here because the reported manual run did not supply its output.
+In the current execution session, `just spike --list-devices` still exits with code 2 because it
+cannot access the desktop audio stack.
 
 ## Architecture impact
 
 No architecture deviation is made: the eventual Anki process will remain free of audio and ML
-dependencies, with these libraries running solely in a persistent worker. Phase 1 can proceed
-with deterministic mocked worker messages; physical end-to-end acceptance remains pending a
-desktop session with a visible microphone.
+dependencies, with these libraries running solely in a persistent worker. The reported desktop
+run removes the original physical-microphone feasibility blocker; automated checks remain
+deterministic and do not require an audio device.

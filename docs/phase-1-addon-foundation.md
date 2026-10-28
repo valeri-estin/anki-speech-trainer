@@ -30,18 +30,19 @@
 - Runtime: imported the add-on against `/usr/local/share/anki` Anki 26.09.3's Python 3.13/Qt 6
   runtime. A direct worker launch returned a valid JSONL shutdown response.
 
-## Pending real-profile verification
+## Manual real-profile verification
 
-The environment available for this implementation has no usable audio device and no accessible
-desktop session. The following remains required on a separate Anki test profile before claiming
-Phase 1 acceptance:
+The developer reported successful completion on 2026-10-28 of the documented separate-profile
+setup: the add-on was linked through Anki's actual `addons21` directory, the exact `Basic`/`Back`
+mapping and absolute worker interpreter were configured, and the widget was exercised on a mapped
+test card. This is manual verification; no profile data, audio, or transcript is kept in this
+repository.
 
-1. Add the local add-on directory through Anki's actual `addons21` folder (see
-   `09-SETUP-DEBIAN13.md`); do not use a production profile.
-2. Set an exact existing note-type mapping and absolute `worker_python` in the Anki add-on config.
-3. Confirm that exactly a mapped review-question card receives the widget and that an unmapped
-   card does not.
-4. Confirm native **Show Answer** and all ease buttons behave identically before and after a
+The following edge-case evidence remains outstanding before marking every Phase 1 acceptance
+scenario complete:
+
+1. Confirm on the same separate profile that an unmapped note type receives no widget.
+2. Confirm native **Show Answer** and every ease button behave identically before and after a
    widget interaction.
 
 No architectural deviation was made. The model process remains external and no scheduler or

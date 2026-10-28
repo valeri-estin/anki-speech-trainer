@@ -16,19 +16,24 @@
 - No worker audio/ML dependency enters the Anki runtime; no test or implementation mutates an
   Anki collection, note, card, deck, scheduler, media directory, or profile.
 
-## Remaining acceptance evidence
+## Manual acceptance evidence and remaining coverage
 
-The following cannot be completed in the current environment because `/dev/snd` and an interactive
-desktop Anki test profile are unavailable. The offscreen startup smoke test is not evidence of
-interactive reviewer rendering:
+On 2026-10-28, the developer reported successful completion of these physical-desktop checks:
 
-1. Run `just spike --record --device DEVICE_ID` with a physical microphone and record the script's
-   real timings and Italian transcript in a local test note (never save audio).
-2. Link the add-on only into a separate Anki test profile and configure an exact mapping plus the
-   absolute `.venv/bin/python` path.
-3. Exercise A01–A09 from `02-SCOPE-ACCEPTANCE.md`, particularly card change during
+1. `just spike --list-devices` and an explicit `just spike --record --device DEVICE_ID` run.
+2. Local add-on symlink installation in a separate Anki test profile.
+3. Exact `Basic` note-type to `Back` answer-field mapping with the absolute external worker
+   interpreter.
+4. Widget interaction on a mapped test card.
+
+The headless environment still cannot repeat those steps and the report did not include a stored
+transcript or timing data. The following focused coverage remains useful before a tagged V1
+release:
+
+1. Exercise the remaining A01–A09 cases from `02-SCOPE-ACCEPTANCE.md`, particularly card change during
    transcription, unplugged/wrong microphone, normal answer reveal/ease buttons, and an unmapped
    note type.
-4. With the model already cached, disable network access and repeat one complete review run.
+2. With the model already cached, disable network access and repeat one complete review run.
 
-These are verification gaps, not known architecture deviations. No gamification feature was added.
+These are targeted verification gaps, not known architecture deviations. No gamification feature
+was added.
