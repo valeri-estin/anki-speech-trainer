@@ -25,14 +25,18 @@ On 2026-10-28, the developer reported successful completion of these physical-de
 3. Exact `Basic` note-type to `Back` answer-field mapping with the absolute external worker
    interpreter.
 4. Widget interaction on a mapped test card.
+5. Cloze review card: no speech widget was rendered.
+6. Answer reveal during an active interaction: no late speech result surfaced afterward.
+7. Invalid or unavailable microphone: the expected recoverable error was shown.
+8. Card change during an active interaction: the expected cancellation/stale-result behavior
+   occurred.
 
 The headless environment still cannot repeat those steps and the report did not include a stored
 transcript or timing data. The following focused coverage remains useful before a tagged V1
 release:
 
-1. Exercise the remaining A01–A09 cases from `02-SCOPE-ACCEPTANCE.md`, particularly card change during
-   transcription, unplugged/wrong microphone, normal answer reveal/ease buttons, and an unmapped
-   note type.
+1. Optionally test an ordinary unmapped (non-Cloze) note type and each native ease button after a
+   speech interaction. Cloze exclusion and result cancellation were manually verified above.
 2. With the model already cached, disable network access and repeat one complete review run.
 
 These are targeted verification gaps, not known architecture deviations. No gamification feature

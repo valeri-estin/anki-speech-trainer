@@ -8,6 +8,9 @@ Das Projekt orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/
   test-profile add-on link, exact `Basic`/`Back` mapping, and mapped-card widget interaction.
   Local Anki-generated `meta.json` configuration is deliberately ignored because it contains
   machine-specific settings. Remaining release checks cover only explicit edge cases.
+- Manual reviewer verification now also covers Cloze exclusion, cancellation on answer reveal,
+  unavailable-microphone recovery, and card changes during an active speech interaction. Only
+  an offline interactive run and optional additional native-control coverage remain.
 
 ### Added
 - Repository-Starter, Architektur- und Implementierungsdokumentation für die erste lokale Version.
@@ -33,6 +36,3 @@ Das Projekt orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/
   eines alten Workerprozesses können keinen neu gestarteten Prozess mehr beeinflussen.
 - Realer Qt-QProcess-/JSONL-Smoke-Test gegen Ankis gebündelte Laufzeit; erwartete Workerbeendigung
   wird nicht mehr fälschlich als Startfehler angezeigt.
-
-### Not implemented yet
-- Das eigentliche Anki-Add-on, die Audioaufnahme, der Worker und die Tests.
