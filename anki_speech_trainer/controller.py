@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from aqt.qt import QProcess, QProcessEnvironment
+from aqt.qt import QProcess, QProcessEnvironment, QTimer
 
 from .matching import Comparison, compare
 from .review_state import ReviewSession, ReviewState
@@ -34,6 +34,7 @@ class ReviewController:
         self._buffer = LineBuffer()
         self._request_counter = 0
         self._pending_start = False
+        self._shutting_down = False
 
     def config(self) -> dict[str, Any]:
         config = self.mw.addonManager.getConfig(__package__) or {}
@@ -238,7 +239,11 @@ class ReviewController:
 
     def _process_finished(self, _exit_code: int, _status: Any) -> None:
         self.process = None
-        if self.session.mapped and self.session.state not in {ReviewState.IDLE, ReviewState.READY}:
+        if (
+            not self._shutting_down
+            and self.session.mapped
+            and self.session.state not in {ReviewState.IDLE, ReviewState.READY}
+        ):
             self.session.error()
             self._render_status("error", "Sprach-Worker wurde beendet.")
 
@@ -255,8 +260,20 @@ class ReviewController:
             )
 
     def shutdown(self) -> None:
+        self._shutting_down = True
         self.cancel_current()
         if self.process is not None and self.process.state() == QProcess.ProcessState.Running:
             self._send("shutdown", {})
-            self.process.terminate()
+            process = self.process
+            QTimer.singleShot(2_000, lambda: self._terminate_if_running(process))
+
+    @staticmethod
+    def _terminate_if_running(process: QProcess) -> None:
+        if process.state() != QProcess.ProcessState.NotRunning:
+            process.terminate()
+
+    def profile_opened(self) -> None:
+        self._shutting_down = False
         self.process = None
+        self.mapping = None
+        self.session = ReviewSession()

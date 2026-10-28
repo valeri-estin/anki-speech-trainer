@@ -44,3 +44,12 @@ Phase 1 and Phase 2.
 The widget does not supply an authorization or trust boundary: all note text and worker output are
 treated as untrusted display data. There are no remote endpoints, accounts, secrets, or
 collection writes in this slice.
+
+## Phase 2: worker audio and model lifecycle (2026-10-28)
+
+| Area | Status | Evidence / control |
+| --- | --- | --- |
+| A03 supply chain | Partially verified | Tested package versions are pinned. Model cache provenance/integrity policy is delegated to Faster-Whisper/Hugging Face and must be documented for packaged distribution. |
+| A06 resource exhaustion | Verified in code | Recording requires a click and has bounded initial-speech, silence, and maximum-duration limits; a concurrent `record_start` returns `busy`. |
+| A09 privacy | Verified in code | PCM stays in process memory; no audio/text is written. Worker diagnostics never emit transcript text. |
+| A10 recovery | Verified by unit and worker checks | Missing microphone, invalid configuration, busy recordings, cancellation, worker exit, and offline cached-model loading have recoverable protocol paths. Physical-device behavior remains unverified. |

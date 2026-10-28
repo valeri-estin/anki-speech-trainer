@@ -36,19 +36,24 @@ Die ZIP enthält bereits `AGENTS.md`, `README.md`, `CHANGELOG.md` und den vollst
 cd ~/dev/anki-speech-trainer
 python3 -m venv .venv
 .venv/bin/python -m pip install --upgrade pip
-.venv/bin/python -m pip install faster-whisper sounddevice webrtcvad-wheels numpy pytest ruff
+.venv/bin/python -m pip install -r requirements-worker.txt -r requirements-dev.txt
 ```
 
-**Hinweis:** Die Bibliotheksversionen in diesem Bootstrap-Befehl sind bewusst noch nicht festgeschrieben. Der Agent muss nach erfolgreichem Technik-Spike die konkret getesteten Versionen in `requirements-worker.txt` und gegebenenfalls `requirements-dev.txt` festhalten. Nicht direkt in Ankis eigene Python-Umgebung installieren.
+Die getesteten Versionen sind in `requirements-worker.txt` und `requirements-dev.txt` gepinnt.
+Sie gehören ausschließlich in diese externe virtuelle Umgebung, niemals in Ankis eigene
+Python-Umgebung.
 
 ## 4. Sound- und Modelltest
 
 ```bash
-.venv/bin/python -c 'import sounddevice as sd; print(sd.query_devices())'
-.venv/bin/python -c 'from faster_whisper import WhisperModel; m = WhisperModel("base", device="cpu", compute_type="int8"); print("Modell geladen")'
+just spike --list-devices
+just spike --record --device DEVICE_ID
 ```
 
-Achtung: Der zweite Befehl kann einmalig **ein Modell herunterladen**. Internetverbindung und verfügbarer Speicher werden dafür gebraucht. Das ist ein Setup-Test, kein Mikrofon-/Transkriptionstest. Später wird Offline-Funktionalität getestet.
+Der zweite Befehl öffnet das Mikrofon erst durch den expliziten `--record`-Schalter, stoppt bei
+Sprachpause und gibt gemessene Modell-/Transkriptionszeiten aus. Er kann einmalig das Modell
+herunterladen; Internetverbindung und verfügbarer Speicher werden dafür gebraucht. Nach dem
+ersten Download mit gecachtem Modell den Offline-Test aus Abschnitt 8 ausführen.
 
 ## 5. Git initialisieren
 
@@ -91,3 +96,9 @@ Der Beispielpfad gilt für Standard-Installationen unter Linux, nicht zwingend f
 - Der Worker kann Audio aufnehmen und auf einer Testkarte transkribieren.
 - Audio-/Modellfehler verursachen keinen Verlust des Lernfortschritts.
 - Nach Netztrennung klappt ein vollständiger Durchlauf mit bereits gecachtem Modell.
+
+Für die automatisierten Prüfungen im Repository:
+
+```bash
+just check
+```

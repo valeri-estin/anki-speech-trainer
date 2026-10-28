@@ -12,6 +12,11 @@ Das Projekt orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/
   QProcess-Worker und JSONL-Protokoll; keine Scheduler- oder Collection-Änderungen.
 - Deterministischer italienischer Textvergleich und automatisierte Tests für Protokoll, Race- und
   UI-Sicherheitsfälle.
+- End-to-End-Workerpfad mit langlebigem lokalem Faster-Whisper-Modell, VAD-gesteuerter
+  In-Memory-Aufnahme, Abbruch, Zeitgrenzen und profilweiser Prozessbereinigung.
+- Controller-Tests für verworfene späte Ergebnisse und wiederherstellbare Worker-Fehler.
+- Offline-Startprüfung mit lokal gecachtem Modell sowie Härtung für ungültige Worker-Konfiguration,
+  parallele Aufnahmeversuche und geordnetes Beenden beim Profilwechsel.
 
 ### Not implemented yet
 - Das eigentliche Anki-Add-on, die Audioaufnahme, der Worker und die Tests.

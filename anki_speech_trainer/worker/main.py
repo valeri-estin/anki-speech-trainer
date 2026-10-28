@@ -140,6 +140,7 @@ class Worker:
     def cancel(self, message: Message) -> None:
         if self._active_cancel is not None:
             self._active_cancel.set()
+            return
         self.emit("cancelled", message.request_id, message.session_id, {})
 
     def handle(self, message: Message) -> bool:

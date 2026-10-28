@@ -1,6 +1,8 @@
 # Anki Speech Trainer — Projektstart
 
-**Status:** Spezifikation/Starterpaket, noch **kein funktionsfähiges Anki-Add-on**.
+**Status:** Implementierter Entwicklerstand. Automatisierte Tests sowie der lokale Worker- und
+Anki-Runtime-Import sind geprüft; ein realer GUI-/Mikrofonlauf im separaten Anki-Testprofil ist
+wegen fehlendem Gerätezugriff in der aktuellen Sitzung noch offen.
 **Zielplattform für V1:** Anki Desktop auf Debian 13. **Startsprache:** Italienisch (`it`).
 **Modus:** Lokal/offline nach einmaligem Download des Whisper-Modells.
 
@@ -42,7 +44,9 @@ anki-speech-trainer/
 └── .venv/                    # lokal, nicht versionieren
 ```
 
-Die Ordner `anki_speech_trainer/` und `tests/` **werden vom Coding-Agenten erstellt**. Keine importierbare Scheinimplementierung vorgeben.
+Die Ordner `anki_speech_trainer/` und `tests/` enthalten die implementierte Add-on- und
+Testgrundlage. Die Worker-Umgebung und Modellgewichte bleiben ausdrücklich außerhalb des
+Add-on-Pakets.
 
 ## Schnellstart
 

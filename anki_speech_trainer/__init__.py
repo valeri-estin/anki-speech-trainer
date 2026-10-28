@@ -22,6 +22,7 @@ class AnkiSpeechTrainer:
         gui_hooks.reviewer_did_show_question.append(self.controller.did_show_question)
         gui_hooks.reviewer_did_show_answer.append(self.controller.did_show_answer)
         gui_hooks.webview_did_receive_js_message.append(self.ui.receive_js_message)
+        gui_hooks.profile_did_open.append(self.controller.profile_opened)
         gui_hooks.profile_will_close.append(self.controller.shutdown)
 
 
