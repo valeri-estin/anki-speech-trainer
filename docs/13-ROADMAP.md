@@ -24,7 +24,8 @@ Scheduler noch die Collection verändern und blockiert V1 nicht.
 
 - Phonem- bzw. Aussprachebewertung mit spezialisierter Engine (separater Datenschutzentscheid, eventuell Cloud).
 - Optionales auto-reveal/auto-grade nur nach umfangreicher gesonderter Risikoprüfung und als explizites Opt-in.
-- Weitere Sprachen und ihre sprachspezifischen Normalisierungsregeln.
+- Sprachspezifische Normalisierungsregeln über die vorhandene Sprache-pro-Mapping-Konfiguration
+  hinaus; das mitgelieferte Importpaket bleibt zunächst italienisch.
 - Mobile Strategie für AnkiDroid (Desktop-Python-Add-ons laufen dort nicht direkt).
 - Integriertes Gamification-Design, separate Fortschrittsleiste, Sounds und Erfolgseffekte.
 - Einrichtungsassistent, Installer und signierte Distribution.

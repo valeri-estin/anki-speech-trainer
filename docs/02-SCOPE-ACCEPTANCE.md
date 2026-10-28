@@ -29,7 +29,9 @@
 - Kein Echtzeit-Streaming während des Sprechens (V1 transkribiert nach VAD-Ende).
 - Kein daueraktives Lauschen, keine Hintergrundüberwachung, kein Wake-Word.
 - Kein AnkiDroid, iOS, Cloud-API, Benutzerkonto oder Telemetrie.
-- Keine Karten-/Deck-Generierung, keine Modifikation bestehender Notizen/Templates oder TTS-Audio-Beschaffung.
+- No add-on-driven card/deck generation or mutation of existing notes/templates, and no TTS audio
+  acquisition. An optional, user-imported note-type package is allowed; importing it is an explicit
+  Anki user action and is not performed by the add-on.
 - Keine direkte Fortschrittsleiste oder Duolingo-Replik in V1; kompatible, zurückhaltende Anki-UI.
 - Keine automatische Scheduler-Bewertung, keine Auto-Weiterleitung zur nächsten Karte.
 

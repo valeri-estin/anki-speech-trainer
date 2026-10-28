@@ -316,7 +316,110 @@ def test_mapping_reads_only_the_configured_note_fields(monkeypatch) -> None:
         )
     )
 
-    assert controller.mapping_for_card(card) == module.CardMapping("la casa", ("casa",))
+    assert controller.mapping_for_card(card) == module.CardMapping("la casa", ("casa",), "it")
+
+
+def test_mapping_limits_widget_to_named_template_and_uses_mapping_language(monkeypatch) -> None:
+    module = _load_controller(monkeypatch)
+    config = {
+        "enabled": True,
+        "language": "it",
+        "notetype_mappings": [
+            {
+                "notetype_name": "Italian Practice",
+                "card_template_name": "Speaking",
+                "language": "it",
+                "answer_field": "Target",
+                "alternatives_field": "SpokenAlternatives",
+            }
+        ],
+    }
+    controller = module.ReviewController(
+        SimpleNamespace(addonManager=SimpleNamespace(getConfig=lambda _name: config))
+    )
+
+    class Note(dict):
+        def note_type(self):
+            return {"name": "Italian Practice", "type": 0}
+
+    speaking = SimpleNamespace(
+        note=lambda: Note(Target="sono andato", SpokenAlternatives="sono andata"),
+        template=lambda: {"name": "Speaking"},
+    )
+    writing = SimpleNamespace(
+        note=lambda: Note(Target="sono andato", SpokenAlternatives="sono andata"),
+        template=lambda: {"name": "Writing"},
+    )
+
+    assert controller.mapping_for_card(speaking) == module.CardMapping(
+        "sono andato", ("sono andata",), "it"
+    )
+    assert controller.mapping_for_card(writing) is None
+
+
+def test_legacy_mapping_still_applies_without_a_card_template(monkeypatch) -> None:
+    module = _load_controller(monkeypatch)
+    config = {
+        "enabled": True,
+        "language": "ru",
+        "notetype_mappings": [{"notetype_name": "Russian", "answer_field": "Target"}],
+    }
+    controller = module.ReviewController(
+        SimpleNamespace(addonManager=SimpleNamespace(getConfig=lambda _name: config))
+    )
+
+    class Note(dict):
+        def note_type(self):
+            return {"name": "Russian", "type": 0}
+
+    card = SimpleNamespace(note=lambda: Note(Target="привет"))
+
+    assert controller.mapping_for_card(card) == module.CardMapping("привет", (), "ru")
+
+
+def test_mapping_rejects_invalid_template_and_language_values(monkeypatch) -> None:
+    module = _load_controller(monkeypatch)
+    config = {
+        "enabled": True,
+        "notetype_mappings": [
+            {
+                "notetype_name": "Italian Practice",
+                "card_template_name": "Speaking",
+                "language": "italian; unsafe",
+                "answer_field": "Target",
+            }
+        ],
+    }
+    controller = module.ReviewController(
+        SimpleNamespace(addonManager=SimpleNamespace(getConfig=lambda _name: config))
+    )
+
+    class Note(dict):
+        def note_type(self):
+            return {"name": "Italian Practice", "type": 0}
+
+    card = SimpleNamespace(
+        note=lambda: Note(Target="la casa"), template=lambda: {"name": "Speaking"}
+    )
+
+    assert controller.mapping_for_card(card) is None
+
+
+def test_worker_payload_uses_the_language_of_the_active_mapping(monkeypatch) -> None:
+    module = _load_controller(monkeypatch)
+    controller = _controller_for_messages(module)
+    controller.mapping = module.CardMapping("привет", (), "ru")
+    controller.config = lambda: {
+        "language": "it",
+        "model": "base",
+        "device": "cpu",
+        "compute_type": "int8",
+        "microphone_device_id": None,
+        "auto_stop_silence_ms": 800,
+        "max_record_seconds": 12,
+    }
+
+    assert controller._worker_payload()["language"] == "ru"
 
 
 def test_mapping_excludes_unmapped_and_cloze_notes(monkeypatch) -> None:

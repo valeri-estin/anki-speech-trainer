@@ -22,6 +22,20 @@
 - Dark Mode, Standard-Theme, Tab/Space-Keyboard, kleine Fenstergröße.
 - Ohne Netzwerk mit gecachtem Modell testen.
 
+## Italian Practice template package
+
+- Import `templates/italian-practice/Italian Practice.apkg` into a separate profile and assign the
+  documented deck overrides manually.
+- Confirm one note can generate only Speaking, Speaking + Writing, Recognition + Listening, or all
+  four cards based on the Enable fields.
+- Confirm the widget appears only on the `Speaking` template and never exposes `Target` before
+  Anki's normal answer reveal.
+- Confirm a Listening card is not generated without a local `[sound:...]` tag.
+- Validate the example CSV with `just validate-italian-practice`; re-importing unchanged IDs must
+  update notes rather than create duplicates.
+- Empty an Enable field in a disposable profile, then use Anki's **Tools → Empty Cards** flow and
+  confirm that only the deliberately disabled card is offered for removal.
+
 ## Audio-Tests
 
 Je 5 Beispiele aus vier Kategorien: Einzelwörter (z. B. `casa`), ähnliche Wörter (`casa`/`cosa`), kurze Sätze (`io sono a casa`), nicht-ideale Bedingungen (Stille/Umgebungsgeräusche). Jeweils dokumentieren: soll, erkannt, Aufnahmeende, Verarbeitungsdauer, Fehlerart. Audio nicht ohne ausdrückliche Entscheidung persistieren; im Testprotokoll nur benötigte Textbeispiele.

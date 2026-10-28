@@ -65,3 +65,16 @@ alter a newer worker session.
 
 Expected worker termination during profile shutdown or timeout recovery is not presented as a
 misleading worker-start error. Runtime diagnostics remain on worker stderr and are not persisted.
+
+## Italian Practice package and template mapping (2026-10-28)
+
+| Area | Status | Evidence / control |
+| --- | --- | --- |
+| A05 injection | Verified in code | The widget matches an exact `card.template()["name"]`; untrusted note and transcript values remain renderer text/Anki fields, never JavaScript bridge input. The CSV validator treats fields as data and reports only row numbers plus codes. |
+| A06 insecure design | Verified in code | The package is built and verified only in temporary collections. The installed add-on does not create note types, cards, decks, media, or scheduler state. |
+| A08 integrity | Partially verified | CSV IDs are required as the immutable first field, duplicate IDs are rejected before import, and template-required fields are checked. Anki import options remain a user decision; imports must use a separate profile first. |
+| A10 exceptional conditions | Verified by automated checks | Invalid template/language mappings hide the widget. Missing enabled fields, duplicate IDs, absent listening audio tags, malformed CSV, and malformed packages fail with bounded non-content diagnostics. |
+
+Anki package imports do not reliably remap static template deck-override IDs to a receiving
+collection. The package intentionally contains no override IDs; the user assigns them once through
+Anki after import. This avoids stale deck IDs and preserves the no-collection-mutation guarantee.

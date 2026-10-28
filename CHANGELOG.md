@@ -15,6 +15,11 @@ Das Projekt orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/
   worker-isolated design, so it can be reconsidered without changing V1.
 
 ### Added
+- Optional `Italian Practice` import package with native Recognition, Speaking, Writing, and
+  Listening templates, an ID-stable CSV source example, a non-mutating source validator, and
+  isolated package build/import verification.
+- Template-specific mapping and language-per-mapping support. Existing note-type-only mappings
+  remain compatible; the speech widget can now be constrained to `Italian Practice`/`Speaking`.
 - Repository-Starter, Architektur- und Implementierungsdokumentation für die erste lokale Version.
 - Phase-0-Entwicklungsgrundlage mit gepinnten Worker-Abhängigkeiten, `just`-Workflows und einem
   lokalen Mikrofon/VAD/Faster-Whisper-Spike ohne Anki- oder Cloud-Abhängigkeit.

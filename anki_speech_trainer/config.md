@@ -19,6 +19,13 @@ no speech widget is displayed and no card, note, or scheduler state is modified.
       "notetype_name": "Italiano A1",
       "answer_field": "Italiano",
       "alternatives_field": "SpeechAlternatives"
+    },
+    {
+      "notetype_name": "Italian Practice",
+      "card_template_name": "Speaking",
+      "language": "it",
+      "answer_field": "Target",
+      "alternatives_field": "SpokenAlternatives"
     }
   ],
   "debug_metrics": false
@@ -28,7 +35,11 @@ no speech widget is displayed and no card, note, or scheduler state is modified.
 - `worker_python` must be an absolute executable path to the isolated worker virtual
   environment. The add-on never falls back to Anki's Python runtime.
 - Each mapping names a note type and its answer field. `alternatives_field` is optional; one
-  explicitly accepted answer belongs on each line. Cloze note types are not eligible.
+  explicitly accepted answer belongs on each line. `card_template_name` is optional: when set,
+  the widget appears only on the exactly named card template. When omitted, the legacy behavior
+  applies the mapping to every eligible template of that note type. `language` is optional and
+  falls back to the top-level language. It must be a two- or three-letter lowercase language code.
+  Cloze note types are not eligible.
 - `microphone_device_id` is a numeric PortAudio input-device ID, or `null` for the system
   default. `auto_stop_silence_ms` must be a multiple of 20 ms.
 - `debug_metrics` reports timing only to stderr; it never logs recognized text or audio.

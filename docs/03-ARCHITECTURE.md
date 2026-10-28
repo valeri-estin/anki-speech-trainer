@@ -24,7 +24,8 @@ Anki bringt eine eigene Python-/Qt-Umgebung mit. `ctranslate2` und PortAudio-Abh
 
 ## Komponentenvertrag
 
-- **Anki-Adapter:** Initialisiert Hooks, liest gemappte Felder, hält aktive Karte/Profil fest; niemals eigene Scheduler-Operationen.
+- **Anki-Adapter:** Initialisiert Hooks, liest gemappte Felder und optional einen exakten
+  Kartenvorlagen-Namen, hält aktive Karte/Profil fest; niemals eigene Scheduler-Operationen.
 - **ReviewController:** Verwaltet `idle → worker_starting → ready → recording → transcribing → result|error`; setzt beim Kartenwechsel `session_token` neu. Nur er ändert den sichtbaren Status.
 - **Renderer:** Darstellung in der Review-Frageseite. Darf keine Worker-Logik enthalten; JS sendet nur namespacete UI-Kommandos an Python, falls die Bridge verwendet wird.
 - **WorkerClient:** Startet den Worker mit konfiguriertem Interpreter und Absolutpfad auf das Skript, verwaltet Protokoll, Puffer und Worker-Lebenszeit.

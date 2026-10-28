@@ -1,8 +1,8 @@
 # Anki Speech Trainer — Projektstart
 
 **Status:** Implementierter Entwicklerstand. Automatisierte Tests sowie der lokale Worker- und
-Anki-Runtime-Import sind geprüft; ein realer GUI-/Mikrofonlauf im separaten Anki-Testprofil ist
-wegen fehlendem Gerätezugriff in der aktuellen Sitzung noch offen.
+Anki-Runtime-Import sind geprüft. Der optionale `Italian Practice`-Notiztyp wird als bewusst
+importierbares Paket bereitgestellt; das Add-on selbst verändert keine Anki-Collection.
 **Zielplattform für V1:** Anki Desktop auf Debian 13. **Startsprache:** Italienisch (`it`).
 **Modus:** Lokal/offline nach einmaligem Download des Whisper-Modells.
 
@@ -47,6 +47,13 @@ anki-speech-trainer/
 Die Ordner `anki_speech_trainer/` und `tests/` enthalten die implementierte Add-on- und
 Testgrundlage. Die Worker-Umgebung und Modellgewichte bleiben ausdrücklich außerhalb des
 Add-on-Pakets.
+
+## Optional Italian Practice note type
+
+`templates/italian-practice/Italian Practice.apkg` provides four native card templates from one
+note: Recognition, Speaking, Writing, and Listening. The speech widget can be limited to the exact
+`Speaking` template with an extended mapping. See `docs/15-ITALIAN-PRACTICE.md` for import,
+deck-override, CSV, and validation instructions.
 
 ## Schnellstart
 

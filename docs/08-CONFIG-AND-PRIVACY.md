@@ -18,6 +18,13 @@
       "notetype_name": "Italienisch A1",
       "answer_field": "Italiano",
       "alternatives_field": "SpeechAlternatives"
+    },
+    {
+      "notetype_name": "Italian Practice",
+      "card_template_name": "Speaking",
+      "language": "it",
+      "answer_field": "Target",
+      "alternatives_field": "SpokenAlternatives"
     }
   ],
   "debug_metrics": false
@@ -25,6 +32,11 @@
 ```
 
 **Sicherer Default:** Wenn kein Mapping existiert oder das Zielfeld fehlt, wird **kein** Sprechergebnis mit einer Lösung verglichen. `worker_python` wird nach lokalem Setup auf den absoluten Pfad zu `.venv/bin/python` gesetzt oder durch einen sicheren Installationsassistenten gefunden; nicht auf Ankis eigenen Interpreter zurückfallen.
+
+`card_template_name` is optional. When it is present, only a card whose stable template name exactly
+matches it receives the widget; mappings without it keep the existing note-type-wide behavior.
+`language` is also optional and falls back to the top-level setting. Invalid language or template
+values are treated as an inactive mapping.
 
 ## Konfiguration via Anki
 

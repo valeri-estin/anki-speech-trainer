@@ -16,7 +16,11 @@ Desktop-Anki auf Debian 13, zunächst **die auf dem Zielsystem installierte Anki
 
 - Über `card.note()` und den **konfigurierten Feldnamen** auf die Notiz zugreifen. Niemals `card.answer()` als Rohantwort verwenden, da Backside HTML, Templates, Tondateien und TTS enthalten kann.
 - Beispielschema: Notiztyp `Italienisch A1`, Felder `Deutsch`, `Italiano`, optional `SpeechAlternatives` (je Zeile eine erlaubte Alternative). Feldnamen müssen nicht exakt so heißen; Mapping ist konfigurierbar.
-- Nur aktive Notiztyp-Mappings aktivieren. Unbekannte/fehlende Felder: Widget ausblenden oder klare Mapping-Fehlermeldung, keine stille Bewertung.
+- Nur aktive Notiztyp-Mappings aktivieren. A mapping may additionally name one exact card-template
+  name; the controller reads `card.template()["name"]`, never a template ordinal, so the widget
+  can be limited to a single skill card such as `Speaking`. Older mappings without this key remain
+  note-type-wide for backward compatibility. Unbekannte/fehlende Felder: Widget ausblenden oder
+  klare Mapping-Fehlermeldung, keine stille Bewertung.
 - In V1 **Cloze-Notiztypen ausnehmen**, da Zieltext nicht zuverlässig ohne Cloze-Kontext extrahierbar ist.
 - Feldinhalt sicher in **Plaintext** umwandeln und normalisieren: Anki-Hilfsfunktionen für HTML-Bereinigung prüfen, keine untrusted HTML/JS-Injektion. Enthaltene `[sound:...]`-Tags oder Formatierung nicht als erwartete Antwort behandeln.
 

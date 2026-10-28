@@ -15,12 +15,14 @@ from .review_state import ReviewSession, ReviewState
 from .worker.protocol import RESPONSE_TYPES, LineBuffer, ProtocolError, decode_line, encode
 
 _SOUND_TAG = re.compile(r"\[sound:[^\]]+\]", re.IGNORECASE)
+_LANGUAGE_CODE = re.compile(r"[a-z]{2,3}")
 
 
 @dataclass(frozen=True)
 class CardMapping:
     expected: str
     alternatives: tuple[str, ...]
+    language: str = "it"
 
 
 class ReviewController:
@@ -55,11 +57,23 @@ class ReviewController:
         if note_type.get("type") == 1:  # Cloze target extraction is intentionally unsupported.
             return None
         note_type_name = note_type.get("name")
+        default_language = config.get("language", "it")
+        if not self._is_language_code(default_language):
+            return None
         for raw_mapping in config.get("notetype_mappings", []):
             if (
                 not isinstance(raw_mapping, dict)
                 or raw_mapping.get("notetype_name") != note_type_name
             ):
+                continue
+            configured_template = raw_mapping.get("card_template_name")
+            if configured_template is not None:
+                if not isinstance(configured_template, str) or not configured_template:
+                    continue
+                if self._card_template_name(card) != configured_template:
+                    continue
+            language = raw_mapping.get("language", default_language)
+            if not self._is_language_code(language):
                 continue
             answer_field = raw_mapping.get("answer_field")
             alternatives_field = raw_mapping.get("alternatives_field")
@@ -75,8 +89,26 @@ class ReviewController:
                     )
                     if value
                 )
-            return CardMapping(expected=expected, alternatives=alternatives) if expected else None
+            return (
+                CardMapping(expected=expected, alternatives=alternatives, language=language)
+                if expected
+                else None
+            )
         return None
+
+    @staticmethod
+    def _card_template_name(card: Any) -> str | None:
+        """Return the stable template name instead of relying on its ordinal."""
+        try:
+            template = card.template()
+        except (AttributeError, TypeError):
+            return None
+        name = template.get("name") if isinstance(template, dict) else None
+        return name if isinstance(name, str) else None
+
+    @staticmethod
+    def _is_language_code(value: object) -> bool:
+        return isinstance(value, str) and _LANGUAGE_CODE.fullmatch(value) is not None
 
     @staticmethod
     def _plaintext(value: str) -> str:
@@ -167,8 +199,11 @@ class ReviewController:
 
     def _worker_payload(self) -> dict[str, Any]:
         config = self.config()
+        language = (
+            self.mapping.language if self.mapping is not None else config.get("language", "it")
+        )
         return {
-            "language": config.get("language", "it"),
+            "language": language,
             "model": config.get("model", "base"),
             "device": config.get("device", "cpu"),
             "compute_type": config.get("compute_type", "int8"),

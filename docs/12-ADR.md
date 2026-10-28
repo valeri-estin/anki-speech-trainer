@@ -24,4 +24,15 @@
 ## ADR-008: Entwicklung über Symlink und separates Anki-Testprofil (accepted)
 **Warum:** Schnelle Iteration ohne Produktivdatenrisiko. **Konsequenz:** Distribution/Installer für Worker-Runtime später.
 
+## ADR-009: Kartenvorlagen-spezifisches Mapping und optionales Importpaket (accepted)
+**Entscheidung:** Ein Mapping kann optional eine stabile Anki-Kartenvorlage per Name und einen
+Sprachcode angeben. Das Add-on bleibt rein lesend; `Italian Practice` wird als bewusst
+importierbares `.apkg` bereitgestellt, nicht beim Add-on-Start erzeugt. **Warum:** Eine einzelne
+Notiz soll native Recognition-, Speaking-, Writing- und Listening-Karten mit getrennten
+Wiederholungen erzeugen können, während das Widget ausschließlich bei `Speaking` erscheint.
+**Konsequenz:** Legacy-Mappings ohne Kartenvorlage bleiben unterstützt. `.apkg`-Imports remappen
+Deck-Override-IDs nicht zuverlässig in die Ziel-Collection; die vier Overrides werden deshalb
+einmalig und ausdrücklich nach dem Import in Anki gesetzt. Das Add-on schreibt weiterhin weder
+Decks, Notiztypen noch Karten.
+
 Änderungen an akzeptierten ADRs dürfen nur mit dokumentiertem Grund erfolgen.

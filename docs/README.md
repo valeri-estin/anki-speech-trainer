@@ -18,6 +18,8 @@
 | `12-ADR.md` | Festgelegte Architekturentscheidungen |
 | `13-ROADMAP.md` | Aufgeschobene Erweiterungen |
 | `14-REFERENCES.md` | Offizielle Dokumentation und technische Quellen |
+| `15-ITALIAN-PRACTICE.md` | Optionales Importpaket, CSV-Quelle und vier Skill-Kartenvorlagen |
+| `phase-4-italian-practice.md` | Implementierungs- und Verifikationsstand der Vorlage |
 | `fixtures/italian-cases.json` | Beispiele für Vergleichstests |
 
 **Prioritäten:** P0 = Muss für MVP, P1 = sinnvoll für V1, P2 = später. Bei Konflikten gelten Abnahmekriterien und ADRs vor optionalen Optimierungen.
