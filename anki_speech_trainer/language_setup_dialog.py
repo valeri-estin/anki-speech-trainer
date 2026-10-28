@@ -18,22 +18,8 @@ from aqt.qt import (
 from .language_setup import LanguageSetupError, apply_language_setup, plan_language_setup
 from .localization import language_from_config, text
 
-_LANGUAGES = (
-    ("Russisch", "ru"),
-    ("Französisch", "fr"),
-    ("Spanisch", "es"),
-    ("Englisch", "en"),
-    ("Deutsch", "de"),
-    ("Portugiesisch", "pt"),
-    ("Polnisch", "pl"),
-    ("Niederländisch", "nl"),
-    ("Ukrainisch", "uk"),
-    ("Türkisch", "tr"),
-    ("Japanisch", "ja"),
-    ("Koreanisch", "ko"),
-    ("Chinesisch", "zh"),
-)
-_CUSTOM_INDEX = len(_LANGUAGES)
+_LANGUAGE_CODES = ("ru", "fr", "es", "en", "de", "pt", "pl", "nl", "uk", "tr", "ja", "ko", "zh")
+_CUSTOM_INDEX = len(_LANGUAGE_CODES)
 
 
 class LanguageSetupDialog(QDialog):
@@ -54,7 +40,8 @@ class LanguageSetupDialog(QDialog):
 
         form = QFormLayout()
         self.language_choice = QComboBox(self)
-        for name, code in _LANGUAGES:
+        for code in _LANGUAGE_CODES:
+            name = self.copy(f"language.{code}")
             self.language_choice.addItem(f"{name} ({code})", (name, code))
         self.language_choice.addItem(self.copy("setup.other_language"), None)
         self.name_input = QLineEdit(self)
