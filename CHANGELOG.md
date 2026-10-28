@@ -17,6 +17,12 @@ Das Projekt orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/
 - Controller-Tests für verworfene späte Ergebnisse und wiederherstellbare Worker-Fehler.
 - Offline-Startprüfung mit lokal gecachtem Modell sowie Härtung für ungültige Worker-Konfiguration,
   parallele Aufnahmeversuche und geordnetes Beenden beim Profilwechsel.
+- Worker-Konfiguration erst nach Qt-Startsignal sowie Request-Korrelation für wiederholte
+  Aufnahmen derselben Karte; überlange Transkripte werden sicher begrenzt.
+- Abbrechen stellt den sichtbaren Aufnahmezustand sofort wieder auf `Bereit`, auch wenn der
+  Worker die Abbruchbestätigung erst später sendet.
+- Qt-Start-Race beim Workerstart, späte Antworten gleicher Kartensitzungen und überschrittene
+  Transkriptgrenzen abgesichert; zusätzlicher temporärer Anki-Offscreen-Starttest.
 
 ### Not implemented yet
 - Das eigentliche Anki-Add-on, die Audioaufnahme, der Worker und die Tests.

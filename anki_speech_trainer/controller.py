@@ -34,6 +34,8 @@ class ReviewController:
         self._buffer = LineBuffer()
         self._request_counter = 0
         self._pending_start = False
+        self._configure_request_id: str | None = None
+        self._active_record_request_id: str | None = None
         self._shutting_down = False
 
     def config(self) -> dict[str, Any]:
@@ -106,12 +108,19 @@ class ReviewController:
         }:
             return
         self._pending_start = True
-        if self.process is None or self.process.state() == QProcess.ProcessState.NotRunning:
-            if not self._start_process():
-                return
         self.session.start_worker()
         self._render_status("worker_starting")
-        self._send("configure", self._worker_payload())
+        if self.process is None or self.process.state() == QProcess.ProcessState.NotRunning:
+            self._start_process()
+            return
+        if self.process.state() == QProcess.ProcessState.Running:
+            self._configure_worker()
+
+    def _configure_worker(self) -> None:
+        """Configure only after Qt has confirmed that stdin is writable."""
+        if not self.session.mapped or not self._pending_start:
+            return
+        self._configure_request_id = self._send("configure", self._worker_payload())
 
     def _start_process(self) -> bool:
         worker_python = self.config().get("worker_python")
@@ -128,11 +137,16 @@ class ReviewController:
         process.setProcessEnvironment(QProcessEnvironment.systemEnvironment())
         process.readyReadStandardOutput.connect(self._read_stdout)
         process.readyReadStandardError.connect(self._read_stderr)
+        process.started.connect(self._process_started)
         process.errorOccurred.connect(self._process_error)
         process.finished.connect(self._process_finished)
         process.start(worker_python, [str(worker_script)])
         self.process = process
         return True
+
+    def _process_started(self) -> None:
+        """Send configuration after QProcess leaves Starting, never optimistically before."""
+        self._configure_worker()
 
     def _worker_payload(self) -> dict[str, Any]:
         config = self.config()
@@ -179,10 +193,15 @@ class ReviewController:
         if message.type == "status":
             state = message.payload.get("state")
             if state == "model_ready":
+                if message.request_id != self._configure_request_id:
+                    return
+                self._configure_request_id = None
                 self.session.worker_ready()
                 if self._pending_start:
                     self._pending_start = False
-                    self._send("record_start", {})
+                    self._active_record_request_id = self._send("record_start", {})
+                return
+            if message.request_id != self._active_record_request_id:
                 return
             if state == "recording":
                 self.session.recording()
@@ -192,13 +211,26 @@ class ReviewController:
                 self._render_status("transcribing")
             return
         if message.type == "transcript":
+            if message.request_id != self._active_record_request_id:
+                return
+            self._active_record_request_id = None
             self._handle_transcript(message.payload)
             return
         if message.type == "cancelled":
+            if message.request_id != self._active_record_request_id:
+                return
+            self._active_record_request_id = None
             self.session.cancel()
             self._render_status("ready")
             return
         if message.type == "error":
+            if message.request_id not in {
+                self._configure_request_id,
+                self._active_record_request_id,
+            }:
+                return
+            self._configure_request_id = None
+            self._active_record_request_id = None
             self.session.error()
             self._render_status("error", self._error_text(message.payload.get("code")))
 
@@ -228,9 +260,13 @@ class ReviewController:
 
     def cancel_current(self) -> None:
         self._pending_start = False
+        self._configure_request_id = None
+        self._active_record_request_id = None
         if self.process is not None and self.process.state() == QProcess.ProcessState.Running:
             self._send("record_cancel", {})
         self.session.cancel()
+        if self.session.mapped:
+            self._render_status("ready")
 
     def _process_error(self, _error: Any) -> None:
         if self.session.mapped:
@@ -239,6 +275,8 @@ class ReviewController:
 
     def _process_finished(self, _exit_code: int, _status: Any) -> None:
         self.process = None
+        self._configure_request_id = None
+        self._active_record_request_id = None
         if (
             not self._shutting_down
             and self.session.mapped
@@ -262,9 +300,10 @@ class ReviewController:
     def shutdown(self) -> None:
         self._shutting_down = True
         self.cancel_current()
-        if self.process is not None and self.process.state() == QProcess.ProcessState.Running:
-            self._send("shutdown", {})
+        if self.process is not None:
             process = self.process
+            if process.state() == QProcess.ProcessState.Running:
+                self._send("shutdown", {})
             QTimer.singleShot(2_000, lambda: self._terminate_if_running(process))
 
     @staticmethod
@@ -277,3 +316,5 @@ class ReviewController:
         self.process = None
         self.mapping = None
         self.session = ReviewSession()
+        self._configure_request_id = None
+        self._active_record_request_id = None

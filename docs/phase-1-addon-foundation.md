@@ -11,11 +11,14 @@
 - Expected text comes from `card.note()` and configured fields, is reduced to plaintext, and has
   sound tags removed. Neither `card.answer()` nor any collection write is used.
 - The review state machine creates a new session ID for every card. A response whose session ID
-  is stale or whose card is unmapped is ignored. Cancel is sent when a question changes, the
-  answer is shown, or the profile closes.
+  is stale or whose card is unmapped is ignored. Within one card session, the active configuration
+  and recording request IDs are also correlated, so a cancelled earlier attempt cannot overwrite
+  a later attempt. Cancel is sent when a question changes, the answer is shown, or the profile
+  closes.
 - The worker receives and returns bounded, version-1 UTF-8 JSONL. Its stdout is protocol-only;
   diagnostics are read from stderr and not persisted. A `QProcess` starts the fixed absolute
-  worker script with a configured absolute interpreter and no shell.
+  worker script with a configured absolute interpreter and no shell. Configuration is sent from
+  Qt's `started` signal, never while `QProcess` is still in `Starting`.
 - The widget renders transcript content with JavaScript `textContent`, not HTML, and never shows
   the expected answer before normal Anki reveal. It has no keyboard shortcut and no scheduler
   action.

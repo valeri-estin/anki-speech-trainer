@@ -15,6 +15,13 @@
    mapped answer and explicit alternatives, and displays only a text indication. It has no Anki
    answer, scheduling, database, or card-navigation call.
 
+The controller accepts a `model_ready` reply only for the active configure request and accepts a
+transcript, cancellation, or recording status only for the active recording request. This extends
+the session-ID protection to repeated attempts on the same card.
+
+Cancellation invalidates both active request IDs and restores the widget immediately to `Bereit`;
+the later worker cancellation acknowledgement is intentionally ignored as stale.
+
 ## Local worker verification
 
 The real isolated worker accepted `configure` for the cached Faster-Whisper `base` model and

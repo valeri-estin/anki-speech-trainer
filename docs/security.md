@@ -53,3 +53,8 @@ collection writes in this slice.
 | A06 resource exhaustion | Verified in code | Recording requires a click and has bounded initial-speech, silence, and maximum-duration limits; a concurrent `record_start` returns `busy`. |
 | A09 privacy | Verified in code | PCM stays in process memory; no audio/text is written. Worker diagnostics never emit transcript text. |
 | A10 recovery | Verified by unit and worker checks | Missing microphone, invalid configuration, busy recordings, cancellation, worker exit, and offline cached-model loading have recoverable protocol paths. Physical-device behavior remains unverified. |
+
+The controller sends configuration only after Qt signals that worker stdin is running. It also
+correlates configuration and recording response IDs; replies from cancelled attempts are ignored.
+Transcripts are bounded to 4 KiB UTF-8 before a worker response is emitted, so a pathological
+model response cannot bypass the JSONL message-size limit.

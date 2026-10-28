@@ -10,6 +10,8 @@ try:  # Supports direct execution of main.py by QProcess.
 except ImportError:  # pragma: no cover - exercised when imported as a package
     from .audio import AudioCapture
 
+MAX_TRANSCRIPT_BYTES = 4_096
+
 
 class TranscriptionError(RuntimeError):
     """A model setup or inference error safe to expose as a generic status."""
@@ -61,8 +63,12 @@ class LocalTranscriber:
                 vad_filter=False,
             )
             text = " ".join(segment.text.strip() for segment in segments).strip()
+            if len(text.encode("utf-8")) > MAX_TRANSCRIPT_BYTES:
+                raise TranscriptionError("transcript_too_long")
             return Transcript(
                 text=text, duration_ms=round((time.perf_counter() - started_at) * 1_000)
             )
+        except TranscriptionError:
+            raise
         except Exception as exc:
             raise TranscriptionError("transcription_failed") from exc

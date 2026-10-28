@@ -5,6 +5,9 @@
 - `just check`: Ruff plus 31 deterministic tests for matching, protocol framing/limits, review
   state, stale controller messages, HTML-safe UI output, VAD timing, and worker error paths.
 - Add-on package import against the installed Anki 26.09.3 Python 3.13/Qt 6 runtime.
+- Anki 26.09.3 startup smoke test in a fresh temporary base/profile with an `addons21` symlink
+  to this add-on, using Qt's offscreen platform. It stayed running until the controlled timeout
+  without an add-on error on stderr; the temporary profile was removed afterward.
 - Direct long-lived worker startup with cached local Faster-Whisper `base` model, including a
   successful offline (`HF_HUB_OFFLINE=1`) model initialization.
 - No worker audio/ML dependency enters the Anki runtime; no test or implementation mutates an
@@ -13,7 +16,8 @@
 ## Remaining acceptance evidence
 
 The following cannot be completed in the current environment because `/dev/snd` and an interactive
-desktop Anki test profile are unavailable:
+desktop Anki test profile are unavailable. The offscreen startup smoke test is not evidence of
+interactive reviewer rendering:
 
 1. Run `just spike --record --device DEVICE_ID` with a physical microphone and record the script's
    real timings and Italian transcript in a local test note (never save audio).
