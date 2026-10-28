@@ -11,6 +11,8 @@ Das Projekt orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/
 - Manual reviewer verification now also covers Cloze exclusion, cancellation on answer reveal,
   unavailable-microphone recovery, and card changes during an active speech interaction. Only
   an offline interactive run and optional additional native-control coverage remain.
+- Deferred microphone selection is documented with concrete adoption criteria and a local,
+  worker-isolated design, so it can be reconsidered without changing V1.
 
 ### Added
 - Repository-Starter, Architektur- und Implementierungsdokumentation für die erste lokale Version.

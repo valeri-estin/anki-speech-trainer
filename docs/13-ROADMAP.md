@@ -1,5 +1,18 @@
 # 13 — Spätere Ideen (NICHT Teil von V1)
 
+## Zurückgestellt: Mikrofon-Auswahl und -Diagnose
+
+Die bestehende Konfiguration über `microphone_device_id` bleibt ausreichend, solange das
+System-Standardmikrofon zuverlässig funktioniert. Ein eigener Auswahl-Dialog wird erst
+weiterverfolgt, wenn mehrere Eingabegeräte, ein wechselndes USB-/Bluetooth-Headset oder
+wiederkehrende Aufnahmefehler im Alltag auftreten.
+
+Der spätere Zuschnitt soll bewusst klein bleiben: Der externe Worker listet Eingabegeräte per
+JSONL auf, Anki zeigt nur Namen und numerische IDs, und die Auswahl wird in der Add-on-
+Konfiguration gespeichert. Eine kurze Testaufnahme muss das gewählte Gerät prüfen; weder Audio
+noch Transkript dürfen dafür persistiert werden. Diese Erweiterung darf weder den Anki-
+Scheduler noch die Collection verändern und blockiert V1 nicht.
+
 ## V1.1
 
 - Audiowiedergabe der eigenen Äußerung auf expliziten Klick; nur temporär im RAM, falls technische Architektur dies sauber unterstützt.
