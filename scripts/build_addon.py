@@ -30,10 +30,11 @@ def main() -> None:
     with ZipFile(output, "w", compression=ZIP_DEFLATED, compresslevel=9) as archive:
         for file in runtime_files():
             archive.write(file, file.relative_to(ADDON_ROOT).as_posix())
+        archive.write(ROOT / "LICENSE", "LICENSE")
 
     with ZipFile(output) as archive:
         names = set(archive.namelist())
-    required = {"__init__.py", "config.json", "manifest.json", "worker/main.py"}
+    required = {"__init__.py", "config.json", "manifest.json", "worker/main.py", "LICENSE"}
     if not required.issubset(names):
         raise RuntimeError(f"Invalid add-on archive; missing {sorted(required - names)}")
     print(output)

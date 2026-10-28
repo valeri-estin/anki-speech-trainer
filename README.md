@@ -63,7 +63,7 @@ just build-addon
 
 `just check` runs Ruff, the deterministic tests, and the package build. The
 release archive deliberately excludes `.venv`, model weights, caches, tests,
-and Anki-generated `meta.json`.
+and Anki-generated `meta.json`, and includes the project `LICENSE`.
 
 ## Documentation
 
@@ -78,3 +78,8 @@ useful operational guides are:
 
 There is no AnkiDroid or iOS support in V1, no automatic rating, no cloud STT,
 and no stored audio.
+
+## License
+
+Licensed under the GNU Affero General Public License, version 3 or later
+(AGPL-3.0-or-later). See [LICENSE](LICENSE).

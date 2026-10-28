@@ -7,10 +7,14 @@ Run `just build-addon` from the repository root. It writes
 has `__init__.py`, `config.json`, `manifest.json`, and the worker entry point at
 the required archive paths.
 
-The archive includes only `anki_speech_trainer/` runtime files. It excludes
-virtual environments, model caches, bytecode, test files, and Anki-generated
-`meta.json`. The latter may contain a machine-specific worker interpreter path
-and must never be distributed.
+The archive includes only `anki_speech_trainer/` runtime files and the project
+`LICENSE`. It excludes virtual environments, model caches, bytecode, test
+files, and Anki-generated `meta.json`. The latter may contain a machine-specific
+worker interpreter path and must never be distributed.
+
+The project is licensed under AGPL-3.0-or-later. Keep the `LICENSE` file in
+every release archive and link to the public source repository from the AnkiWeb
+support page once it is available.
 
 `manifest.json` owns the stable package identifier used for upgrades. Keep
 `package` equal to `anki_speech_trainer`; update only `human_version` for each

@@ -3,6 +3,10 @@
 Das Projekt orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
+### Changed
+- Relicensed the project under AGPL-3.0-or-later and include `LICENSE` in every
+  distributable add-on archive.
+
 ### Added
 - A distribution manifest, reproducible minimal `.ankiaddon` builder, and
   installation/configuration guide. The build excludes machine-local
