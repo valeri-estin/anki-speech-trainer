@@ -18,7 +18,22 @@ from aqt.qt import (
 from .language_setup import LanguageSetupError, apply_language_setup, plan_language_setup
 from .localization import language_from_config, text
 
-_LANGUAGE_CODES = ("ru", "fr", "es", "en", "de", "pt", "pl", "nl", "uk", "tr", "ja", "ko", "zh")
+_LANGUAGE_CODES = (
+    "it",
+    "ru",
+    "fr",
+    "es",
+    "en",
+    "de",
+    "pt",
+    "pl",
+    "nl",
+    "uk",
+    "tr",
+    "ja",
+    "ko",
+    "zh",
+)
 _CUSTOM_INDEX = len(_LANGUAGE_CODES)
 
 

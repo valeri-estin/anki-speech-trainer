@@ -20,6 +20,8 @@ This project follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- Neutral `Language Practice` source package with `TargetLanguageText` and `Translation`, plus
+  README, setup-guide, and AnkiWeb instructions for the language-deck setup assistant.
 - A reproducible minimal `.ankiaddon` builder and installation guide. The
   archive excludes local `meta.json`, virtual environments, caches, and model
   data.

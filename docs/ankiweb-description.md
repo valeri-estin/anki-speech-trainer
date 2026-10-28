@@ -83,6 +83,19 @@ configuration:
 Use `"en"` to switch back to English. Restart Anki or reopen the reviewer after
 changing the setting.
 
+### Create a language deck
+
+For separate Italian, Russian, French, or other language decks, first import
+the neutral `Language Practice.apkg` companion package from the release assets.
+Then choose **Tools → Anki Speech Trainer → Set up language deck…**, select the
+language (for example **Russian (ru)**), review the preview, and confirm it.
+
+The assistant creates a separate `<Language> Practice` note type, four decks
+for Recognition, Speaking, Writing, and Listening, and the fixed speech mapping
+for that language. It does not modify existing cards, decks, mappings, options,
+or scheduling. A `LanguageCode` note field is not needed: the selected code is
+stored once per created note type.
+
 ### Daily workflow
 
 1. Review a mapped speaking card normally.

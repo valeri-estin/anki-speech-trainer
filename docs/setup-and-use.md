@@ -40,6 +40,26 @@ The first model initialization may download the configured Whisper model. Once
 the model cache is populated, the normal review path can operate offline. Test
 installation and configuration first in a backed-up disposable collection.
 
-For Italian Practice, import its optional package and map the exact
-`Speaking` template to `Target` and `SpokenAlternatives`. Other cards and
+For a legacy Italian Practice deck, import its optional package and map the
+exact `Speaking` template to `Target` and `SpokenAlternatives`. Other cards and
 the normal review flow remain unchanged.
+
+## Create a separate language deck
+
+1. Download or locate `Language Practice.apkg` from the release assets or
+   `templates/language-practice/` in the repository.
+2. In Anki, choose **File → Import** and import that source package once into a
+   backed-up disposable collection.
+3. Choose **Tools → Anki Speech Trainer → Set up language deck…**.
+4. Select, for example, **Italian (it)** or **Russian (ru)**. For another
+   language, select **Other language …** and enter a display name plus its
+   two- or three-letter Whisper code.
+5. Check the confirmation preview. It lists the new `<Language> Practice` note
+   type, four `<Language>::…` skill decks, and the fixed Speaking language code.
+   Confirm only when all names are correct.
+
+The action never moves cards or changes existing decks, mappings, options, or
+scheduling. It does not create learning notes. Each created note type has
+neutral fields such as `TargetLanguageText` and `Translation`; it does not need
+a `LanguageCode` field because its language is fixed by the add-on mapping.
+See `18-LANGUAGE-PRACTICE.md` for details.

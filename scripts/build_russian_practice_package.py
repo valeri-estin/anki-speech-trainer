@@ -13,7 +13,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from anki_speech_trainer.italian_practice import (  # noqa: E402
+from anki_speech_trainer.language_practice import (  # noqa: E402
     CARD_TEMPLATES,
     FIELD_NAMES,
     SHARED_CSS,
@@ -33,15 +33,15 @@ def neutral_question_format(value: str) -> str:
     """Use English, target-language-neutral instructions in the cloned templates."""
     return (
         value.replace(
-            "Was bedeutet dieser italienische Text?",
+            "Was bedeutet dieser Text in der Zielsprache?",
             "What does this target-language text mean?",
         )
         .replace(
-            "Sprich die passende italienische Antwort.",
+            "Sprich die passende Antwort in der Zielsprache.",
             "Speak the appropriate answer in the target language.",
         )
         .replace(
-            "Schreib die passende italienische Antwort.",
+            "Schreib die passende Antwort in der Zielsprache.",
             "Write the appropriate answer in the target language.",
         )
         .replace("Was bedeutet das Gehörte?", "What does the recording mean?")
@@ -79,8 +79,8 @@ def main() -> int:
             example["ID"] = EXAMPLE_ID
             example["Prompt"] = "the house"
             example["Target"] = "дом"
-            example["ItalianText"] = "Дом."
-            example["TranslationDE"] = "The house."
+            example["TargetLanguageText"] = "Дом."
+            example["Translation"] = "The house."
             example["SpokenAlternatives"] = "дом"
             example["EnableRecognition"] = "1"
             example["EnableSpeaking"] = "1"

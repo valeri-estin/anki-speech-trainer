@@ -1,0 +1,5 @@
+#separator:semicolon
+#notetype:Language Practice
+#tags:language-practice::seed
+#columns:ID;Prompt;Target;TargetLanguageText;Translation;SpokenAlternatives;Hint;AudioTarget;EnableRecognition;EnableSpeaking;EnableWriting;EnableListening;Tags
+it-a1-0001;das Haus;la casa;La casa.;Das Haus.;casa;;;1;1;1;;niveau::A1 wortart::nomen language-practice::seed

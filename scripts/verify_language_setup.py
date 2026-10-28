@@ -12,7 +12,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from anki_speech_trainer.italian_practice import FIELD_NAMES, NOTE_TYPE_NAME  # noqa: E402
+from anki_speech_trainer.language_practice import FIELD_NAMES, NOTE_TYPE_NAME  # noqa: E402
 from anki_speech_trainer.language_setup import (  # noqa: E402
     LanguageSetupError,
     apply_language_setup,
@@ -44,7 +44,7 @@ class TemporaryAddonManager:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("path", type=Path, help="Italian Practice .apkg")
+    parser.add_argument("path", type=Path, help="Language Practice .apkg")
     return parser.parse_args()
 
 
@@ -87,7 +87,7 @@ def main() -> int:
                 expected_deck = f"Russisch::{template['name']}"
                 if template["did"] != collection.decks.id(expected_deck, create=False):
                     raise ValueError("unexpected_deck_override")
-                if "italienische" in template["qfmt"].casefold():
+                if "italien" in template["qfmt"].casefold():
                     raise ValueError("language_specific_copy")
             if manager.config["notetype_mappings"][-1] != plan.mapping:
                 raise ValueError("unexpected_mapping")

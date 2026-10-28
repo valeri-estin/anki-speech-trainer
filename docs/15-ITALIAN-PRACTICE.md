@@ -1,9 +1,14 @@
-# Italian Practice template package
+# Legacy Italian Practice template package
 
-`templates/italian-practice/Italian Practice.apkg` is an optional, manually imported Anki
+`templates/italian-practice/Italian Practice.apkg` is an optional, manually imported legacy Anki
 template package. It creates the `Italian Practice` note type and one example note. It does not
 install the speech add-on, a worker runtime, model weights, or audio. Importing a package is an
-explicit user action; the add-on never creates or mutates collection objects.
+explicit user action. The normal review path never mutates collection objects; the separately
+confirmed language-deck setup assistant is documented in `18-LANGUAGE-PRACTICE.md`.
+
+For all newly created language decks, use the neutral `Language Practice` source package and the
+Tools-menu assistant documented in [18-LANGUAGE-PRACTICE.md](18-LANGUAGE-PRACTICE.md). This legacy
+package remains supported so existing content with `ItalianText` and `TranslationDE` is not broken.
 
 ## Note fields
 
@@ -70,22 +75,11 @@ visible, and keeps the add-on read-only with respect to the collection.
 
 ## Additional languages
 
-After importing and preserving the unmodified Italian source note type, choose **Tools → Anki
-Speech Trainer → Sprach-Deck einrichten…**. Select a common language or enter a display name and
-the Faster-Whisper language code, for example `Russisch` and `ru`. The preview names the exact
-objects before confirmation:
-
-- `Russisch Practice` as a clone of the source note type;
-- `Russisch::Recognition`, `Russisch::Speaking`, `Russisch::Writing`, and
-  `Russisch::Listening` as new empty decks;
-- one `Russisch Practice` / `Speaking` mapping using `ru`.
-
-The assistant sets deck overrides only on its new clone. It does not create notes or audio, move
-existing cards, alter deck options, or overwrite an existing target. The inherited field name
-`ItalianText` remains for schema compatibility but stores the complete text in the new target
-language. The clone changes the visible Italian-specific question wording to the neutral phrase
-“Zielsprache”. For a custom language, use the valid two- or three-letter code accepted by the
-local Whisper worker. Do not change the Italian mapping to `ru`: keep one mapping per language.
+Do not use this legacy source type to create additional languages. Import the neutral `Language
+Practice.apkg` package once and use **Tools → Anki Speech Trainer → Set up language deck…** as
+documented in [18-LANGUAGE-PRACTICE.md](18-LANGUAGE-PRACTICE.md). It creates a new type with
+neutral `TargetLanguageText` and `Translation` fields, its four dedicated skill decks, and a
+fixed speaking-language mapping.
 
 For direct Russian deck generation without a desktop setup step, use the
 pre-cloned `templates/russian-practice/Russian Practice.apkg` package instead.

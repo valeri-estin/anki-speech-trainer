@@ -66,8 +66,19 @@ verify-russian-practice:
 
 # Verify language setup against the installed Anki collection API in a temporary collection.
 verify-language-setup:
-    PYTHONPATH="/usr/local/share/anki/app_packages:{{justfile_directory()}}" /usr/local/share/anki/python/bin/python3.13 scripts/verify_language_setup.py 'templates/italian-practice/Italian Practice.apkg'
+    PYTHONPATH="/usr/local/share/anki/app_packages:{{justfile_directory()}}" /usr/local/share/anki/python/bin/python3.13 scripts/verify_language_setup.py 'templates/language-practice/Language Practice.apkg'
 
 # Smoke-test the user-visible language setup menu with Anki's Qt runtime.
 verify-language-setup-menu:
     QT_QPA_PLATFORM=offscreen PYTHONPATH="/usr/local/share/anki/app_packages:{{justfile_directory()}}" /usr/local/share/anki/python/bin/python3.13 scripts/verify_language_setup_menu.py
+
+# Validate the neutral Language Practice CSV before importing it into Anki.
+validate-language-practice:
+    .venv/bin/python scripts/validate_language_practice_csv.py 'templates/language-practice/Language Practice.csv'
+
+# Build and verify the neutral source package for language-specific deck clones.
+build-language-practice:
+    PYTHONPATH="/usr/local/share/anki/app_packages:{{justfile_directory()}}" /usr/local/share/anki/python/bin/python3.13 scripts/build_language_practice_package.py --output 'templates/language-practice/Language Practice.apkg'
+
+verify-language-practice:
+    PYTHONPATH="/usr/local/share/anki/app_packages:{{justfile_directory()}}" /usr/local/share/anki/python/bin/python3.13 scripts/verify_language_practice_package.py 'templates/language-practice/Language Practice.apkg'

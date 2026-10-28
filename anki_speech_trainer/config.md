@@ -51,6 +51,7 @@ Use Anki's **Tools → Add-ons → Anki Speech Trainer → Config** editor to ch
 and reopen the reviewer after editing it. The add-on stores neither audio nor transcripts in the
 collection, notes, or its `user_files` directory.
 
-For a new language based on the imported Italian Practice template, prefer **Tools → Anki Speech
-Trainer → Set up language deck…**. It shows a confirmation preview and then appends the scoped
-`Speaking` mapping automatically; it never overwrites an existing mapping.
+For a new language, first import the neutral `Language Practice.apkg` companion package, then use
+**Tools → Anki Speech Trainer → Set up language deck…**. It shows a confirmation preview and then
+creates a separate note-type clone, four skill decks, and the scoped `Speaking` mapping. It never
+overwrites an existing mapping or requires a per-note `LanguageCode` field.

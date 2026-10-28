@@ -81,15 +81,15 @@ class FakeAddonManager:
 def _source_notetype() -> dict:
     return {
         "id": 1,
-        "name": "Italian Practice",
+        "name": "Language Practice",
         "flds": [
             {"name": name}
             for name in (
                 "ID",
                 "Prompt",
                 "Target",
-                "ItalianText",
-                "TranslationDE",
+                "TargetLanguageText",
+                "Translation",
                 "SpokenAlternatives",
                 "Hint",
                 "AudioTarget",
@@ -100,7 +100,7 @@ def _source_notetype() -> dict:
             )
         ],
         "tmpls": [
-            {"name": name, "did": None, "qfmt": "italienische Antwort", "afmt": ""}
+            {"name": name, "did": None, "qfmt": "Antwort in der Zielsprache", "afmt": ""}
             for name in ("Recognition", "Speaking", "Writing", "Listening")
         ],
     }
@@ -150,7 +150,7 @@ def test_plan_rejects_invalid_language_inputs(display_name: str, language_code: 
 
 def test_plan_refuses_to_overwrite_existing_target_objects() -> None:
     with pytest.raises(LanguageSetupError, match="Note type"):
-        plan_language_setup(FakeCollection(_source_notetype()), _config(), "Italian", "it")
+        plan_language_setup(FakeCollection(_source_notetype()), _config(), "Language", "it")
 
     with pytest.raises(LanguageSetupError, match="Deck"):
         plan_language_setup(

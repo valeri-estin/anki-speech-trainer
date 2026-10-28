@@ -16,10 +16,13 @@
 - An explicitly confirmed Tools-menu assistant can clone the imported source type for an additional
   language, create four empty skill decks, assign only cloned-template overrides, and append one
   scoped Speaking mapping. It preflights conflicts and rolls back only objects it just created.
+- New language clones now start from neutral `Language Practice` fields
+  (`TargetLanguageText`, `Translation`); the original Italian package remains a legacy-compatible
+  source for existing content only.
 
 ## Verified
 
-- `just check`: 58 deterministic tests plus Ruff.
+- `just check`: 74 deterministic tests plus Ruff.
 - `just validate-italian-practice`: source CSV validated.
 - `just build-italian-practice` and `just verify-italian-practice`: package built from and imported
   into isolated temporary Anki collections. The verifier confirmed the imported note type, field

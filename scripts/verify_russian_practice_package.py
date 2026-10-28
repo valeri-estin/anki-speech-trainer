@@ -12,7 +12,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from anki_speech_trainer.italian_practice import CARD_TEMPLATES, FIELD_NAMES  # noqa: E402
+from anki_speech_trainer.language_practice import CARD_TEMPLATES, FIELD_NAMES  # noqa: E402
 from scripts.build_russian_practice_package import EXAMPLE_ID, NOTE_TYPE_NAME  # noqa: E402
 
 EXPECTED_INSTRUCTIONS = {
@@ -65,7 +65,7 @@ def main() -> int:
                         raise ValueError("unexpected_template_instruction")
                 if collection.note_count() != 1 or collection.card_count() != 3:
                     raise ValueError("unexpected_example_cards")
-                note_id = collection.find_notes(f'\"ID:{EXAMPLE_ID}\"')
+                note_id = collection.find_notes(f'"ID:{EXAMPLE_ID}"')
                 if len(note_id) != 1:
                     raise ValueError("missing_example_note")
                 if len(collection.find_notes("tag:russian-practice::seed")) != 1:

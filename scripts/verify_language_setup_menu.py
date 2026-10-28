@@ -18,15 +18,25 @@ def main() -> int:
     app = QApplication.instance() or QApplication([])
     window = QMainWindow()
     tools_menu = QMenu(window)
-    mw = SimpleNamespace(form=SimpleNamespace(menuTools=tools_menu))
-    from anki_speech_trainer.language_setup_dialog import install_language_setup_menu
+    mw = SimpleNamespace(
+        form=SimpleNamespace(menuTools=tools_menu),
+        addonManager=SimpleNamespace(getConfig=lambda _package: {"ui_language": "en"}),
+    )
+    from anki_speech_trainer.language_setup_dialog import (
+        _LANGUAGE_CODES,
+        install_language_setup_menu,
+    )
+
+    if "it" not in _LANGUAGE_CODES:
+        print("missing_italian_language_option", file=sys.stderr)
+        return 1
 
     action = install_language_setup_menu(mw, "anki_speech_trainer")
     submenu = action.parent()
     if not isinstance(submenu, QMenu) or submenu.title() != "Anki Speech Trainer":
         print("missing_submenu", file=sys.stderr)
         return 1
-    if action.text() != "Sprach-Deck einrichten…" or action not in submenu.actions():
+    if action.text() != "Set up language deck…" or action not in submenu.actions():
         print("missing_setup_action", file=sys.stderr)
         return 1
     if not any(menu_action.menu() is submenu for menu_action in tools_menu.actions()):

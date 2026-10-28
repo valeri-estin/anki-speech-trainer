@@ -41,6 +41,13 @@ against which this add-on has been verified.
    displayed transcript is guidance only; use Anki's native **Again**, **Hard**,
    **Good**, and **Easy** controls to schedule the card.
 
+For a new language-specific deck, also download the separate `Language
+Practice.apkg` companion asset. Import it once, then use **Tools → Anki Speech
+Trainer → Set up language deck…**. This creates the per-language note-type clone
+and four skill decks locally after an explicit preview and confirmation; it is
+not bundled in the `.ankiaddon` archive because Anki add-ons must not silently
+modify a collection during installation.
+
 Install and first-run test the archive in a backed-up disposable collection.
 Do not install it over an active development symlink using the same package
 identifier; remove or relocate that link only after closing Anki and confirming

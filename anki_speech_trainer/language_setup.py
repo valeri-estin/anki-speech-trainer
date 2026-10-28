@@ -12,7 +12,7 @@ from copy import deepcopy
 from dataclasses import dataclass
 from typing import Any
 
-from .italian_practice import FIELD_NAMES, NOTE_TYPE_NAME
+from .language_practice import FIELD_NAMES, NOTE_TYPE_NAME
 from .localization import language_from_config, text
 
 _LANGUAGE_CODE = re.compile(r"[a-z]{2,3}")
@@ -128,7 +128,6 @@ def apply_language_setup(
         cloned["name"] = plan.note_type_name
         for template in cloned["tmpls"]:
             template["did"] = deck_ids[template["name"]]
-            _make_template_language_neutral(template)
         collection.models.add_dict(cloned)
         stored = collection.models.by_name(plan.note_type_name)
         if stored is None:
@@ -174,16 +173,6 @@ def _validate_source_notetype(notetype: Any) -> None:
     )
     if field_names != FIELD_NAMES or template_names != _SKILL_NAMES:
         raise LanguageSetupError(text("error.source_modified"))
-
-
-def _make_template_language_neutral(template: dict[str, Any]) -> None:
-    for key in ("qfmt", "afmt"):
-        value = template.get(key)
-        if not isinstance(value, str):
-            continue
-        template[key] = value.replace("italienische Antwort", "Antwort in der Zielsprache").replace(
-            "dieser italienische Text", "dieser Text in der Zielsprache"
-        )
 
 
 def _rollback(collection: Any, model_id: int | None, deck_ids: list[int]) -> None:

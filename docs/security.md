@@ -105,6 +105,10 @@ audio, subprocess, secret, or untrusted HTML input path.
 Manual desktop UI verification remains pending: confirm the preview/cancel path and successful menu
 action in a disposable profile. This is a verification gap, not a known security finding.
 
+The assistant now validates the neutral `Language Practice` source schema
+(`TargetLanguageText` and `Translation`) before cloning. The older Italian
+source schema remains legacy-only; the assistant never renames or migrates it.
+
 ## Interface localization (2026-10-28)
 
 Focused review: `ui_language` is a local, user-controlled configuration value.

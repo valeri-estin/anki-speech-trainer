@@ -5,8 +5,8 @@ package for an agent that directly generates a Russian `.apkg`. It contains a
 pre-cloned `Russian Practice` note type so the generator does not need to run
 the desktop language-setup flow first.
 
-The package has the same stable field order and four native templates as
-`Italian Practice`: `Recognition`, `Speaking`, `Writing`, and `Listening`.
+The package has the same neutral stable field order and four native templates as
+`Language Practice`: `Recognition`, `Speaking`, `Writing`, and `Listening`.
 Its visible card instructions are English and target-language-neutral. The
 package intentionally contains no template deck overrides, because Anki package
 imports do not reliably remap their IDs into a receiving collection.
@@ -25,9 +25,9 @@ every foundation note, and exports only the requested deck without learning
 history. For Russian Practice, it must remove `ID = ru-a1-0001` (tag
 `russian-practice::seed`) and the empty `Russian Practice` deck.
 
-The field names `ItalianText` and `TranslationDE` remain compatibility
-identifiers in the cloned schema. For Russian content, `ItalianText` holds the
-complete Russian expression and `TranslationDE` holds its German meaning.
+For Russian content, `TargetLanguageText` holds the complete Russian expression
+and `Translation` holds its meaning. No per-note language-code field is needed:
+the learner configures `ru` once in the type-scoped Speech Trainer mapping.
 
 ## Learner setup
 

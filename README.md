@@ -49,9 +49,28 @@ to use the installed add-on.
 4. Open a mapped review card, click **Speak**, speak the answer, and read
    the transcript/match indication. Choose the regular Anki rating yourself.
 
-For `Italian Practice`, import the optional `.apkg`, configure the mapping for
-the exact `Speaking` template, `Target` answer field, and `SpokenAlternatives`
-field. The normal review flow and all non-mapped cards remain unchanged.
+For an existing legacy `Italian Practice` deck, import its optional `.apkg` and
+configure the mapping for the exact `Speaking` template, `Target` answer field,
+and `SpokenAlternatives` field. The normal review flow and all non-mapped cards
+remain unchanged.
+
+### Create a separate language deck
+
+For every new language, use the neutral `Language Practice.apkg` foundation
+package from `templates/language-practice/` (or the matching release asset):
+
+1. In Anki, choose **File → Import** and import `Language Practice.apkg` once.
+2. Choose **Tools → Anki Speech Trainer → Set up language deck…**.
+3. Select a language such as **Italian (it)** or **Russian (ru)**, or enter a
+   custom display name and a two- or three-letter Whisper code.
+4. Review the preview and confirm it.
+
+The assistant creates, for example, `Russian Practice` and the four decks
+`Russian::Recognition`, `Russian::Speaking`, `Russian::Writing`, and
+`Russian::Listening`. It also adds the fixed `ru` speech mapping for that note
+type. It never changes an existing deck, note, card, scheduler setting, or
+mapping. See [`docs/18-LANGUAGE-PRACTICE.md`](docs/18-LANGUAGE-PRACTICE.md)
+for the field schema and existing-Italian migration guidance.
 
 For a direct generator creating a Russian deck, use the companion
 `templates/russian-practice/Russian Practice.apkg` foundation package. It
@@ -85,6 +104,7 @@ useful operational guides are:
 
 - `docs/09-SETUP-DEBIAN13.md` — worker and development setup
 - `docs/15-ITALIAN-PRACTICE.md` — optional note-type package
+- `docs/18-LANGUAGE-PRACTICE.md` — create separate language decks
 - `docs/16-DISTRIBUTION.md` — archive build, installation, and configuration
 
 ## Limits
