@@ -13,9 +13,22 @@ only scheduling controls.
 ## Requirements
 
 - Anki Desktop 26.09 or later on Debian 13.
+- The Debian runtime library `libportaudio2` for microphone access:
+
+  ```bash
+  sudo apt install libportaudio2
+  ```
+
 - A local Python virtual environment for the audio and ML worker; never install
   worker packages into Anki's bundled Python environment.
 - A microphone and a configured note-type/answer-field mapping.
+
+The required worker packages are pinned in `requirements-worker.txt`:
+`av`, `ctranslate2`, `faster-whisper`, `numpy`, `onnxruntime`, `sounddevice`,
+and `webrtcvad-wheels`. The first worker start may download the selected Whisper
+model; later use can run offline from the local model cache. `pytest` and `ruff`
+in `requirements-dev.txt` are development-only and not required to use the
+installed add-on.
 
 ## Install and use
 
@@ -23,7 +36,7 @@ only scheduling controls.
 
    ```bash
    python3 -m venv .venv
-   .venv/bin/python -m pip install -r requirements-worker.txt -r requirements-dev.txt
+   .venv/bin/python -m pip install -r requirements-worker.txt
    ```
 
 2. Run `just build-addon`. Install the generated file from `dist/` using

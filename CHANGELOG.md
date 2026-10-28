@@ -7,6 +7,8 @@ Das Projekt orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/
 - A distribution manifest, reproducible minimal `.ankiaddon` builder, and
   installation/configuration guide. The build excludes machine-local
   `meta.json`, virtual environments, caches, and model data.
+- Documented the required external worker packages and Debian PortAudio runtime
+  in the README, separate from development-only test and lint tools.
 
 ### Changed
 - The documented physical-desktop verification is now complete for the microphone spike, local
