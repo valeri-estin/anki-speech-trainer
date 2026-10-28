@@ -20,8 +20,12 @@ test:
 lint:
     .venv/bin/python -m ruff check .
 
-# Run all automated quality checks.
-check: lint test
+# Build a minimal installable .ankiaddon archive.
+build-addon:
+    .venv/bin/python scripts/build_addon.py
+
+# Run all automated quality checks and verify the package can be built.
+check: lint test build-addon
 
 # Apply safe automated formatting where supported.
 format:

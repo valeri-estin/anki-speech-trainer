@@ -18,17 +18,15 @@ sudo apt install -y git unzip python3 python3-venv python3-pip libportaudio2
 
 Wenn Audioerkennung unter Debian scheitert, `sudo apt install -y alsa-utils` ergänzen und Eingabegeräte prüfen.
 
-## 2. Starterpaket entpacken
+## 2. Obtain the implemented repository
 
-Nach dem Download von `anki-speech-trainer-docs.zip` (Pfad anpassen):
+Clone or otherwise copy the full repository, which already includes the
+implemented `anki_speech_trainer/` package, tests, scripts, and documentation:
 
 ```bash
-mkdir -p ~/dev/anki-speech-trainer
+git clone YOUR_REPOSITORY_URL ~/dev/anki-speech-trainer
 cd ~/dev/anki-speech-trainer
-unzip ~/Downloads/anki-speech-trainer-docs.zip
 ```
-
-Die ZIP enthält bereits `AGENTS.md`, `README.md`, `CHANGELOG.md` und den vollständigen Ordner `docs/`; **noch kein programmiertes Add-on**.
 
 ## 3. Python-Umgebung nur für den Worker
 
@@ -55,24 +53,9 @@ Sprachpause und gibt gemessene Modell-/Transkriptionszeiten aus. Er kann einmali
 herunterladen; Internetverbindung und verfügbarer Speicher werden dafür gebraucht. Nach dem
 ersten Download mit gecachtem Modell den Offline-Test aus Abschnitt 8 ausführen.
 
-## 5. Git initialisieren
+## 5. Development symlink installation
 
-```bash
-cd ~/dev/anki-speech-trainer
-git init
-git add .
-git commit -m "docs: initialize Anki Speech Trainer specification"
-```
-
-Falls Git Nutzername/E-Mail noch nicht eingerichtet sind, diese zunächst lokal konfigurieren. Remote/`git push` **nur** bei von dir eingerichtetem Repository.
-
-## 6. Agent mit dem Repository starten
-
-Öffne das Repository in deinem Coding-Agenten (Arbeitsverzeichnis `~/dev/anki-speech-trainer`) und gib den in `docs/11-AGENT-PLAN.md` enthaltenen Startprompt ein. Erst Technik-Spike, dann Add-on.
-
-## 7. Add-on beim tatsächlichen Implementieren verlinken
-
-Erst wenn der Agent `anki_speech_trainer/__init__.py` und den Add-on-Code erstellt hat:
+For iterative development, link the implemented package while Anki is closed:
 
 1. In Anki `Extras → Erweiterungen → Dateien anzeigen` öffnen und **den tatsächlichen** `addons21`-Pfad bestimmen.
 2. Anki schließen.
@@ -89,7 +72,11 @@ Der Beispielpfad gilt für Standard-Installationen unter Linux, nicht zwingend f
 4. Anki wieder starten, **Testprofil** wählen, Add-on-Status prüfen. Eventuelle Fehler zuerst im Terminal/Anki-Add-on-Fehlerdialog prüfen.
 5. In `config.json` bzw. Ankis Add-on-Konfiguration eine tatsächlich vorhandene Notiztyp-/Feldzuordnung und den **absoluten** Worker-Python-Pfad konfigurieren. Beispiel: `/home/DEIN-USER/dev/anki-speech-trainer/.venv/bin/python`.
 
-## 8. Abschlussprüfung
+For an installable archive instead, use `just build-addon` and follow
+`docs/16-DISTRIBUTION.md`. Do not use both mechanisms with the same package
+identifier at the same time.
+
+## 6. Abschlussprüfung
 
 - Anki ohne Worker startet normal.
 - Normale (nicht gemappte) Karten zeigen keine Add-on-UI.

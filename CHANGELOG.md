@@ -3,6 +3,11 @@
 Das Projekt orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ## [Unreleased]
+### Added
+- A distribution manifest, reproducible minimal `.ankiaddon` builder, and
+  installation/configuration guide. The build excludes machine-local
+  `meta.json`, virtual environments, caches, and model data.
+
 ### Changed
 - The documented physical-desktop verification is now complete for the microphone spike, local
   test-profile add-on link, exact `Basic`/`Back` mapping, and mapped-card widget interaction.

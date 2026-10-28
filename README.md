@@ -1,66 +1,67 @@
-# Anki Speech Trainer — Projektstart
+# Anki Speech Trainer
 
-**Status:** Implementierter Entwicklerstand. Automatisierte Tests sowie der lokale Worker- und
-Anki-Runtime-Import sind geprüft. Der optionale `Italian Practice`-Notiztyp wird als bewusst
-importierbares Paket bereitgestellt. Ein ausdrücklich bestätigter Tools-Menü-Assistent kann daraus
-zusätzliche Sprach-Notiztypen und Decks anlegen; die normale Review-/Spracherkennung bleibt
-vollständig lesend.
-**Zielplattform für V1:** Anki Desktop auf Debian 13. **Startsprache:** Italienisch (`it`).
-**Modus:** Lokal/offline nach einmaligem Download des Whisper-Modells.
+Anki Speech Trainer is a local Anki Desktop add-on for active speaking
+practice. On a configured review card, the learner can click **Sprechen** to
+record an answer. An external local worker transcribes it with Faster-Whisper
+and compares the transcript conservatively with the configured answer.
 
-## Zweck
+The add-on does not grade cards, change FSRS or scheduling, persist recordings
+or transcripts, send data to a cloud service, or provide pronunciation scoring.
+Anki's normal **Again**, **Hard**, **Good**, and **Easy** controls remain the
+only scheduling controls.
 
-Beim Wiederholen einer passenden Anki-Karte soll der Lernende die italienische Antwort laut sagen können. Ein separater lokaler Prozess nimmt die Stimme auf, beendet die Aufnahme nach einer Sprechpause, transkribiert sie mit Faster-Whisper und vergleicht den erkannten Text konservativ mit den hinterlegten Antworten. Die regulären Anki-Bewertungsbuttons bleiben maßgeblich.
+## Requirements
 
-Die Anwendung bewertet **nicht** die Aussprachequalität. STT-Ausgaben sind keine zuverlässigen Lautbewertungen.
+- Anki Desktop 26.09 or later on Debian 13.
+- A local Python virtual environment for the audio and ML worker; never install
+  worker packages into Anki's bundled Python environment.
+- A microphone and a configured note-type/answer-field mapping.
 
-## Lese-Reihenfolge für Coding-Agenten
+## Install and use
 
-1. `AGENTS.md` (verbindliche Arbeitsregeln)
-2. `docs/README.md` (Index)
-3. `docs/01-PRODUCT.md`, `docs/02-SCOPE-ACCEPTANCE.md`
-4. `docs/03-ARCHITECTURE.md`, `docs/04-ANKI-INTEGRATION.md`, `docs/05-AUDIO-PIPELINE.md`
-5. Restliche Dokumente inklusive Tests und Entscheidungen.
+1. Create the worker environment and install dependencies:
 
-## Geplante Struktur nach Implementierung
+   ```bash
+   python3 -m venv .venv
+   .venv/bin/python -m pip install -r requirements-worker.txt -r requirements-dev.txt
+   ```
 
+2. Run `just build-addon`. Install the generated file from `dist/` using
+   **Tools → Add-ons → Install from file…**, then restart Anki.
+3. In the add-on configuration, set `worker_python` to the absolute path of
+   `.venv/bin/python`. Add a valid `notetype_mappings` entry. The default
+   configuration is deliberately inactive until a mapping exists.
+4. Open a mapped review card, click **Sprechen**, speak the answer, and read
+   the transcript/match indication. Choose the regular Anki rating yourself.
+
+For `Italian Practice`, import the optional `.apkg`, configure the mapping for
+the exact `Speaking` template, `Target` answer field, and `SpokenAlternatives`
+field. The normal review flow and all non-mapped cards remain unchanged.
+
+Always test first with a backed-up disposable collection. The add-on and its
+configuration are global to Anki, not isolated per collection profile.
+
+## Development
+
+```bash
+just check
+just build-addon
 ```
-anki-speech-trainer/
-├── AGENTS.md
-├── CHANGELOG.md
-├── README.md
-├── docs/
-├── anki_speech_trainer/       # direkt als Anki-Add-on ladbares Python-Paket
-│   ├── __init__.py
-│   ├── config.json
-│   ├── config.md
-│   ├── controller.py
-│   ├── review_ui.py
-│   ├── matching.py
-│   └── worker/
-│       ├── main.py
-│       ├── audio.py
-│       ├── transcriber.py
-│       └── protocol.py
-├── tests/
-└── .venv/                    # lokal, nicht versionieren
-```
 
-Die Ordner `anki_speech_trainer/` und `tests/` enthalten die implementierte Add-on- und
-Testgrundlage. Die Worker-Umgebung und Modellgewichte bleiben ausdrücklich außerhalb des
-Add-on-Pakets.
+`just check` runs Ruff, the deterministic tests, and the package build. The
+release archive deliberately excludes `.venv`, model weights, caches, tests,
+and Anki-generated `meta.json`.
 
-## Optional Italian Practice note type
+## Documentation
 
-`templates/italian-practice/Italian Practice.apkg` provides four native card templates from one
-note: Recognition, Speaking, Writing, and Listening. The speech widget can be limited to the exact
-`Speaking` template with an extended mapping. See `docs/15-ITALIAN-PRACTICE.md` for import,
-deck-override, CSV, and validation instructions.
+Read [docs/README.md](docs/README.md) for the documentation index. The most
+useful operational guides are:
 
-## Schnellstart
+- `docs/09-SETUP-DEBIAN13.md` — worker and development setup
+- `docs/15-ITALIAN-PRACTICE.md` — optional note-type package
+- `docs/16-DISTRIBUTION.md` — archive build, installation, and configuration
 
-Siehe `docs/09-SETUP-DEBIAN13.md`. Ein Agent kann mit dem Prompt aus `docs/11-AGENT-PLAN.md` starten.
+## Limits
 
-## Grenzen
-
-Keine Android-Unterstützung in V1, keine Aussprachebewertung, keine automatische Scheduler-Manipulation, kein Cloud-STT, keine Speicherung der Sprachaufnahmen.
+There is no AnkiDroid or iOS support in V1, no automatic rating, no cloud STT,
+and no stored audio.

@@ -65,4 +65,6 @@ ln -s "$(realpath anki_speech_trainer)" ~/.local/share/Anki2/addons21/anki_speec
 
 Der genaue Speicherort kann je nach Installationsart abweichen. **Verlässlich ist Anki → Extras → Erweiterungen → Dateien anzeigen**. Dort die tatsächliche `addons21`-Position ablesen. Wenn der Symlink existiert, nicht blind überschreiben.
 
-**Achtung:** Dieses Starterpaket enthält **noch kein** `anki_speech_trainer/`. Dieser Ordner wird erst durch den Coding-Agenten erzeugt.
+The repository now contains the implemented `anki_speech_trainer/` package.
+For a distributable archive and its external-worker requirements, follow
+`docs/16-DISTRIBUTION.md`.

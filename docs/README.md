@@ -19,6 +19,7 @@
 | `13-ROADMAP.md` | Aufgeschobene Erweiterungen |
 | `14-REFERENCES.md` | Offizielle Dokumentation und technische Quellen |
 | `15-ITALIAN-PRACTICE.md` | Optionales Importpaket, CSV-Quelle und vier Skill-Kartenvorlagen |
+| `16-DISTRIBUTION.md` | Build, installation, configuration, and release-archive rules |
 | `phase-4-italian-practice.md` | Implementierungs- und Verifikationsstand der Vorlage |
 | `fixtures/italian-cases.json` | Beispiele für Vergleichstests |
 

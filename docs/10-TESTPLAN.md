@@ -51,14 +51,17 @@
 
 Je 5 Beispiele aus vier Kategorien: Einzelwörter (z. B. `casa`), ähnliche Wörter (`casa`/`cosa`), kurze Sätze (`io sono a casa`), nicht-ideale Bedingungen (Stille/Umgebungsgeräusche). Jeweils dokumentieren: soll, erkannt, Aufnahmeende, Verarbeitungsdauer, Fehlerart. Audio nicht ohne ausdrückliche Entscheidung persistieren; im Testprotokoll nur benötigte Textbeispiele.
 
-## Kommandos (nach Agent-Implementierung)
+## Commands
 
 ```bash
-.venv/bin/python -m pytest -q
-.venv/bin/python -m ruff check .
+just check
+just build-addon
 ```
 
 Die erste Iteration darf nicht allein wegen fehlender Integrationstests als „fertig“ gelten. Ein realer End-to-End-Durchlauf im Anki-Testprofil ist Pflicht.
+The acceptance checkboxes below remain the original release criteria; the
+implemented-phase verification evidence is recorded in `phase-3-hardening.md`
+and `phase-4-italian-practice.md`.
 
 ## Abnahme-Checkliste
 
