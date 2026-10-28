@@ -164,12 +164,12 @@ class ValidationIssue:
     code: str
 
 
-def validate_rows(rows: Iterable[Mapping[str, str]]) -> tuple[ValidationIssue, ...]:
+def validate_rows(rows: Iterable[Mapping[str, object]]) -> tuple[ValidationIssue, ...]:
     """Validate import rows without opening an Anki collection or persisting data."""
     issues: list[ValidationIssue] = []
     seen_ids: set[str] = set()
     for row_number, row in enumerate(rows, start=2):
-        identifier = row.get("ID", "").strip()
+        identifier = _text(row, "ID")
         if not identifier:
             issues.append(ValidationIssue(row_number, "missing_id"))
         elif identifier in seen_ids:
@@ -180,7 +180,7 @@ def validate_rows(rows: Iterable[Mapping[str, str]]) -> tuple[ValidationIssue, .
         enabled = [
             template_name
             for template_name, required in REQUIRED_FIELDS.items()
-            if row.get(required[0], "").strip()
+            if _text(row, required[0])
         ]
         if not enabled:
             issues.append(ValidationIssue(row_number, "no_enabled_card"))
@@ -188,10 +188,15 @@ def validate_rows(rows: Iterable[Mapping[str, str]]) -> tuple[ValidationIssue, .
             missing = [
                 field_name
                 for field_name in REQUIRED_FIELDS[template_name][1:]
-                if not row.get(field_name, "").strip()
+                if not _text(row, field_name)
             ]
             if missing:
                 issues.append(ValidationIssue(row_number, f"missing_{template_name.lower()}_field"))
-        if "Listening" in enabled and not _SOUND_TAG.search(row.get("AudioTarget", "")):
+        if "Listening" in enabled and not _SOUND_TAG.search(_text(row, "AudioTarget")):
             issues.append(ValidationIssue(row_number, "listening_audio_not_sound_tag"))
     return tuple(issues)
+
+
+def _text(row: Mapping[str, object], field_name: str) -> str:
+    value = row.get(field_name, "")
+    return value.strip() if isinstance(value, str) else ""

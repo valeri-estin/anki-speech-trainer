@@ -26,11 +26,12 @@ def main() -> int:
     try:
         with args.path.open("r", encoding="utf-8", newline="") as handle:
             rows = [line for line in handle if not line.startswith("#")]
-        reader = csv.DictReader(rows, delimiter=";")
-        if reader.fieldnames != list(CSV_COLUMNS):
+        reader = csv.DictReader(rows, fieldnames=CSV_COLUMNS, delimiter=";")
+        parsed_rows = list(reader)
+        if any(None in row for row in parsed_rows):
             print("invalid_columns", file=sys.stderr)
             return 2
-        issues = validate_rows(reader)
+        issues = validate_rows(parsed_rows)
     except (OSError, UnicodeDecodeError, csv.Error):
         print("unreadable_csv", file=sys.stderr)
         return 2

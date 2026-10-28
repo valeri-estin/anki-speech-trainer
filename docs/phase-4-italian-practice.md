@@ -24,6 +24,9 @@
 - `just verify-italian-practice-integration`: imported real `Speaking`, `Writing`, and
   `Recognition` cards were checked through Anki 26.09.3's `card.template()["name"]` API; only
   `Speaking` received the configured mapping and its mapping language overrode the global default.
+- `just verify-italian-practice-csv-reimport`: the source CSV was imported twice into an isolated
+  collection after package installation. Its unchanged first-field IDs updated the existing note
+  rather than duplicating it.
 
 ## Explicit limitation
 

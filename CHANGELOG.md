@@ -22,6 +22,8 @@ Das Projekt orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/
   remain compatible; the speech widget can now be constrained to `Italian Practice`/`Speaking`.
 - CSV source rows now carry importable hierarchical tags, and the Italian Practice guide records
   the user-controlled FSRS/deck-settings policy.
+- The source CSV now uses Anki's `#columns` directive without an accidental header-note row; a
+  real isolated CSV re-import verifies that stable IDs update without duplicates.
 - Repository-Starter, Architektur- und Implementierungsdokumentation für die erste lokale Version.
 - Phase-0-Entwicklungsgrundlage mit gepinnten Worker-Abhängigkeiten, `just`-Workflows und einem
   lokalen Mikrofon/VAD/Faster-Whisper-Spike ohne Anki- oder Cloud-Abhängigkeit.

@@ -70,8 +70,9 @@ visible, and keeps the add-on read-only with respect to the collection.
 
 ## CSV source data
 
-`templates/italian-practice/Italian Practice.csv` is a semicolon-separated source example. After
-the note type is installed, validate it before import:
+`templates/italian-practice/Italian Practice.csv` is a semicolon-separated source example. Its
+Anki `#columns` directive is the schema; do not add a separate column-header data row. After the
+note type is installed, validate it before import:
 
 ```bash
 just validate-italian-practice
@@ -100,6 +101,7 @@ installed Anki runtime:
 just build-italian-practice
 just verify-italian-practice
 just verify-italian-practice-integration
+just verify-italian-practice-csv-reimport
 ```
 
 The builder creates and deletes only a temporary collection. Never build a package from a personal

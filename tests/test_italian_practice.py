@@ -82,3 +82,18 @@ def test_validator_rejects_enabled_cards_without_their_required_fields() -> None
         (2, "missing_speaking_field"),
         (2, "missing_writing_field"),
     }
+
+
+def test_validator_treats_missing_values_as_invalid_instead_of_crashing() -> None:
+    row = _row(
+        ID=None,
+        EnableRecognition="",
+        EnableSpeaking="",
+        EnableWriting="",
+        EnableListening="",
+    )
+
+    assert {(issue.row_number, issue.code) for issue in validate_rows([row])} == {
+        (2, "missing_id"),
+        (2, "no_enabled_card"),
+    }
