@@ -1,5 +1,15 @@
 # Security review
 
+## Release dependency audit (2026-10-28)
+
+The public-release dependency check installed the pinned development audit tool
+and ran `just audit-deps` against `requirements-worker.txt`. `pip check`
+reported no broken requirements and `pip-audit` reported no known
+vulnerabilities at the time of the check. This covers known Python package
+advisories only; it does not authenticate model data or prove a dependency is
+otherwise safe. The publication checklist requires repeating it for every
+release and recording trusted Faster-Whisper model provenance separately.
+
 ## Phase 0: isolated audio spike (2026-10-28)
 
 ### Trust boundaries
@@ -16,7 +26,7 @@
 
 | Area | Status | Evidence / control |
 | --- | --- | --- |
-| A03 supply chain | Partially verified | Exact tested direct worker and development versions are in `requirements-*.txt`; advisory and integrity verification remains a release task. |
+| A03 supply chain | Partially verified | Exact tested direct worker and development versions are in `requirements-*.txt`; the public-release advisory check passed, while model-cache provenance remains a release responsibility. |
 | A05 injection | Verified for spike inputs | No shell or HTML evaluation; numeric device IDs and argparse bounds are used. |
 | A06 insecure design | Verified for scope | Recording requires an explicit flag, has start and maximum-duration bounds, and does not prime Whisper with an expected answer. |
 | A09 logging | Verified for scope | Diagnostics use stderr and contain no PCM or transcript. The transcript is printed only as the explicit CLI result. |
@@ -49,7 +59,7 @@ collection writes in this slice.
 
 | Area | Status | Evidence / control |
 | --- | --- | --- |
-| A03 supply chain | Partially verified | Tested package versions are pinned. Model cache provenance/integrity policy is delegated to Faster-Whisper/Hugging Face and must be documented for packaged distribution. |
+| A03 supply chain | Partially verified | Tested package versions are pinned and the release advisory check passed. Model-cache provenance/integrity remains a maintainer-controlled release task. |
 | A06 resource exhaustion | Verified in code | Recording requires a click and has bounded initial-speech, silence, and maximum-duration limits; a concurrent `record_start` returns `busy`. |
 | A09 privacy | Verified in code | PCM stays in process memory; no audio/text is written. Worker diagnostics never emit transcript text. |
 | A10 recovery | Partially verified | Missing microphone, invalid configuration, busy recordings, cancellation, worker exit, and offline cached-model loading have recoverable protocol paths. The normal physical-device path was manually exercised on 2026-10-28; device-loss recovery remains unverified. |

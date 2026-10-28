@@ -6,18 +6,17 @@ Checked on 2026-10-28 from this repository checkout.
 
 | Component | Result |
 | --- | --- |
-| Anki | `26.09.3` (`/usr/local/bin/anki`) |
+| Anki | `26.09.3` |
 | Anki runtime | bundled Python 3.13 and Qt 6; `aqt.qt.QProcess` is available |
 | Verified public hook signatures | `reviewer_did_show_question(card)`, `reviewer_did_show_answer(card)`, `card_will_show(text, card, kind)`, and `webview_did_receive_js_message(handled, message, context)` |
-| Add-on directory | `/home/valeri/.local/share/Anki2/addons21` |
-| Worker runtime | repository `.venv/bin/python`, Python 3.13.5 |
-| PortAudio runtime | `libportaudio2 19.6.0-1.2+b3` |
+| Add-on directory | Standard local Anki add-on directory (machine-specific path intentionally omitted) |
+| Worker runtime | isolated Python 3.13 virtual environment |
+| PortAudio runtime | Debian `libportaudio2` runtime |
 | Worker imports | sounddevice 0.5.6, webrtcvad-wheels 2.0.14.post1, Faster-Whisper 1.2.1, CTranslate2 4.8.4, NumPy 2.5.4 |
-| Model cache | local Hugging Face cache has Faster-Whisper `base` snapshots |
+| Model cache | trusted Faster-Whisper `base` snapshot provisioned locally |
 
-The cached `base` model initialized in **340 ms** with CPU `int8` during this check. This is only
-a warm local model-load measurement; it excludes recording and transcription, and is not an
-end-to-end latency claim.
+The cached `base` model initialized successfully with CPU `int8`. This is a
+local smoke test, not an end-to-end latency claim.
 
 ## Audio hardware availability and manual validation
 

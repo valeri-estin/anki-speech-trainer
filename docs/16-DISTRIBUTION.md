@@ -16,6 +16,10 @@ The project is licensed under AGPL-3.0-or-later. Keep the `LICENSE` file in
 every release archive and link to the public source repository from the AnkiWeb
 support page once it is available.
 
+The bundled `LICENSE` must contain the complete AGPL-3.0 license text, not
+only a notice. Before publishing, also follow the dependency-audit and trusted
+model-provisioning procedure in `privacy-security-and-release.md`.
+
 `manifest.json` owns the stable package identifier used for upgrades. Keep
 `package` equal to `anki_speech_trainer`; update only `human_version` for each
 release. The declared Anki minimum is 26.09 because that is the runtime version

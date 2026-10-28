@@ -20,6 +20,11 @@ test:
 lint:
     .venv/bin/python -m ruff check .
 
+# Check pinned Python dependencies against known vulnerability advisories.
+audit-deps:
+    .venv/bin/python -m pip check
+    .venv/bin/python -m pip_audit -r requirements-worker.txt
+
 # Build a minimal installable .ankiaddon archive.
 build-addon:
     .venv/bin/python scripts/build_addon.py

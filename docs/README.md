@@ -1,26 +1,18 @@
-# Dokumentationsindex
+# Documentation
 
-## In Lesereihenfolge
+This directory contains the current English documentation and the English
+implementation/verification records for Anki Speech Trainer.
 
-| Datei | Zweck |
+| Document | Purpose |
 | --- | --- |
-| `01-PRODUCT.md` | Problem, Lernprozess, Nutzerperspektive |
-| `02-SCOPE-ACCEPTANCE.md` | V1-Funktionen, Nicht-Ziele, klare Abnahmekriterien |
-| `03-ARCHITECTURE.md` | Komponenten, Laufzeittrennung, IPC, Fehlerfälle |
-| `04-ANKI-INTEGRATION.md` | Hooks, Feldzuordnung, Scheduler, Webview |
-| `05-AUDIO-PIPELINE.md` | Aufnahme, VAD, Faster-Whisper, Performance |
-| `06-MATCHING.md` | Italienische Textnormalisierung, Varianten, Fehlermeldungen |
-| `07-UX.md` | Lernzustände, Bedienung, Zugänglichkeit |
-| `08-CONFIG-AND-PRIVACY.md` | Einstellungen, Daten, Offline-Betrieb, Sicherheit |
-| `09-SETUP-DEBIAN13.md` | Installation und Entwicklungssetup |
-| `10-TESTPLAN.md` | Unit-, Integrations-, manuelle Tests, Benchmarks |
-| `11-AGENT-PLAN.md` | Umsetzung in Phasen + fertiger Startprompt |
-| `12-ADR.md` | Festgelegte Architekturentscheidungen |
-| `13-ROADMAP.md` | Aufgeschobene Erweiterungen |
-| `14-REFERENCES.md` | Offizielle Dokumentation und technische Quellen |
-| `15-ITALIAN-PRACTICE.md` | Optionales Importpaket, CSV-Quelle und vier Skill-Kartenvorlagen |
-| `16-DISTRIBUTION.md` | Build, installation, configuration, and release-archive rules |
-| `phase-4-italian-practice.md` | Implementierungs- und Verifikationsstand der Vorlage |
-| `fixtures/italian-cases.json` | Beispiele für Vergleichstests |
+| [product-and-architecture.md](product-and-architecture.md) | Scope, trust boundaries, components, and Anki integration. |
+| [setup-and-use.md](setup-and-use.md) | Worker setup, first use, configuration, and normal review workflow. |
+| [privacy-security-and-release.md](privacy-security-and-release.md) | Privacy, supply-chain controls, model provenance, archive rules, and release checklist. |
+| [15-ITALIAN-PRACTICE.md](15-ITALIAN-PRACTICE.md) | Optional Italian Practice import package and template mapping. |
+| [16-DISTRIBUTION.md](16-DISTRIBUTION.md) | Archive build and user installation reference. |
+| [security.md](security.md) | Security-review evidence and remaining verification limits. |
+| [phase-*.md](.) | Historical, English implementation and verification records. |
 
-**Prioritäten:** P0 = Muss für MVP, P1 = sinnvoll für V1, P2 = später. Bei Konflikten gelten Abnahmekriterien und ADRs vor optionalen Optimierungen.
+The German planning documents that preceded the implementation were replaced by
+the maintained English guides above. The German add-on interface is intentional
+and does not change the documentation policy.

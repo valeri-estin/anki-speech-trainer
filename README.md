@@ -26,9 +26,9 @@ only scheduling controls.
 The required worker packages are pinned in `requirements-worker.txt`:
 `av`, `ctranslate2`, `faster-whisper`, `numpy`, `onnxruntime`, `sounddevice`,
 and `webrtcvad-wheels`. The first worker start may download the selected Whisper
-model; later use can run offline from the local model cache. `pytest` and `ruff`
-in `requirements-dev.txt` are development-only and not required to use the
-installed add-on.
+model; later use can run offline from the local model cache. `pytest`, `ruff`,
+and `pip-audit` in `requirements-dev.txt` are development-only and not required
+to use the installed add-on.
 
 ## Install and use
 
@@ -64,6 +64,11 @@ just build-addon
 `just check` runs Ruff, the deterministic tests, and the package build. The
 release archive deliberately excludes `.venv`, model weights, caches, tests,
 and Anki-generated `meta.json`, and includes the project `LICENSE`.
+
+Before a public release, install the development requirements and run
+`just audit-deps`. See the
+[privacy, security, and release guide](docs/privacy-security-and-release.md)
+for model provenance and the complete publication checklist.
 
 ## Documentation
 
