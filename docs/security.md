@@ -58,3 +58,10 @@ The controller sends configuration only after Qt signals that worker stdin is ru
 correlates configuration and recording response IDs; replies from cancelled attempts are ignored.
 Transcripts are bounded to 4 KiB UTF-8 before a worker response is emitted, so a pathological
 model response cannot bypass the JSONL message-size limit.
+
+The controller also bounds model initialization and recording-to-result waits. Each timeout is
+captured with its process, session, and request identity, so an old timer cannot terminate or
+alter a newer worker session.
+
+Expected worker termination during profile shutdown or timeout recovery is not presented as a
+misleading worker-start error. Runtime diagnostics remain on worker stderr and are not persisted.

@@ -23,6 +23,10 @@ Das Projekt orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/
   Worker die Abbruchbestätigung erst später sendet.
 - Qt-Start-Race beim Workerstart, späte Antworten gleicher Kartensitzungen und überschrittene
   Transkriptgrenzen abgesichert; zusätzlicher temporärer Anki-Offscreen-Starttest.
+- Begrenzte Worker-Timeouts für Modellinitialisierung und Aufnahme/Transkription; späte Qt-Signale
+  eines alten Workerprozesses können keinen neu gestarteten Prozess mehr beeinflussen.
+- Realer Qt-QProcess-/JSONL-Smoke-Test gegen Ankis gebündelte Laufzeit; erwartete Workerbeendigung
+  wird nicht mehr fälschlich als Startfehler angezeigt.
 
 ### Not implemented yet
 - Das eigentliche Anki-Add-on, die Audioaufnahme, der Worker und die Tests.

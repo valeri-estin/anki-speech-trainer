@@ -26,6 +26,9 @@ class CardMapping:
 class ReviewController:
     """The sole owner of visible widget state and worker requests."""
 
+    MODEL_READY_TIMEOUT_MS = 120_000
+    RECORDING_RESULT_TIMEOUT_MS = 90_000
+
     def __init__(self, mw: Any) -> None:
         self.mw = mw
         self.session = ReviewSession()
@@ -36,6 +39,7 @@ class ReviewController:
         self._pending_start = False
         self._configure_request_id: str | None = None
         self._active_record_request_id: str | None = None
+        self._timed_out_process: QProcess | None = None
         self._shutting_down = False
 
     def config(self) -> dict[str, Any]:
@@ -107,6 +111,9 @@ class ReviewController:
             ReviewState.TRANSCRIBING,
         }:
             return
+        if self.process is not None and self.process is self._timed_out_process:
+            self._render_status("error", "Sprach-Worker wird beendet. Bitte kurz warten.")
+            return
         self._pending_start = True
         self.session.start_worker()
         self._render_status("worker_starting")
@@ -121,6 +128,10 @@ class ReviewController:
         if not self.session.mapped or not self._pending_start:
             return
         self._configure_request_id = self._send("configure", self._worker_payload())
+        if self._configure_request_id is not None and self.process is not None:
+            self._schedule_timeout(
+                self.process, self._configure_request_id, self.MODEL_READY_TIMEOUT_MS
+            )
 
     def _start_process(self) -> bool:
         worker_python = self.config().get("worker_python")
@@ -134,19 +145,25 @@ class ReviewController:
             return False
         worker_script = Path(__file__).resolve().parent / "worker" / "main.py"
         process = QProcess(self.mw)
-        process.setProcessEnvironment(QProcessEnvironment.systemEnvironment())
-        process.readyReadStandardOutput.connect(self._read_stdout)
-        process.readyReadStandardError.connect(self._read_stderr)
-        process.started.connect(self._process_started)
-        process.errorOccurred.connect(self._process_error)
-        process.finished.connect(self._process_finished)
-        process.start(worker_python, [str(worker_script)])
+        environment = QProcessEnvironment.systemEnvironment()
+        environment.remove("PYTHONHOME")
+        environment.remove("PYTHONPATH")
+        process.setProcessEnvironment(environment)
+        process.readyReadStandardOutput.connect(lambda: self._read_stdout(process))
+        process.readyReadStandardError.connect(lambda: self._read_stderr(process))
+        process.started.connect(lambda: self._process_started(process))
+        process.errorOccurred.connect(lambda error: self._process_error(process, error))
+        process.finished.connect(
+            lambda exit_code, status: self._process_finished(process, exit_code, status)
+        )
         self.process = process
+        process.start(worker_python, [str(worker_script)])
         return True
 
-    def _process_started(self) -> None:
+    def _process_started(self, process: QProcess) -> None:
         """Send configuration after QProcess leaves Starting, never optimistically before."""
-        self._configure_worker()
+        if process is self.process:
+            self._configure_worker()
 
     def _worker_payload(self) -> dict[str, Any]:
         config = self.config()
@@ -170,22 +187,45 @@ class ReviewController:
         self.process.write(encode(message_type, request_id, self.session.session_id, payload))
         return request_id
 
-    def _read_stdout(self) -> None:
-        if self.process is None:
+    def _schedule_timeout(self, process: QProcess, request_id: str, timeout_ms: int) -> None:
+        session_id = self.session.session_id
+        QTimer.singleShot(
+            timeout_ms,
+            lambda: self._request_timed_out(process, session_id, request_id),
+        )
+
+    def _request_timed_out(self, process: QProcess, session_id: str, request_id: str) -> None:
+        """Fail a single unresponsive worker request without touching a newer session/process."""
+        if process is not self.process or not self.session.accepts(session_id):
+            return
+        if request_id not in {self._configure_request_id, self._active_record_request_id}:
+            return
+        self._pending_start = False
+        self._configure_request_id = None
+        self._active_record_request_id = None
+        self._timed_out_process = process
+        self.session.error()
+        self._render_status("error", "Sprach-Worker reagiert nicht. Bitte erneut versuchen.")
+        process.terminate()
+
+    def _read_stdout(self, process: QProcess) -> None:
+        if process is not self.process:
+            process.readAllStandardOutput()
             return
         try:
-            lines = self._buffer.feed(bytes(self.process.readAllStandardOutput()))
+            lines = self._buffer.feed(bytes(process.readAllStandardOutput()))
             for line in lines:
                 self._handle_message(decode_line(line, allowed_types=RESPONSE_TYPES))
         except ProtocolError:
             self.session.error()
             self._render_status("error", "Ungültige Antwort des Sprach-Workers.")
 
-    def _read_stderr(self) -> None:
-        if self.process is None:
+    def _read_stderr(self, process: QProcess) -> None:
+        if process is not self.process:
+            process.readAllStandardError()
             return
         # Diagnostics are not displayed or persisted because they may contain device details.
-        self.process.readAllStandardError()
+        process.readAllStandardError()
 
     def _handle_message(self, message: Any) -> None:
         if not self.session.accepts(message.session_id):
@@ -200,6 +240,12 @@ class ReviewController:
                 if self._pending_start:
                     self._pending_start = False
                     self._active_record_request_id = self._send("record_start", {})
+                    if self._active_record_request_id is not None and self.process is not None:
+                        self._schedule_timeout(
+                            self.process,
+                            self._active_record_request_id,
+                            self.RECORDING_RESULT_TIMEOUT_MS,
+                        )
                 return
             if message.request_id != self._active_record_request_id:
                 return
@@ -268,17 +314,27 @@ class ReviewController:
         if self.session.mapped:
             self._render_status("ready")
 
-    def _process_error(self, _error: Any) -> None:
-        if self.session.mapped:
+    def _process_error(self, process: QProcess, _error: Any) -> None:
+        if (
+            process is self.process
+            and not self._shutting_down
+            and process is not self._timed_out_process
+            and self.session.mapped
+        ):
             self.session.error()
             self._render_status("error", "Sprach-Worker konnte nicht gestartet werden.")
 
-    def _process_finished(self, _exit_code: int, _status: Any) -> None:
+    def _process_finished(self, process: QProcess, _exit_code: int, _status: Any) -> None:
+        if process is not self.process:
+            return
+        timed_out = process is self._timed_out_process
         self.process = None
         self._configure_request_id = None
         self._active_record_request_id = None
+        self._timed_out_process = None
         if (
             not self._shutting_down
+            and not timed_out
             and self.session.mapped
             and self.session.state not in {ReviewState.IDLE, ReviewState.READY}
         ):
@@ -318,3 +374,4 @@ class ReviewController:
         self.session = ReviewSession()
         self._configure_request_id = None
         self._active_record_request_id = None
+        self._timed_out_process = None

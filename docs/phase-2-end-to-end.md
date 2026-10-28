@@ -22,6 +22,12 @@ the session-ID protection to repeated attempts on the same card.
 Cancellation invalidates both active request IDs and restores the widget immediately to `Bereit`;
 the later worker cancellation acknowledgement is intentionally ignored as stale.
 
+The controller bounds an initial model-ready wait to two minutes and a complete recording-to-result
+wait to 90 seconds. A timeout affects only the captured worker instance, renders a recoverable
+error, and terminates that process without waiting on Anki's GUI thread. Late timer callbacks and
+signals from an old process are discarded; its expected exit does not overwrite the timeout
+message with a second generic error.
+
 ## Local worker verification
 
 The real isolated worker accepted `configure` for the cached Faster-Whisper `base` model and

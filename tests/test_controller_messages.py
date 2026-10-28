@@ -42,9 +42,12 @@ def _controller_for_messages(controller_module):
     controller.session = ReviewSession()
     controller.session.begin_card(7, mapped=True)
     controller.mapping = controller_module.CardMapping("la casa", ())
+    controller.process = None
     controller._pending_start = False
     controller._configure_request_id = None
     controller._active_record_request_id = "record-1"
+    controller._timed_out_process = None
+    controller._shutting_down = False
     controller.rendered = []
     controller._render_status = lambda *args, **kwargs: controller.rendered.append((args, kwargs))
     return controller
@@ -110,8 +113,10 @@ def test_controller_waits_for_qprocess_started_before_configuring(monkeypatch) -
     sent: list[tuple[str, dict[str, object]]] = []
     controller._send = lambda message_type, payload: sent.append((message_type, payload))
     controller._worker_payload = lambda: {"language": "it"}
+    process = SimpleNamespace()
+    controller.process = process
 
-    controller._process_started()
+    controller._process_started(process)
 
     assert sent == [("configure", {"language": "it"})]
 
@@ -199,6 +204,89 @@ def test_cancel_immediately_restores_a_retryable_ui_state(monkeypatch) -> None:
 
     assert controller.session.state is ReviewState.READY
     assert controller.rendered == [(("ready",), {})]
+
+
+def test_late_exit_from_an_old_worker_does_not_clear_a_new_worker(monkeypatch) -> None:
+    module = _load_controller(monkeypatch)
+    controller = _controller_for_messages(module)
+    old_process = SimpleNamespace()
+    current_process = SimpleNamespace()
+    controller.process = current_process
+
+    controller._process_finished(old_process, 1, object())
+
+    assert controller.process is current_process
+
+
+def test_timeout_terminates_only_the_active_unresponsive_worker(monkeypatch) -> None:
+    module = _load_controller(monkeypatch)
+    controller = _controller_for_messages(module)
+    terminated: list[bool] = []
+    process = SimpleNamespace(terminate=lambda: terminated.append(True))
+    controller.process = process
+    controller._configure_request_id = "configure-current"
+    controller._active_record_request_id = None
+
+    controller._request_timed_out(process, controller.session.session_id, "configure-current")
+
+    assert terminated == [True]
+    assert controller._timed_out_process is process
+    assert controller.session.state is ReviewState.ERROR
+    assert controller.rendered == [
+        (("error", "Sprach-Worker reagiert nicht. Bitte erneut versuchen."), {})
+    ]
+
+
+def test_timeout_ignores_a_replaced_worker_or_request(monkeypatch) -> None:
+    module = _load_controller(monkeypatch)
+    controller = _controller_for_messages(module)
+    old_process = SimpleNamespace(terminate=lambda: (_ for _ in ()).throw(AssertionError("old")))
+    controller.process = SimpleNamespace(
+        terminate=lambda: (_ for _ in ()).throw(AssertionError("new"))
+    )
+    controller._configure_request_id = "configure-new"
+
+    controller._request_timed_out(old_process, controller.session.session_id, "configure-old")
+
+    assert controller.rendered == []
+
+
+def test_timed_out_worker_exit_keeps_the_timeout_error(monkeypatch) -> None:
+    module = _load_controller(monkeypatch)
+    controller = _controller_for_messages(module)
+    process = SimpleNamespace()
+    controller.process = process
+    controller._timed_out_process = process
+    controller.session.error()
+
+    controller._process_finished(process, 1, object())
+
+    assert controller.process is None
+    assert controller.rendered == []
+
+
+def test_expected_worker_termination_does_not_render_a_start_error(monkeypatch) -> None:
+    module = _load_controller(monkeypatch)
+    controller = _controller_for_messages(module)
+    process = SimpleNamespace()
+    controller.process = process
+    controller._shutting_down = True
+
+    controller._process_error(process, object())
+
+    assert controller.rendered == []
+
+
+def test_timed_out_worker_termination_does_not_replace_timeout_error(monkeypatch) -> None:
+    module = _load_controller(monkeypatch)
+    controller = _controller_for_messages(module)
+    process = SimpleNamespace()
+    controller.process = process
+    controller._timed_out_process = process
+
+    controller._process_error(process, object())
+
+    assert controller.rendered == []
 
 
 def test_mapping_reads_only_the_configured_note_fields(monkeypatch) -> None:

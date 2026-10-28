@@ -8,6 +8,9 @@
 - Anki 26.09.3 startup smoke test in a fresh temporary base/profile with an `addons21` symlink
   to this add-on, using Qt's offscreen platform. It stayed running until the controlled timeout
   without an add-on error on stderr; the temporary profile was removed afterward.
+- Qt-IPC smoke test using Anki's bundled runtime: `ReviewController` started the external worker,
+  received `model_ready`, sent `record_start`, surfaced the expected unavailable-microphone error,
+  and then shut the worker down cleanly. This uses the real QProcess/JSONL path but no audio input.
 - Direct long-lived worker startup with cached local Faster-Whisper `base` model, including a
   successful offline (`HF_HUB_OFFLINE=1`) model initialization.
 - No worker audio/ML dependency enters the Anki runtime; no test or implementation mutates an
