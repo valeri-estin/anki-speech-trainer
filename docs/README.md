@@ -10,6 +10,7 @@ implementation/verification records for Anki Speech Trainer.
 | [privacy-security-and-release.md](privacy-security-and-release.md) | Privacy, supply-chain controls, model provenance, archive rules, and release checklist. |
 | [15-ITALIAN-PRACTICE.md](15-ITALIAN-PRACTICE.md) | Optional Italian Practice import package and template mapping. |
 | [16-DISTRIBUTION.md](16-DISTRIBUTION.md) | Archive build and user installation reference. |
+| [ankiweb-description.md](ankiweb-description.md) | Current copy for the published AnkiWeb Description field. |
 | [security.md](security.md) | Security-review evidence and remaining verification limits. |
 | [phase-*.md](.) | Historical, English implementation and verification records. |
 
