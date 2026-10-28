@@ -21,6 +21,9 @@
 - `just build-italian-practice` and `just verify-italian-practice`: package built from and imported
   into isolated temporary Anki collections. The verifier confirmed the imported note type, field
   order, and four templates.
+- `just verify-italian-practice-integration`: imported real `Speaking`, `Writing`, and
+  `Recognition` cards were checked through Anki 26.09.3's `card.template()["name"]` API; only
+  `Speaking` received the configured mapping and its mapping language overrode the global default.
 
 ## Explicit limitation
 

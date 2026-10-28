@@ -38,3 +38,7 @@ build-italian-practice:
 # Verify the generated package without opening a user Anki profile.
 verify-italian-practice:
     PYTHONPATH="/usr/local/share/anki/app_packages:{{justfile_directory()}}" /usr/local/share/anki/python/bin/python3.13 scripts/verify_italian_practice_package.py 'templates/italian-practice/Italian Practice.apkg'
+
+# Smoke-test imported Italian Practice cards against the installed Anki review API.
+verify-italian-practice-integration:
+    QT_QPA_PLATFORM=offscreen PYTHONPATH="/usr/local/share/anki/app_packages:{{justfile_directory()}}" /usr/local/share/anki/python/bin/python3.13 scripts/verify_italian_practice_integration.py 'templates/italian-practice/Italian Practice.apkg'

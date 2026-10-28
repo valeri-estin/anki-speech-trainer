@@ -95,6 +95,7 @@ installed Anki runtime:
 ```bash
 just build-italian-practice
 just verify-italian-practice
+just verify-italian-practice-integration
 ```
 
 The builder creates and deletes only a temporary collection. Never build a package from a personal
