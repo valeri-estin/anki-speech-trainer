@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "note": "Deterministische Textvergleiche nach docs/06-MATCHING.md. 'uncertain' nur bei leerer oder unzuverlaessiger Erkennung.",
+  "cases": [
+    {
+      "id": "italian-01",
+      "transcript": "La casa.",
+      "expected": "la casa",
+      "alternatives": [],
+      "result": "match"
+    },
+    {
+      "id": "italian-02",
+      "transcript": "LA CASA!",
+      "expected": "la casa",
+      "alternatives": [],
+      "result": "match"
+    },
+    {
+      "id": "italian-03",
+      "transcript": "la  casa",
+      "expected": "la casa",
+      "alternatives": [],
+      "result": "match"
+    },
+    {
+      "id": "italian-04",
+      "transcript": "la cosa",
+      "expected": "la casa",
+      "alternatives": [],
+      "result": "mismatch"
+    },
+    {
+      "id": "italian-05",
+      "transcript": "casa",
+      "expected": "la casa",
+      "alternatives": [],
+      "result": "mismatch"
+    },
+    {
+      "id": "italian-06",
+      "transcript": "casa",
+      "expected": "la casa",
+      "alternatives": [
+        "casa"
+      ],
+      "result": "match"
+    },
+    {
+      "id": "italian-07",
+      "transcript": "Perché?",
+      "expected": "perché",
+      "alternatives": [],
+      "result": "match"
+    },
+    {
+      "id": "italian-08",
+      "transcript": "perche",
+      "expected": "perché",
+      "alternatives": [],
+      "result": "mismatch"
+    },
+    {
+      "id": "italian-09",
+      "transcript": "C’è",
+      "expected": "c'è",
+      "alternatives": [],
+      "result": "match"
+    },
+    {
+      "id": "italian-10",
+      "transcript": "io sono a casa",
+      "expected": "Io sono a casa.",
+      "alternatives": [],
+      "result": "match"
+    },
+    {
+      "id": "italian-11",
+      "transcript": "sono a casa",
+      "expected": "io sono a casa",
+      "alternatives": [],
+      "result": "mismatch"
+    },
+    {
+      "id": "italian-12",
+      "transcript": "",
+      "expected": "la casa",
+      "alternatives": [],
+      "result": "uncertain"
+    },
+    {
+      "id": "italian-13",
+      "transcript": "È",
+      "expected": "e",
+      "alternatives": [],
+      "result": "mismatch"
+    },
+    {
+      "id": "italian-14",
+      "transcript": "L’amico",
+      "expected": "l'amico",
+      "alternatives": [],
+      "result": "match"
+    },
+    {
+      "id": "italian-15",
+      "transcript": "buon giorno",
+      "expected": "buongiorno",
+      "alternatives": [],
+      "result": "mismatch"
+    }
+  ]
+}
