@@ -6,6 +6,7 @@ no speech widget is displayed and no card, note, or scheduler state is modified.
 ```json
 {
   "enabled": true,
+  "ui_language": "en",
   "worker_python": "/absolute/path/to/anki-speech-trainer/.venv/bin/python",
   "language": "it",
   "model": "base",
@@ -43,11 +44,13 @@ no speech widget is displayed and no card, note, or scheduler state is modified.
 - `microphone_device_id` is a numeric PortAudio input-device ID, or `null` for the system
   default. `auto_stop_silence_ms` must be a multiple of 20 ms.
 - `debug_metrics` reports timing only to stderr; it never logs recognized text or audio.
+- `ui_language` controls visible add-on text. It defaults to `en`; set it to `de`
+  for German. Any other value safely falls back to English.
 
 Use Anki's **Tools → Add-ons → Anki Speech Trainer → Config** editor to change this JSON. Close
 and reopen the reviewer after editing it. The add-on stores neither audio nor transcripts in the
 collection, notes, or its `user_files` directory.
 
 For a new language based on the imported Italian Practice template, prefer **Tools → Anki Speech
-Trainer → Sprach-Deck einrichten…**. It shows a confirmation preview and then appends the scoped
+Trainer → Set up language deck…**. It shows a confirmation preview and then appends the scoped
 `Speaking` mapping automatically; it never overwrites an existing mapping.
