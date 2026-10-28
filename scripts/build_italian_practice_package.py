@@ -65,6 +65,7 @@ def main() -> int:
             example["EnableRecognition"] = "1"
             example["EnableSpeaking"] = "1"
             example["EnableWriting"] = "1"
+            example.tags = ["niveau::A1", "wortart::nomen"]
             collection.add_note(example, deck_id=collection.decks.id("Italian"))
 
             options = ExportAnkiPackageOptions(

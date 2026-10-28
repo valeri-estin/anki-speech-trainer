@@ -25,6 +25,7 @@ FIELD_NAMES = (
     "EnableWriting",
     "EnableListening",
 )
+CSV_COLUMNS = (*FIELD_NAMES, "Tags")
 
 _SOUND_TAG = re.compile(r"\[sound:[^\]]+\]", re.IGNORECASE)
 

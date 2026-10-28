@@ -1,7 +1,8 @@
 #separator:semicolon
 #html:false
 #notetype:Italian Practice
-#columns:ID;Prompt;Target;ItalianText;TranslationDE;SpokenAlternatives;Hint;AudioTarget;EnableRecognition;EnableSpeaking;EnableWriting;EnableListening
-ID;Prompt;Target;ItalianText;TranslationDE;SpokenAlternatives;Hint;AudioTarget;EnableRecognition;EnableSpeaking;EnableWriting;EnableListening
-it-a1-0001;das Haus;la casa;La casa.;Das Haus.;casa;;;1;1;1;
-it-a1-0002;Ieri io ___ a casa. (andare, passato prossimo, männlicher Sprecher);sono andato;Ieri io sono andato a casa.;Gestern bin ich nach Hause gegangen.;sono andata;;;1;1;1;
+#tags column:13
+#columns:ID;Prompt;Target;ItalianText;TranslationDE;SpokenAlternatives;Hint;AudioTarget;EnableRecognition;EnableSpeaking;EnableWriting;EnableListening;Tags
+ID;Prompt;Target;ItalianText;TranslationDE;SpokenAlternatives;Hint;AudioTarget;EnableRecognition;EnableSpeaking;EnableWriting;EnableListening;Tags
+it-a1-0001;das Haus;la casa;La casa.;Das Haus.;casa;;;1;1;1;;niveau::A1 wortart::nomen thema::alltag
+it-a1-0002;Ieri io ___ a casa. (andare, passato prossimo, männlicher Sprecher);sono andato;Ieri io sono andato a casa.;Gestern bin ich nach Hause gegangen.;sono andata;;;1;1;1;;niveau::A1 wortart::verb grammatik::passato-prossimo

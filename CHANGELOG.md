@@ -20,6 +20,8 @@ Das Projekt orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/
   isolated package build/import verification.
 - Template-specific mapping and language-per-mapping support. Existing note-type-only mappings
   remain compatible; the speech widget can now be constrained to `Italian Practice`/`Speaking`.
+- CSV source rows now carry importable hierarchical tags, and the Italian Practice guide records
+  the user-controlled FSRS/deck-settings policy.
 - Repository-Starter, Architektur- und Implementierungsdokumentation für die erste lokale Version.
 - Phase-0-Entwicklungsgrundlage mit gepinnten Worker-Abhängigkeiten, `just`-Workflows und einem
   lokalen Mikrofon/VAD/Faster-Whisper-Spike ohne Anki- oder Cloud-Abhängigkeit.

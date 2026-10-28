@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from anki_speech_trainer.italian_practice import (
     CARD_TEMPLATES,
+    CSV_COLUMNS,
     FIELD_NAMES,
     NOTE_TYPE_NAME,
     REQUIRED_FIELDS,
@@ -43,6 +44,7 @@ def test_note_type_has_four_skill_templates_with_separate_decks() -> None:
         "Italian::Writing",
         "Italian::Listening",
     ]
+    assert CSV_COLUMNS == (*FIELD_NAMES, "Tags")
 
 
 def test_speaking_template_hides_the_target_on_the_question_side() -> None:

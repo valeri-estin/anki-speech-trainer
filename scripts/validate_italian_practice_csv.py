@@ -12,7 +12,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from anki_speech_trainer.italian_practice import FIELD_NAMES, validate_rows  # noqa: E402
+from anki_speech_trainer.italian_practice import CSV_COLUMNS, validate_rows  # noqa: E402
 
 
 def parse_args() -> argparse.Namespace:
@@ -27,7 +27,7 @@ def main() -> int:
         with args.path.open("r", encoding="utf-8", newline="") as handle:
             rows = [line for line in handle if not line.startswith("#")]
         reader = csv.DictReader(rows, delimiter=";")
-        if reader.fieldnames != list(FIELD_NAMES):
+        if reader.fieldnames != list(CSV_COLUMNS):
             print("invalid_columns", file=sys.stderr)
             return 2
         issues = validate_rows(reader)

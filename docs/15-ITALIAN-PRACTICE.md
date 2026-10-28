@@ -82,6 +82,10 @@ required fields, and Listening records without an Anki sound tag. It never opens
 writes data, or prints learning content. It cannot prove that an audio recording semantically
 matches `ItalianText`; that remains a content-review responsibility.
 
+The last CSV column is a special Anki tags column. Use hierarchical tags such as `niveau::A1`,
+`wortart::verb`, `thema::alltag`, and `grammatik::passato-prossimo` to organize source material;
+it is not an Italian Practice note field.
+
 If an Enable field is cleared after a card has been generated, Anki does not delete the card
 automatically. Review the proposed removals through **Tools → Empty Cards** in a backup/test
 profile before confirming them.
@@ -100,3 +104,11 @@ just verify-italian-practice-integration
 
 The builder creates and deletes only a temporary collection. Never build a package from a personal
 learning profile, and never place model weights or the worker virtual environment in the package.
+
+## Deck and scheduling policy
+
+The package neither creates options presets nor changes scheduler values. Configure the four skill
+decks manually and use the same Anki options preset initially. A reasonable starting policy is
+FSRS enabled, desired retention `0.90`, and sibling burying enabled; decide the daily new-card
+limit intentionally after observing real workload. These are user-controlled deck settings, not
+add-on behavior.
