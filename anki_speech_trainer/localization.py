@@ -1,0 +1,84 @@
+"""Centralized user-facing copy for the Speech Trainer add-on."""
+# ruff: noqa: E501
+
+from __future__ import annotations
+
+from typing import Any
+
+DEFAULT_LANGUAGE = "en"
+SUPPORTED_LANGUAGES = ("en", "de")
+
+COPY = {
+    "en": {
+        "widget.title": "Practice speaking",
+        "widget.start": "Speak",
+        "widget.retry": "Speak again",
+        "widget.stop": "Stop",
+        "widget.cancel": "Cancel",
+        "widget.transcript": "Recognized: {transcript}",
+        "state.worker_starting": "Starting speech recognition …",
+        "state.ready": "Ready",
+        "state.recording": "Listening …",
+        "state.transcribing": "Recognizing speech …",
+        "state.match": "Text matches",
+        "state.mismatch": "Text differs",
+        "state.uncertain": "Not recognized with confidence. Please try again.",
+        "state.error": "Speech recognition is unavailable",
+        "error.worker_stopping": "The speech worker is stopping. Please wait a moment.",
+        "error.worker_python": "Worker Python is not configured.",
+        "error.worker_unavailable": "The speech worker is unavailable.",
+        "error.worker_timeout": "The speech worker did not respond. Please try again.",
+        "error.worker_response": "Invalid response from the speech worker.",
+        "error.microphone_unavailable": "Microphone unavailable.",
+        "error.no_speech": "Not recognized with confidence. Please try again.",
+        "error.model_unavailable": "Speech model unavailable.",
+        "error.busy": "A recording is already in progress.",
+        "error.recognition_unavailable": "Speech recognition is currently unavailable.",
+        "error.worker_start": "The speech worker could not be started.",
+        "error.worker_finished": "The speech worker stopped.",
+        "setup.menu": "Set up language deck…",
+        "setup.title": "Set up language deck",
+        "setup.description": "After confirmation, creates a new note type, four subdecks, and a Speaking mapping. Existing cards, decks, and settings remain unchanged.",
+        "setup.other_language": "Other language …",
+        "setup.language": "Language:",
+        "setup.name": "Deck and note type name:",
+        "setup.code": "Whisper language code:",
+        "setup.preview": "Show preview",
+        "setup.open_profile": "Please open an Anki profile first.",
+        "setup.confirm": "The following local changes will be made:\n\n• Note type: {note_type}\n• Speaking language code: {code}\n• Decks:\n{decks}\n\nNo existing cards will be moved and no deck options or scheduling will change.",
+        "setup.checkpoint": "Set up language deck: {name}",
+        "setup.success_title": "Language deck set up",
+        "setup.success": "{note_type} and four skill decks were set up. Create notes of this type now; the speech widget appears only on Speaking.",
+        "error.invalid_config": "Invalid add-on configuration.",
+        "error.source_missing": "The source note type 'Italian Practice' is missing. Import the template package first.",
+        "error.note_type_exists": "Note type '{name}' already exists and will not be changed.",
+        "error.deck_exists": "Deck '{name}' already exists and will not be changed.",
+        "error.invalid_mappings": "Invalid note-type mappings in the add-on configuration.",
+        "error.mapping_exists": "A language mapping for '{name}' already exists and will not be overwritten.",
+        "error.source_removed": "The source note type was removed before setup.",
+        "error.new_type_missing": "The new note type could not be verified.",
+        "error.setup_failed": "Language setup could not be completed.",
+        "error.invalid_language_name": "Invalid language name.",
+        "error.invalid_language_code": "Invalid language code.",
+        "error.source_incompatible": "The source note type is incompatible.",
+        "error.source_modified": "The source note type was changed and is incompatible.",
+    },
+    "de": {
+        "widget.title": "Sprechen üben", "widget.start": "Sprechen", "widget.retry": "Erneut sprechen", "widget.stop": "Stoppen", "widget.cancel": "Abbrechen", "widget.transcript": "Erkannt: {transcript}",
+        "state.worker_starting": "Spracherkennung wird geladen …", "state.ready": "Bereit", "state.recording": "Ich höre zu …", "state.transcribing": "Sprache wird erkannt …", "state.match": "Text stimmt überein", "state.mismatch": "Text weicht ab", "state.uncertain": "Nicht sicher erkannt. Bitte erneut versuchen.", "state.error": "Spracherkennung nicht verfügbar",
+        "error.worker_stopping": "Sprach-Worker wird beendet. Bitte kurz warten.", "error.worker_python": "Worker-Python ist nicht konfiguriert.", "error.worker_unavailable": "Sprach-Worker ist nicht verfügbar.", "error.worker_timeout": "Sprach-Worker reagiert nicht. Bitte erneut versuchen.", "error.worker_response": "Ungültige Antwort des Sprach-Workers.", "error.microphone_unavailable": "Mikrofon nicht verfügbar.", "error.no_speech": "Nicht sicher erkannt. Bitte erneut versuchen.", "error.model_unavailable": "Sprachmodell nicht verfügbar.", "error.busy": "Eine Aufnahme läuft bereits.", "error.recognition_unavailable": "Spracherkennung ist derzeit nicht verfügbar.", "error.worker_start": "Sprach-Worker konnte nicht gestartet werden.", "error.worker_finished": "Sprach-Worker wurde beendet.",
+        "setup.menu": "Sprach-Deck einrichten…", "setup.title": "Sprach-Deck einrichten", "setup.description": "Erstellt nach Bestätigung einen neuen Notiztyp, vier Unterdecks und eine Speaking-Zuordnung. Bestehende Karten, Decks und Einstellungen bleiben unverändert.", "setup.other_language": "Andere Sprache …", "setup.language": "Sprache:", "setup.name": "Deck- und Notiztypname:", "setup.code": "Whisper-Sprachcode:", "setup.preview": "Vorschau anzeigen", "setup.open_profile": "Bitte öffne zuerst ein Anki-Profil.", "setup.confirm": "Folgende lokale Änderungen werden vorgenommen:\n\n• Notiztyp: {note_type}\n• Sprachcode für Speaking: {code}\n• Decks:\n{decks}\n\nEs werden keine bestehenden Karten verschoben und keine Deck-Optionen oder Lernplanung verändert.", "setup.checkpoint": "Sprach-Deck einrichten: {name}", "setup.success_title": "Sprach-Deck eingerichtet", "setup.success": "{note_type} und vier Skill-Decks wurden eingerichtet. Erstelle jetzt Notizen dieses Typs; das Sprach-Widget erscheint nur auf Speaking.",
+        "error.invalid_config": "Ungültige Add-on-Konfiguration.", "error.source_missing": "Der Ausgangsnotiztyp 'Italian Practice' fehlt. Importiere zuerst das Vorlagenpaket.", "error.note_type_exists": "Notiztyp '{name}' existiert bereits und wird nicht verändert.", "error.deck_exists": "Deck '{name}' existiert bereits und wird nicht verändert.", "error.invalid_mappings": "Ungültige Notiztyp-Zuordnungen in der Add-on-Konfiguration.", "error.mapping_exists": "Eine Sprachzuordnung für '{name}' existiert bereits und wird nicht überschrieben.", "error.source_removed": "Der Ausgangsnotiztyp wurde vor der Einrichtung entfernt.", "error.new_type_missing": "Der neue Notiztyp konnte nicht geprüft werden.", "error.setup_failed": "Die Spracheinrichtung konnte nicht abgeschlossen werden.", "error.invalid_language_name": "Ungültiger Sprachname.", "error.invalid_language_code": "Ungültiger Sprachcode.", "error.source_incompatible": "Der Ausgangsnotiztyp ist nicht kompatibel.", "error.source_modified": "Der Ausgangsnotiztyp wurde verändert und ist nicht kompatibel.",
+    },
+}
+
+
+def language_from_config(config: object) -> str:
+    value = config.get("ui_language") if isinstance(config, dict) else None
+    return value if value in SUPPORTED_LANGUAGES else DEFAULT_LANGUAGE
+
+
+def text(key: str, language: str = DEFAULT_LANGUAGE, **values: Any) -> str:
+    """Return localized copy, with English as a safe fallback."""
+    template = COPY.get(language, COPY[DEFAULT_LANGUAGE]).get(key, COPY[DEFAULT_LANGUAGE][key])
+    return template.format(**values)

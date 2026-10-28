@@ -13,6 +13,6 @@ implementation/verification records for Anki Speech Trainer.
 | [security.md](security.md) | Security-review evidence and remaining verification limits. |
 | [phase-*.md](.) | Historical, English implementation and verification records. |
 
-The German planning documents that preceded the implementation were replaced by
-the maintained English guides above. The German add-on interface is intentional
-and does not change the documentation policy.
+The interface uses English by default. German is available through the
+`ui_language` add-on configuration setting; all visible add-on copy is kept in
+`anki_speech_trainer/localization.py`.

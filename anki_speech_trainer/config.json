@@ -1,5 +1,6 @@
 {
   "enabled": true,
+  "ui_language": "en",
   "language": "it",
   "worker_python": "",
   "model": "base",

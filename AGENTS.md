@@ -34,8 +34,9 @@ practice, not a standalone flashcard system.
   changes.
 - Run Ruff and pytest for runtime, test, or packaging changes. Use an isolated
   Anki test profile for integration checks.
-- Keep code, comments, and documentation in English. German is intentional only
-  for the current user-facing add-on interface.
+- Keep code, comments, and documentation in English. Keep all user-facing copy
+  in `anki_speech_trainer/localization.py`: English is the default and German
+  is the optional `ui_language` translation.
 - Never package model weights, virtual environments, caches, bytecode, or
   Anki-generated `meta.json`.
 - Do not push without an explicitly configured remote and successful checks.

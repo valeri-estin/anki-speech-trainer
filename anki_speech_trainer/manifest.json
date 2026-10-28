@@ -1,6 +1,6 @@
 {
   "package": "anki_speech_trainer",
   "name": "Anki Speech Trainer",
-  "human_version": "0.1.0",
+  "human_version": "0.1.1",
   "min_point_version": 260900
 }

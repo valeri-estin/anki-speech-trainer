@@ -104,3 +104,11 @@ audio, subprocess, secret, or untrusted HTML input path.
 
 Manual desktop UI verification remains pending: confirm the preview/cancel path and successful menu
 action in a disposable profile. This is a verification gap, not a known security finding.
+
+## Interface localization (2026-10-28)
+
+Focused review: `ui_language` is a local, user-controlled configuration value.
+`language_from_config()` accepts only `en` and `de` and falls back to English.
+The selected strings are serialized with JSON or passed to Qt as plain text;
+review transcripts continue to use `textContent`. No configuration value reaches
+a shell, collection query, or HTML interpolation without escaping.

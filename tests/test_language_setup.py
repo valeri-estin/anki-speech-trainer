@@ -142,14 +142,14 @@ def test_plan_describes_new_language_without_mutating_collection() -> None:
     ],
 )
 def test_plan_rejects_invalid_language_inputs(display_name: str, language_code: str) -> None:
-    with pytest.raises(LanguageSetupError, match="Ungültig"):
+    with pytest.raises(LanguageSetupError, match="Invalid"):
         plan_language_setup(
             FakeCollection(_source_notetype()), _config(), display_name, language_code
         )
 
 
 def test_plan_refuses_to_overwrite_existing_target_objects() -> None:
-    with pytest.raises(LanguageSetupError, match="Notiztyp"):
+    with pytest.raises(LanguageSetupError, match="Note type"):
         plan_language_setup(FakeCollection(_source_notetype()), _config(), "Italian", "it")
 
     with pytest.raises(LanguageSetupError, match="Deck"):
@@ -162,7 +162,7 @@ def test_plan_requires_the_unmodified_source_schema() -> None:
     source = _source_notetype()
     source["tmpls"] = source["tmpls"][:-1]
 
-    with pytest.raises(LanguageSetupError, match="Ausgangsnotiztyp"):
+    with pytest.raises(LanguageSetupError, match="source note type"):
         plan_language_setup(FakeCollection(source), _config(), "Russisch", "ru")
 
 
@@ -204,7 +204,7 @@ def test_apply_rolls_back_only_new_objects_when_config_write_fails() -> None:
     manager = FakeAddonManager(_config(), fail_writes=True)
     plan = plan_language_setup(collection, manager.config, "Russisch", "ru")
 
-    with pytest.raises(LanguageSetupError, match="konnte nicht abgeschlossen"):
+    with pytest.raises(LanguageSetupError, match="could not be completed"):
         apply_language_setup(collection, manager, "anki_speech_trainer", plan)
 
     assert collection.models.removed == [999]
@@ -217,7 +217,7 @@ def test_apply_rolls_back_new_decks_when_creating_the_notetype_fails() -> None:
     manager = FakeAddonManager(_config())
     plan = plan_language_setup(collection, manager.config, "Russisch", "ru")
 
-    with pytest.raises(LanguageSetupError, match="konnte nicht abgeschlossen"):
+    with pytest.raises(LanguageSetupError, match="could not be completed"):
         apply_language_setup(collection, manager, "anki_speech_trainer", plan)
 
     assert collection.models.removed == []

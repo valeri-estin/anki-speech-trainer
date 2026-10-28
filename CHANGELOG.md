@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1
+
+- Centralized visible add-on copy, made English the default interface language,
+  and added German as the optional `ui_language` translation.
+
 This project follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## Unreleased

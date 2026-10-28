@@ -103,7 +103,7 @@ def test_controller_turns_worker_errors_into_a_recoverable_status(monkeypatch) -
     )
 
     assert controller.session.state is ReviewState.ERROR
-    assert controller.rendered == [(("error", "Mikrofon nicht verfügbar."), {})]
+    assert controller.rendered == [(("error", "Microphone unavailable."), {})]
 
 
 def test_controller_waits_for_qprocess_started_before_configuring(monkeypatch) -> None:
@@ -233,7 +233,7 @@ def test_timeout_terminates_only_the_active_unresponsive_worker(monkeypatch) -> 
     assert controller._timed_out_process is process
     assert controller.session.state is ReviewState.ERROR
     assert controller.rendered == [
-        (("error", "Sprach-Worker reagiert nicht. Bitte erneut versuchen."), {})
+        (("error", "The speech worker did not respond. Please try again."), {})
     ]
 
 

@@ -1,7 +1,7 @@
 # Anki Speech Trainer
 
 Anki Speech Trainer is a local Anki Desktop add-on for active speaking
-practice. On a configured review card, the learner can click **Sprechen** to
+practice. On a configured review card, the learner can click **Speak** to
 record an answer. An external local worker transcribes it with Faster-Whisper
 and compares the transcript conservatively with the configured answer.
 
@@ -44,7 +44,9 @@ to use the installed add-on.
 3. In the add-on configuration, set `worker_python` to the absolute path of
    `.venv/bin/python`. Add a valid `notetype_mappings` entry. The default
    configuration is deliberately inactive until a mapping exists.
-4. Open a mapped review card, click **Sprechen**, speak the answer, and read
+   The interface is English by default. Set `ui_language` to `"de"` in the
+   same configuration to use German; `"en"` switches back to English.
+4. Open a mapped review card, click **Speak**, speak the answer, and read
    the transcript/match indication. Choose the regular Anki rating yourself.
 
 For `Italian Practice`, import the optional `.apkg`, configure the mapping for

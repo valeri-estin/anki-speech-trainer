@@ -3,7 +3,10 @@
 
 from __future__ import annotations
 
+import json
 from typing import Any
+
+from .localization import COPY
 
 
 class ReviewUi:
@@ -15,7 +18,8 @@ class ReviewUi:
     def card_will_show(self, text: str, card: Any, kind: str) -> str:
         if kind != "reviewQuestion" or self.controller.mapping_for_card(card) is None:
             return text
-        return text + _WIDGET
+        language = self.controller.ui_language()
+        return text + widget(language)
 
     def receive_js_message(
         self, handled: tuple[bool, Any], message: str, context: Any
@@ -30,13 +34,15 @@ class ReviewUi:
         return handled
 
 
-_WIDGET = """
+def widget(language: str = "en") -> str:
+    copy = json.dumps(COPY.get(language, COPY["en"]), ensure_ascii=False)
+    return """
 <section id="ast-widget" class="ast-widget" aria-live="polite">
-  <div id="ast-status" class="ast-status">Sprechen üben</div>
+  <div id="ast-status" class="ast-status"></div>
   <div id="ast-transcript" class="ast-transcript" hidden></div>
-  <button id="ast-start" type="button">Sprechen</button>
-  <button id="ast-stop" type="button" hidden>Stoppen</button>
-  <button id="ast-cancel" type="button" hidden>Abbrechen</button>
+  <button id="ast-start" type="button"></button>
+  <button id="ast-stop" type="button" hidden></button>
+  <button id="ast-cancel" type="button" hidden></button>
 </section>
 <style>
 .ast-widget { margin: 1em auto; max-width: 32rem; padding: .8em; border: 1px solid var(--border, #888); border-radius: .5em; }
@@ -45,17 +51,19 @@ _WIDGET = """
 </style>
 <script>
 window.AnkiSpeechTrainer = window.AnkiSpeechTrainer || (() => {
+  const copy = %s;
   const send = action => pycmd('anki_speech_trainer:' + action);
   const byId = id => document.getElementById(id);
   const update = ({state, message, transcript}) => {
     const status = byId('ast-status'); if (!status) return;
-    const copy = {worker_starting: 'Spracherkennung wird geladen …', ready: 'Bereit', recording: 'Ich höre zu …', transcribing: 'Sprache wird erkannt …', match: 'Text stimmt überein', mismatch: 'Text weicht ab', uncertain: 'Nicht sicher erkannt. Bitte erneut versuchen.', error: 'Spracherkennung nicht verfügbar'};
-    status.textContent = message || copy[state] || 'Sprechen üben';
+    status.textContent = message || copy['state.' + state] || copy['widget.title'];
     const result = byId('ast-transcript');
-    result.textContent = transcript ? 'Erkannt: ' + transcript : '';
+    result.textContent = transcript ? copy['widget.transcript'].replace('{transcript}', transcript) : '';
     result.hidden = !transcript;
     byId('ast-start').hidden = ['recording', 'transcribing', 'worker_starting'].includes(state);
-    byId('ast-start').textContent = ['match', 'mismatch', 'uncertain', 'error'].includes(state) ? 'Erneut sprechen' : 'Sprechen';
+    byId('ast-start').textContent = ['match', 'mismatch', 'uncertain', 'error'].includes(state) ? copy['widget.retry'] : copy['widget.start'];
+    byId('ast-stop').textContent = copy['widget.stop'];
+    byId('ast-cancel').textContent = copy['widget.cancel'];
     byId('ast-stop').hidden = state !== 'recording';
     byId('ast-cancel').hidden = !['recording', 'transcribing', 'worker_starting'].includes(state);
   };
@@ -66,5 +74,7 @@ window.AnkiSpeechTrainer = window.AnkiSpeechTrainer || (() => {
   });
   return {update};
 })();
-</script>
-"""
+</script>""".replace("%s", copy)
+
+
+_WIDGET = widget()

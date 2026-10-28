@@ -10,6 +10,7 @@ from typing import Any
 
 from aqt.qt import QProcess, QProcessEnvironment, QTimer
 
+from .localization import language_from_config, text
 from .matching import Comparison, compare
 from .review_state import ReviewSession, ReviewState
 from .worker.protocol import RESPONSE_TYPES, LineBuffer, ProtocolError, decode_line, encode
@@ -47,6 +48,12 @@ class ReviewController:
     def config(self) -> dict[str, Any]:
         config = self.mw.addonManager.getConfig(__package__) or {}
         return config if isinstance(config, dict) else {}
+
+    def ui_language(self) -> str:
+        return language_from_config(self.config()) if hasattr(self, "mw") else "en"
+
+    def copy(self, key: str, **values: Any) -> str:
+        return text(key, self.ui_language(), **values)
 
     def mapping_for_card(self, card: Any) -> CardMapping | None:
         config = self.config()
@@ -144,7 +151,7 @@ class ReviewController:
         }:
             return
         if self.process is not None and self.process is self._timed_out_process:
-            self._render_status("error", "Sprach-Worker wird beendet. Bitte kurz warten.")
+            self._render_status("error", self.copy("error.worker_stopping"))
             return
         self._pending_start = True
         self.session.start_worker()
@@ -173,7 +180,7 @@ class ReviewController:
             or not Path(worker_python).is_file()
         ):
             self.session.error()
-            self._render_status("error", "Worker-Python ist nicht konfiguriert.")
+            self._render_status("error", self.copy("error.worker_python"))
             return False
         worker_script = Path(__file__).resolve().parent / "worker" / "main.py"
         process = QProcess(self.mw)
@@ -215,7 +222,7 @@ class ReviewController:
     def _send(self, message_type: str, payload: dict[str, Any]) -> str | None:
         if self.process is None or self.process.state() != QProcess.ProcessState.Running:
             self.session.error()
-            self._render_status("error", "Sprach-Worker ist nicht verfügbar.")
+            self._render_status("error", self.copy("error.worker_unavailable"))
             return None
         self._request_counter += 1
         request_id = f"request-{self._request_counter}"
@@ -240,7 +247,7 @@ class ReviewController:
         self._active_record_request_id = None
         self._timed_out_process = process
         self.session.error()
-        self._render_status("error", "Sprach-Worker reagiert nicht. Bitte erneut versuchen.")
+        self._render_status("error", self.copy("error.worker_timeout"))
         process.terminate()
 
     def _read_stdout(self, process: QProcess) -> None:
@@ -253,7 +260,7 @@ class ReviewController:
                 self._handle_message(decode_line(line, allowed_types=RESPONSE_TYPES))
         except ProtocolError:
             self.session.error()
-            self._render_status("error", "Ungültige Antwort des Sprach-Workers.")
+            self._render_status("error", self.copy("error.worker_response"))
 
     def _read_stderr(self, process: QProcess) -> None:
         if process is not self.process:
@@ -329,15 +336,14 @@ class ReviewController:
         self.session.result()
         self._render_status(comparison.status, transcript=text if isinstance(text, str) else "")
 
-    @staticmethod
-    def _error_text(code: object) -> str:
-        messages = {
-            "microphone_unavailable": "Mikrofon nicht verfügbar.",
-            "no_speech": "Nicht sicher erkannt. Bitte erneut versuchen.",
-            "model_unavailable": "Sprachmodell nicht verfügbar.",
-            "busy": "Eine Aufnahme läuft bereits.",
-        }
-        return messages.get(code, "Spracherkennung ist derzeit nicht verfügbar.")
+    def _error_text(self, code: object) -> str:
+        key = {
+            "microphone_unavailable": "error.microphone_unavailable",
+            "no_speech": "error.no_speech",
+            "model_unavailable": "error.model_unavailable",
+            "busy": "error.busy",
+        }.get(code, "error.recognition_unavailable")
+        return self.copy(key)
 
     def cancel_current(self) -> None:
         self._pending_start = False
@@ -357,7 +363,7 @@ class ReviewController:
             and self.session.mapped
         ):
             self.session.error()
-            self._render_status("error", "Sprach-Worker konnte nicht gestartet werden.")
+            self._render_status("error", self.copy("error.worker_start"))
 
     def _process_finished(self, process: QProcess, _exit_code: int, _status: Any) -> None:
         if process is not self.process:
@@ -374,7 +380,7 @@ class ReviewController:
             and self.session.state not in {ReviewState.IDLE, ReviewState.READY}
         ):
             self.session.error()
-            self._render_status("error", "Sprach-Worker wurde beendet.")
+            self._render_status("error", self.copy("error.worker_finished"))
 
     def _render_status(
         self, state: str, message: str | None = None, transcript: str | None = None
