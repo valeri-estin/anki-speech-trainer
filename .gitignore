@@ -21,3 +21,4 @@ build/
 !.env.example
 **/user_files/*
 !**/user_files/README.txt
+.benchmarks/
