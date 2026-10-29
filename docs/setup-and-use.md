@@ -36,6 +36,18 @@ Development-only tools are listed separately in `requirements-dev.txt`.
 5. Open a mapped review card, click **Sprechen**, speak the expected answer,
    inspect the transcript/match indication, and choose Anki's rating yourself.
 
+On every current Speaking template, **Ich kann gerade nicht sprechen** expands a
+native Anki typed-answer input on that same card. This does not invoke the
+speech worker and synchronizes to AnkiDroid and AnkiMobile with the card
+template. The target is compared with Anki's normal single-line typed-answer
+comparison; `SpokenAlternatives` apply only to speech matching.
+
+Existing note types retain their current card templates when only the add-on is
+upgraded. Update their Speaking template from the current source package (or
+add the documented fallback markup manually in **Manage Note Types → Cards**) to
+receive the fallback. The add-on deliberately never changes a collection during
+review or installation.
+
 The first model initialization may download the configured Whisper model. Once
 the model cache is populated, the normal review path can operate offline. Test
 installation and configuration first in a backed-up disposable collection.

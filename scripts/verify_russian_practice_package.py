@@ -63,6 +63,9 @@ def main() -> int:
                         raise ValueError("unexpected_template")
                     if EXPECTED_INSTRUCTIONS[specification.name] not in template["qfmt"]:
                         raise ValueError("unexpected_template_instruction")
+                speaking = templates["Speaking"]["qfmt"]
+                if "{{type:Target}}" not in speaking or "I can't speak right now" not in speaking:
+                    raise ValueError("missing_typed_fallback")
                 if collection.note_count() != 1 or collection.card_count() != 3:
                     raise ValueError("unexpected_example_cards")
                 note_id = collection.find_notes(f'"ID:{EXAMPLE_ID}"')

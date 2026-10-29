@@ -48,7 +48,9 @@ the learner must install and configure Anki Speech Trainer with:
 Use `Target` as the expected spoken answer and `SpokenAlternatives` for any
 accepted alternatives, one per line. The worker and its local dependencies are
 needed only for microphone review; the ordinary Anki card templates do not
-need them.
+need them. Speaking also contains an English **I can't speak right now** control
+that expands a native typed-answer fallback on the same card, including in
+mobile clients.
 
 ## Rebuild and verify
 

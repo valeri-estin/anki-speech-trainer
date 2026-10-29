@@ -73,6 +73,13 @@ CARD_TEMPLATES = (
   <p class=\"ip-instruction\">Sprich die passende italienische Antwort.</p>
   <div class=\"ip-prompt\">{{Prompt}}</div>
   {{#Hint}}<aside class=\"ip-hint\">{{Hint}}</aside>{{/Hint}}
+  <details class=\"ip-typed-fallback\">
+    <summary>Ich kann gerade nicht sprechen</summary>
+    <div class=\"ip-typed-answer\">
+      <p>Tippe die Antwort stattdessen ein.</p>
+      {{type:Target}}
+    </div>
+  </details>
 </main>
 {{/Target}}
 {{/Prompt}}
@@ -144,6 +151,19 @@ SHARED_CSS = """
 .ip-translation { margin-top: 0.75rem; font-size: 1.2em; }
 .ip-hint, .ip-alternatives { margin-top: 1rem; color: var(--fg, #555); font-size: 0.95em; }
 .ip-hint { border-left: 3px solid var(--border, #888); padding-left: 0.75rem; text-align: left; }
+.ip-typed-fallback { margin-top: 1rem; }
+.ip-typed-fallback summary {
+  cursor: pointer;
+  display: inline-block;
+  min-height: 2.4em;
+  box-sizing: border-box;
+  padding: .55em .8em;
+  border: 1px solid var(--border, #888);
+  border-radius: .4em;
+}
+.ip-typed-fallback summary::-webkit-details-marker { display: none; }
+.ip-typed-fallback summary:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.ip-typed-answer { margin-top: .75rem; }
 .nightMode .ip-card { color: #ddd; }
 .nightMode .ip-hint { border-color: #aaa; }
 """.strip()

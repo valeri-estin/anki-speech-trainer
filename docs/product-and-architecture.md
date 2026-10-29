@@ -6,7 +6,9 @@ Anki Speech Trainer adds optional local speaking practice to mapped Anki
 Desktop review cards. The learner clicks **Sprechen**, speaks an answer, reads a
 local transcript and a conservative text-match indication, then chooses Anki's
 normal rating. The add-on does not grade cards, alter FSRS or scheduling,
-modify note content, provide pronunciation scores, or support AnkiDroid/iOS.
+modify note content, or provide pronunciation scores. Its microphone widget is
+desktop-only; the synchronized Speaking template offers a native typed-answer
+fallback for quiet situations and mobile review.
 
 ## Components
 

@@ -3,7 +3,9 @@
 Anki Speech Trainer is a local Anki Desktop add-on for active speaking
 practice. On a configured review card, the learner can click **Speak** to
 record an answer. An external local worker transcribes it with Faster-Whisper
-and compares the transcript conservatively with the configured answer.
+and compares the transcript conservatively with the configured answer. Speaking
+templates also include a native typed-answer fallback for quiet situations and
+mobile review.
 
 The add-on does not grade cards, change FSRS or scheduling, persist recordings
 or transcripts, send data to a cloud service, or provide pronunciation scoring.
@@ -109,8 +111,9 @@ useful operational guides are:
 
 ## Limits
 
-There is no AnkiDroid or iOS support in V1, no automatic rating, no cloud STT,
-and no stored audio.
+The microphone widget has no AnkiDroid or iOS support in V1. The synchronized
+Speaking card template does provide its native typed-answer fallback on those
+clients. There is no automatic rating, cloud STT, or stored audio.
 
 ## License
 

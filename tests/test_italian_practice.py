@@ -54,6 +54,14 @@ def test_speaking_template_hides_the_target_on_the_question_side() -> None:
     assert "{{Target}}" in speaking.answer_format
 
 
+def test_speaking_template_offers_a_native_typed_fallback() -> None:
+    speaking = next(template for template in CARD_TEMPLATES if template.name == "Speaking")
+
+    assert "{{type:Target}}" in speaking.question_format
+    assert "ip-typed-fallback" in speaking.question_format
+    assert "Ich kann gerade nicht sprechen" in speaking.question_format
+
+
 def test_each_template_requires_its_enable_field_and_required_content() -> None:
     for template in CARD_TEMPLATES:
         for field_name in REQUIRED_FIELDS[template.name]:

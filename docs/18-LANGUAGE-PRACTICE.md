@@ -42,6 +42,14 @@ import/schema check and can be removed after the clone is created.
 Practice` are separate note types, so their respective `it` and `ru` mapping is
 unambiguous even when cards are interleaved in review.
 
+## Quiet and mobile fallback
+
+Speaking cards include an **Ich kann gerade nicht sprechen** control that expands
+Anki's native `{{type:Target}}` input on the same card. It does not start the
+desktop speech worker and therefore works after sync in AnkiDroid and AnkiMobile
+as well. The typed comparison is against the single `Target` value; accepted
+speech-only alternatives are not used for that comparison.
+
 ## Existing Italian Practice package
 
 The older `Italian Practice` package is retained for compatibility and uses

@@ -74,6 +74,13 @@ CARD_TEMPLATES = (
   <p class=\"lp-instruction\">Sprich die passende Antwort in der Zielsprache.</p>
   <div class=\"lp-prompt\">{{Prompt}}</div>
   {{#Hint}}<aside class=\"lp-hint\">{{Hint}}</aside>{{/Hint}}
+  <details class=\"lp-typed-fallback\">
+    <summary>Ich kann gerade nicht sprechen</summary>
+    <div class=\"lp-typed-answer\">
+      <p>Tippe die Antwort stattdessen ein.</p>
+      {{type:Target}}
+    </div>
+  </details>
 </main>
 {{/Target}}
 {{/Prompt}}
@@ -149,6 +156,19 @@ SHARED_CSS = """
 .lp-translation { margin-top: 0.75rem; font-size: 1.2em; }
 .lp-hint, .lp-alternatives { margin-top: 1rem; color: var(--fg, #555); font-size: 0.95em; }
 .lp-hint { border-left: 3px solid var(--border, #888); padding-left: 0.75rem; text-align: left; }
+.lp-typed-fallback { margin-top: 1rem; }
+.lp-typed-fallback summary {
+  cursor: pointer;
+  display: inline-block;
+  min-height: 2.4em;
+  box-sizing: border-box;
+  padding: .55em .8em;
+  border: 1px solid var(--border, #888);
+  border-radius: .4em;
+}
+.lp-typed-fallback summary::-webkit-details-marker { display: none; }
+.lp-typed-fallback summary:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.lp-typed-answer { margin-top: .75rem; }
 .nightMode .lp-card { color: #ddd; }
 .nightMode .lp-hint { border-color: #aaa; }
 """.strip()

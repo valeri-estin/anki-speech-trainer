@@ -54,6 +54,14 @@ def test_generic_templates_never_contain_an_italian_specific_prompt() -> None:
     assert "{{targetlanguagetext}}" in rendered_source
 
 
+def test_speaking_template_offers_a_native_typed_fallback() -> None:
+    speaking = next(template for template in CARD_TEMPLATES if template.name == "Speaking")
+
+    assert "{{type:Target}}" in speaking.question_format
+    assert "lp-typed-fallback" in speaking.question_format
+    assert "Ich kann gerade nicht sprechen" in speaking.question_format
+
+
 def test_generic_required_fields_match_the_neutral_schema() -> None:
     assert REQUIRED_FIELDS["Recognition"] == (
         "EnableRecognition",

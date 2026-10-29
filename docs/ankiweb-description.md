@@ -17,6 +17,10 @@ It supports active language recall, not automatic grading. Anki's normal
 **Again**, **Hard**, **Good**, and **Easy** buttons remain the only scheduling
 controls.
 
+On current Speaking templates, **I can't speak right now** opens Anki's native
+typed-answer input on the same card. That fallback does not use the microphone
+worker and works after sync in AnkiDroid and AnkiMobile.
+
 ### Requirements
 
 - Anki Desktop 26.09 or later
@@ -103,6 +107,10 @@ stored once per created note type.
 3. Speak your answer and pause.
 4. Read the transcript and match result.
 5. Choose **Again**, **Hard**, **Good**, or **Easy** yourself.
+
+When speaking is unsuitable, open **I can't speak right now**, type the answer,
+then reveal and rate the same card normally. The typed comparison uses the
+single configured answer; spoken alternatives remain speech-only.
 
 The transcript is learning feedback only. The add-on does not reveal answers,
 rate cards, alter FSRS, or change scheduling.

@@ -109,6 +109,21 @@ The assistant now validates the neutral `Language Practice` source schema
 (`TargetLanguageText` and `Translation`) before cloning. The older Italian
 source schema remains legacy-only; the assistant never renames or migrates it.
 
+## Same-card typed fallback (2026-10-29)
+
+Focused review scope: the synchronized Speaking card templates now expose a
+learner-controlled native typed-answer fallback. The control uses static
+`<details>`/`<summary>` HTML and Anki's `{{type:Target}}` replacement; it
+introduces no add-on bridge message, worker request, collection write, network
+request, or interpolation of note data into JavaScript or HTML attributes.
+
+| Area | Status | Evidence / control |
+| --- | --- | --- |
+| A05 injection | Verified in source and tests | The fallback markup and labels are static template literals. The answer value is rendered only by Anki's native typed-answer feature; no note field is evaluated as JavaScript or sent to the worker. |
+| A06 insecure design | Verified in source | Opening the fallback does not reveal the target, rate a card, or alter scheduling. It provides an input on the same review card, preserving learner-controlled rating. |
+| A08 integrity | Verified by package verifiers | Italian, neutral-language, and Russian package verifiers require the native `{{type:Target}}` fallback in their imported Speaking templates. |
+| A10 exceptional conditions | Verified in source | If a client does not activate the disclosure control, no fallback input is exposed; no review state or persisted data is changed. Physical AnkiDroid/AnkiMobile review remains a manual release check. |
+
 ## Interface localization (2026-10-28)
 
 Focused review: `ui_language` is a local, user-controlled configuration value.

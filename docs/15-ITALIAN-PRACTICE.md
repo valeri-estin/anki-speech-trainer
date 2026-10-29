@@ -36,13 +36,18 @@ as one independent retrieval decision, for example `Prompt = Ieri io ___ a casa.
 | Template | Native behavior | Required fields | Intended deck override |
 | --- | --- | --- |
 | `Recognition` | Read Italian, recall its meaning. | `EnableRecognition`, `ItalianText`, `TranslationDE` | `Italian::Recognition` |
-| `Speaking` | Read prompt, then use the local speech widget. | `EnableSpeaking`, `Prompt`, `Target` | `Italian::Speaking` |
+| `Speaking` | Read prompt, use the local speech widget, or open the native typed fallback on the same card. | `EnableSpeaking`, `Prompt`, `Target` | `Italian::Speaking` |
 | `Writing` | Uses Anki's native `{{type:Target}}` answer box. | `EnableWriting`, `Prompt`, `Target` | `Italian::Writing` |
 | `Listening` | Hear local audio, recall its meaning. | `EnableListening`, `AudioTarget`, `ItalianText`, `TranslationDE` | `Italian::Listening` |
 
 The Speech add-on must be configured with `card_template_name: "Speaking"`; it never displays the
 widget on the other templates. It only reports a transcription match, mismatch, or uncertainty. It
 does not reveal `Target`, reveal Anki's answer, grade, or navigate the reviewer.
+
+The Speaking front also has an **Ich kann gerade nicht sprechen** control. It expands Anki's native
+single-line `{{type:Target}}` input rather than opening a second card. This works without the
+desktop add-on, so the same card can be reviewed quietly on AnkiDroid and AnkiMobile after sync.
+The typed comparison accepts the exact `Target`; `SpokenAlternatives` remain speech-only.
 
 ## First-time installation
 

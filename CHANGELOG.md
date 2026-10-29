@@ -11,6 +11,9 @@ This project follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
+- Speaking templates now provide a touch-friendly **I can't speak right now**
+  fallback that expands Anki's native typed-answer input on the same card,
+  including after sync to mobile clients.
 - Replaced the short licensing notice with the complete AGPL-3.0 license text
   in the repository and distributable archive.
 - Replaced public, local-machine details with portable documentation and

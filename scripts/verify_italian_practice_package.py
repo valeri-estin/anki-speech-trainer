@@ -58,6 +58,9 @@ def main() -> int:
                     template = templates.get(specification.name)
                     if template is None or template["did"] is not None:
                         raise ValueError("unexpected_template")
+                speaking = templates["Speaking"]["qfmt"]
+                if "{{type:Target}}" not in speaking or "ip-typed-fallback" not in speaking:
+                    raise ValueError("missing_typed_fallback")
                 if collection.note_count() != 1 or collection.card_count() != 3:
                     raise ValueError("unexpected_example_cards")
             finally:

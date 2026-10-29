@@ -40,6 +40,8 @@ def neutral_question_format(value: str) -> str:
             "Sprich die passende Antwort in der Zielsprache.",
             "Speak the appropriate answer in the target language.",
         )
+        .replace("Ich kann gerade nicht sprechen", "I can't speak right now")
+        .replace("Tippe die Antwort stattdessen ein.", "Type the answer instead.")
         .replace(
             "Schreib die passende Antwort in der Zielsprache.",
             "Write the appropriate answer in the target language.",

@@ -61,6 +61,9 @@ def main() -> int:
                         raise ValueError("unexpected_template")
                     if "italien" in template["qfmt"].casefold():
                         raise ValueError("language_specific_template")
+                speaking = templates["Speaking"]["qfmt"]
+                if "{{type:Target}}" not in speaking or "lp-typed-fallback" not in speaking:
+                    raise ValueError("missing_typed_fallback")
                 if collection.note_count() != 1 or collection.card_count() != 3:
                     raise ValueError("unexpected_example_cards")
             finally:
