@@ -7,6 +7,11 @@ and compares the transcript conservatively with the configured answer. Speaking
 templates also include a native typed-answer fallback for quiet situations and
 mobile review.
 
+After updating from an earlier release, choose **Tools → Anki Speech Trainer →
+Update Speaking templates…**, review the affected templates, and confirm the
+one-time update. It changes only mapped `Speaking` templates and then syncs to
+mobile clients.
+
 The add-on does not grade cards, change FSRS or scheduling, persist recordings
 or transcripts, send data to a cloud service, or provide pronunciation scoring.
 Anki's normal **Again**, **Hard**, **Good**, and **Easy** controls remain the

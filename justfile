@@ -82,3 +82,7 @@ build-language-practice:
 
 verify-language-practice:
     PYTHONPATH="/usr/local/share/anki/app_packages:{{justfile_directory()}}" /usr/local/share/anki/python/bin/python3.13 scripts/verify_language_practice_package.py 'templates/language-practice/Language Practice.apkg'
+
+# Verify the confirmed typed-fallback update in an isolated Anki collection.
+verify-speaking-template-update:
+    PYTHONPATH="/usr/local/share/anki/app_packages:{{justfile_directory()}}" /usr/local/share/anki/python/bin/python3.13 scripts/verify_speaking_template_update.py

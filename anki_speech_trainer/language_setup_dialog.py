@@ -17,6 +17,11 @@ from aqt.qt import (
 
 from .language_setup import LanguageSetupError, apply_language_setup, plan_language_setup
 from .localization import language_from_config, text
+from .template_migration import (
+    SpeakingTemplateUpdateError,
+    apply_speaking_template_update,
+    plan_speaking_template_update,
+)
 
 _LANGUAGE_CODES = (
     "it",
@@ -152,5 +157,58 @@ def install_language_setup_menu(mw: Any, addon_package: str) -> Any:
     action = QAction(text("setup.menu", language), menu)
     action.triggered.connect(lambda: LanguageSetupDialog(mw, addon_package).exec())
     menu.addAction(action)
+    template_update_action = QAction(text("template_update.menu", language), menu)
+    template_update_action.triggered.connect(
+        lambda: _update_speaking_templates(mw, addon_package)
+    )
+    menu.addAction(template_update_action)
     mw.form.menuTools.addMenu(menu)
     return action
+
+
+def _update_speaking_templates(mw: Any, addon_package: str) -> None:
+    """Preview and explicitly apply safe typed-fallback template changes."""
+    config = mw.addonManager.getConfig(addon_package) or {}
+    language = language_from_config(config)
+    collection = getattr(mw, "col", None)
+    if collection is None:
+        QMessageBox.warning(
+            mw,
+            text("template_update.title", language),
+            text("template_update.open_profile", language),
+        )
+        return
+    try:
+        plan = plan_speaking_template_update(collection, config)
+    except SpeakingTemplateUpdateError as exc:
+        QMessageBox.warning(mw, text("template_update.title", language), str(exc))
+        return
+    if not plan.updates:
+        QMessageBox.information(
+            mw, text("template_update.title", language), text("template_update.current", language)
+        )
+        return
+    templates = "\n".join(
+        f"• {update.note_type_name} — {update.template_name}" for update in plan.updates
+    )
+    confirmed = QMessageBox.question(
+        mw,
+        text("template_update.title", language),
+        text("template_update.confirm", language, templates=templates),
+        QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel,
+        QMessageBox.StandardButton.Cancel,
+    )
+    if confirmed != QMessageBox.StandardButton.Yes:
+        return
+    try:
+        mw.checkpoint(text("template_update.checkpoint", language))
+        result = apply_speaking_template_update(collection, plan)
+        mw.reset()
+    except SpeakingTemplateUpdateError as exc:
+        QMessageBox.warning(mw, text("template_update.title", language), str(exc))
+        return
+    QMessageBox.information(
+        mw,
+        text("template_update.title", language),
+        text("template_update.success", language, count=len(result.updated)),
+    )

@@ -124,6 +124,13 @@ request, or interpolation of note data into JavaScript or HTML attributes.
 | A08 integrity | Verified by package verifiers | Italian, neutral-language, and Russian package verifiers require the native `{{type:Target}}` fallback in their imported Speaking templates. |
 | A10 exceptional conditions | Verified in source | If a client does not activate the disclosure control, no fallback input is exposed; no review state or persisted data is changed. Physical AnkiDroid/AnkiMobile review remains a manual release check. |
 
+The explicit **Update Speaking templates…** action (0.1.2) derives its update
+plan only from configured mappings that are scoped to the exact `Speaking`
+template. It verifies the configured answer field exists, previews every
+affected note type, rechecks template contents before writing, records an Anki
+checkpoint, and leaves notes, cards, answers, and scheduling untouched. A
+template changed after preview is rejected instead of overwritten.
+
 ## Interface localization (2026-10-28)
 
 Focused review: `ui_language` is a local, user-controlled configuration value.

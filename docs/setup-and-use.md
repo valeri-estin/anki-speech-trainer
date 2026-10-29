@@ -43,10 +43,12 @@ template. The target is compared with Anki's normal single-line typed-answer
 comparison; `SpokenAlternatives` apply only to speech matching.
 
 Existing note types retain their current card templates when only the add-on is
-upgraded. Update their Speaking template from the current source package (or
-add the documented fallback markup manually in **Manage Note Types → Cards**) to
-receive the fallback. The add-on deliberately never changes a collection during
-review or installation.
+upgraded. Choose **Tools → Anki Speech Trainer → Update Speaking templates…**,
+inspect the preview, and confirm the one-time update to receive the fallback.
+The action updates only configured mappings scoped to a `Speaking` template; it
+does not change notes, cards, answers, scheduling, or unmapped templates. Sync
+afterwards to make the static fallback available on mobile clients. The add-on
+never changes a collection during review or installation.
 
 The first model initialization may download the configured Whisper model. Once
 the model cache is populated, the normal review path can operate offline. Test

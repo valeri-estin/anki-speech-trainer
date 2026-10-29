@@ -39,11 +39,17 @@ def main() -> int:
     if action.text() != "Set up language deck…" or action not in submenu.actions():
         print("missing_setup_action", file=sys.stderr)
         return 1
+    has_template_update_action = any(
+        menu_action.text() == "Update Speaking templates…" for menu_action in submenu.actions()
+    )
+    if not has_template_update_action:
+        print("missing_template_update_action", file=sys.stderr)
+        return 1
     if not any(menu_action.menu() is submenu for menu_action in tools_menu.actions()):
         print("submenu_not_added_to_tools", file=sys.stderr)
         return 1
     app.processEvents()
-    print("Language setup menu is valid.")
+    print("Language setup and template-update menu actions are valid.")
     return 0
 
 

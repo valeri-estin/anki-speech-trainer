@@ -61,6 +61,11 @@ locally, normal use can run offline.
    practise.
 5. Close and reopen the reviewer, then test one mapped card.
 
+If upgrading from an earlier release, choose **Tools → Anki Speech Trainer →
+Update Speaking templates…**, inspect the preview, and confirm. It adds the
+mobile typed fallback only to configured mappings scoped to a `Speaking`
+template; it never alters notes, cards, review history, or scheduling.
+
 Example mapping:
 
 ```json

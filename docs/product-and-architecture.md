@@ -41,9 +41,9 @@ documented upstream source.
 ## Explicit language-deck setup
 
 The normal review and worker paths do not write to the Anki collection. The
-only exception is the explicitly confirmed **Tools → Anki Speech Trainer → Set
-up language deck…** action. After the user imports the neutral `Language
-Practice` source package, it creates one separate `<Language> Practice` clone,
-four new empty skill decks, their deck overrides, and one fixed Speaking
-language mapping. It never changes existing objects, cards, media, options, or
-scheduler state, and it rejects collisions before writing.
+only exceptions are explicit, confirmed Tools-menu actions. **Set up language
+deck…** creates one separate `<Language> Practice` clone, four new empty skill
+decks, their deck overrides, and one fixed Speaking language mapping. **Update
+Speaking templates…** updates only configured, template-scoped Speaking
+question formats to include the static typed fallback. Neither action changes
+existing notes, cards, media, answers, options, or scheduler state.
